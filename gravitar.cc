@@ -13,6 +13,7 @@ int esat::main(int argc, char **argv) {
     	last_time = esat::Time();
     	esat::DrawBegin();
     	esat::DrawClear(0,0,0);
+			PlayerActions();
 
 
     	esat::DrawEnd();
