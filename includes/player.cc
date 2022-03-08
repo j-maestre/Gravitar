@@ -2,55 +2,95 @@ TPlayer player;
 // player.velocidad = xemath::Vec2Normalize(player.vecDirector);
 
 void DrawPlayer(){
-  esat::DrawSetStrokeColor(0,255,0);
-  // esat::DrawLine(player.vecPunta.x, player.vecPunta.y,player.vecPunta.x + player.vecDirector.x, player.vecPunta.y + player.vecDirector.y);
-  //Arriba izquierda
-  //y - 15 para coger la punta de abajo
-  //Rotar la x y escalar
 
-  // xemath::Vector2  = {player.vecPunta.x };
+  //Escalamos el vector director cada frame para evitar la reduccion del mismo
+  player.vecDirector = xemath::ScalateVec2(player.vecDirector,20);
+
+  esat::DrawSetStrokeColor(0,255,0);
 
   //Linea del centro (columna)
-  esat::DrawLine(player.x, player.y, player.x + player.vecDirector.x,player.y + player.vecDirector.y);
+  // esat::DrawLine(player.x, player.y, player.x + player.vecDirector.x,player.y + player.vecDirector.y);
+
+  //Sacamos el vector de la linea principal
+  xemath::Vector2 aux ={(player.x + player.vecDirector.x)- player.x,(player.y + player.vecDirector.y)- player.y};
+  //Rotamos el vector
+  xemath::Vector2 izquierda = xemath::RotateVec2(aux,200.0f);
+  xemath::Vector2 derecha = xemath::RotateVec2(aux,-200.0f);
+
+  xemath::Vector2 izquierdaAbajo = xemath::RotateVec2(aux,135);
+  izquierdaAbajo = xemath::ScalateVec2(izquierdaAbajo,6);
+
+  xemath::Vector2 derechaAbajo = xemath::RotateVec2(aux,-135);
+  derechaAbajo = xemath::ScalateVec2(derechaAbajo,6);
+
+  xemath::Vector2 izquierdaCentro = xemath::RotateVec2(aux,45);
+  izquierdaCentro = xemath::ScalateVec2(izquierdaCentro,4);
+
+  xemath::Vector2 derechaCentro = xemath::RotateVec2(aux,-45);
+  derechaCentro = xemath::ScalateVec2(derechaCentro,4);
+
 
 
   //Arriba izquierda
-  xemath::Vector2 aux = xemath::RotateVec2(player.vecDirector, xemath::ToRadianes(-220));
+  esat::DrawLine(
+    player.x + player.vecDirector.x,
+    player.y + player.vecDirector.y,
+    (player.x + player.vecDirector.x) + izquierda.x,
+    (player.y + player.vecDirector.y) + izquierda.y);
+
+  //Abajo izquierda
+  esat::DrawLine(
+   (player.x + player.vecDirector.x) + izquierda.x,
+   (player.y + player.vecDirector.y) + izquierda.y,
+   ((player.x + player.vecDirector.x) + izquierda.x) + izquierdaAbajo.x,
+   ((player.y + player.vecDirector.y) + izquierda.y) + izquierdaAbajo.y);
+
+  //Izquierda centro
+  esat::DrawLine(
+    ((player.x + player.vecDirector.x) + izquierda.x) + izquierdaAbajo.x,
+    ((player.y + player.vecDirector.y) + izquierda.y) + izquierdaAbajo.y,
+    (((player.x + player.vecDirector.x) + izquierda.x) + izquierdaAbajo.x) + izquierdaCentro.x,
+    (((player.y + player.vecDirector.y) + izquierda.y) + izquierdaAbajo.y) + izquierdaCentro.y);
+
+  //Arriba derecha
+  esat::DrawLine(
+    player.x + player.vecDirector.x,
+    player.y + player.vecDirector.y,
+    (player.x + player.vecDirector.x) + derecha.x,
+    (player.y + player.vecDirector.y) + derecha.y);
+
+    //Abajo derecha
+  esat::DrawLine(
+   (player.x + player.vecDirector.x) + derecha.x,
+   (player.y + player.vecDirector.y) + derecha.y,
+   ((player.x + player.vecDirector.x) + derecha.x) + derechaAbajo.x,
+   ((player.y + player.vecDirector.y) + derecha.y) + derechaAbajo.y);
+
+   //Derecha centro
+  esat::DrawLine(
+    ((player.x + player.vecDirector.x) + derecha.x) + derechaAbajo.x,
+    ((player.y + player.vecDirector.y) + derecha.y) + derechaAbajo.y,
+    (((player.x + player.vecDirector.x) + derecha.x) + derechaAbajo.x) + derechaCentro.x,
+    (((player.y + player.vecDirector.y) + derecha.y) + derechaAbajo.y) + derechaCentro.y);
 
 
-  // esat::DrawLine(
-  //  player.x + player.vecDirector.x,
-  //  player.y + player.vecDirector.y,
-  //  player.x - player.vecDirector.x + aux.x,
-  //  player.y + player.vecDirector.y + aux.y);
 
-
-//  (player.x + player.vecDirector.x) + xemath::RotateVec2(player.vecDirector, xemath::ToRadianes(90)).x,
-//  (player.y + player.vecDirector.y) + xemath::RotateVec2(player.vecDirector, xemath::ToRadianes(90)).y);
-  //(player.x + player.vecDirector.x) + xemath::RotateVec2(player.vecDirector, 90).x, (player.y + player.vecDirector.y) + xemath::RotateVec2(player.vecDirector, 90).y
-
-
+  
 }
 
 void MovePlayer(){
 
-  player.x = player.x + player.aceleration.x;
-  player.y = player.y + player.aceleration.y;
-
-  //Normalizar vector director y multiplicar por lo que quiero que mida
-  player.vecDirector.x = xemath::Vec2Normalize(player.vecDirector).x * 15;
-  player.vecDirector.y = xemath::Vec2Normalize(player.vecDirector).y * 15;
+  //player.x = player.x + player.aceleration.x;
+  //player.y = player.y + player.aceleration.y;
 
 
   if(esat::IsKeyPressed('A')){
     //Rotar sentido contrario de las agujas del reloj
-    printf("Rotar Izquierda\n");
     player.vecDirector = xemath::RotateVec2(player.vecDirector,-ANGLE_ROTATION);
   }
 
   if(esat::IsKeyPressed('D')){
     //Rotar sentido de las agujas del reloj
-    printf("Rotar Derecha\n");
     player.vecDirector = xemath::RotateVec2(player.vecDirector,ANGLE_ROTATION);
 
   }
@@ -59,8 +99,28 @@ void MovePlayer(){
 
     player.velocity.x = xemath::Vec2Normalize(player.vecDirector).x * player.velocidad;
     player.velocity.y = xemath::Vec2Normalize(player.vecDirector).y * player.velocidad;
-
     player.aceleration = xemath::SumVec2(player.aceleration,player.velocity);
+
+    //Pintar fuego
+
+    //Vector principal
+    xemath::Vector2 aux ={(player.x + player.vecDirector.x)- player.x,(player.y + player.vecDirector.y)- player.y};
+    xemath::Vector2 izquierda = xemath::RotateVec2(aux,160.0f);
+    xemath::DebugVector2(izquierda);
+    // izquierda = xemath::ScalateVec2(aux,3);
+
+    //Este de aqui es el vector del centro
+    esat::DrawSetStrokeColor(255,0,0);
+    esat::DrawLine(player.x, player.y, player.x + player.vecDirector.x,player.y + player.vecDirector.y);
+
+    esat::DrawLine(
+    player.x,
+    player.y,
+    (player.x + player.vecDirector.x) + izquierda.x,
+    (player.y + player.vecDirector.y) + izquierda.y);
+
+
+
 
   }else{
     //Desacelerar

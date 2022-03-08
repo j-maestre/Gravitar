@@ -14,7 +14,7 @@
 const int ANCHO = 1024, ALTO = 768;
 unsigned char fps=60;
 double current_time,last_time;
-const float ANGLE_ROTATION = xemath::ToRadianes(3);
+const float ANGLE_ROTATION = 3;
 
 //Para escalar los puntos, cogemos los puntos de un mapa cualquiera, los normalizamos para pasarlos entre 0-1 y luego lo multiplicamos 
 //Por el ancho y alto de nuestra pantalla para escalar cualquier mapa a nuestra pantalla

@@ -17,6 +17,9 @@ namespace xemath{
   struct Mat2{
     float m[4];
   };
+   float ToRadianes(float valor){
+    return valor*(3.1415f/180.0f);
+  }
 
 
   //Sumar dos vectores2
@@ -76,6 +79,17 @@ namespace xemath{
     return aux;
   }
 
+    //Si lo divido entre su modulo me tiene que dar 1
+    //NO FUNCIONA
+  bool CheckNormalizedVec2(Vector2 vec){
+    bool normalizado = true;
+    // v = raiz cuadrada de x^2+y^2
+    float modulo = sqrt(vec.x*vec.x) + sqrt(vec.y * vec.y);
+    if(modulo != 1) normalizado = false;
+
+    return normalizado;
+  }
+
   //Normalizar Vector2
   Vector2 Vec2Normalize(Vector2 vec){
     float hipotenusa=(vec.x*vec.x)+(vec.y*vec.y);
@@ -98,31 +112,19 @@ namespace xemath{
     return aux;
   }
 
-  //Si lo divido entre su modulo me tiene que dar 1
-  bool CheckNormalizedVec2(Vector2 vec){
-    bool normalizado = true;
-    // v = raiz cuadrada de x^2+y^2
-    float modulo = sqrt(vec.x*vec.x) + sqrt(vec.y * vec.y);
-    if(modulo != 1) normalizado = false;
 
-    return normalizado;
-  }
 
   Vector2 RotateVec2(Vector2 vec, float angle){
-    vec.x = (vec.x * cos(angle)) - (vec.y * sin(angle));
-    vec.y = (vec.x * sin(angle)) + (vec.y * cos(angle));
-    return vec;
-  }
-
-  float ToRadianes(float valor){
-    return valor*(3.1415/180);
-  }
-
-  Vector2 ScalateVec2(Vector2 vec, float size){
-    float modulo = sqrt((vec.x * vec.x) + (vec.y * vec.y));
-    Vector2 aux = {(vec.x/modulo) * size, (vec.y/modulo) * size};
+    angle = ToRadianes(angle);
+    Vector2 aux;
+    aux.x = (vec.x * cos(angle)) - (vec.y * sin(angle));
+    aux.y = (vec.x * sin(angle)) + (vec.y * cos(angle));
     return aux;
   }
+
+ 
+
+
 
   //Debug Vector2
   void DebugVector2(Vector2 vector){
@@ -140,4 +142,23 @@ namespace xemath{
   void DebugMat2(Mat2 mat){
     printf("0:[%f] 1:[%f] 2:[%f] 3:[%f]\n",mat.m[0],mat.m[1],mat.m[2],mat.m[3]);
   }
+
+    Vector2 ScalateVec2(Vector2 vec, float size){
+    // float modulo = sqrt((vec.x * vec.x) + (vec.y * vec.y));
+    // Vector2 aux = {(vec.x/modulo) * size, (vec.y/modulo) * size};
+    // return aux;
+    // printf("Original:\n");
+    // DebugVector2(vec);
+    
+    Vector2 aux = Vec2Normalize(vec);
+    aux.x = aux.x * size;
+    aux.y = aux.y * size;
+
+    // printf("Escalado:\n");
+    // DebugVector2(aux);
+    return aux;
+
+  }
+
+
 }
