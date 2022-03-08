@@ -36,6 +36,7 @@ void MovePlayer(){
   // player.y +=player.aceleration.y;
   player.x = player.x + (player.vecDirector.x * player.aceleration.x);
   player.y = player.y + (player.vecDirector.y * player.aceleration.y);
+  printf("Velocidad X[%f] Y[%f]\n", player.aceleration.x, player.aceleration.y);
 
 
   // player.x = player.x + player.vecDirector.x * player.acelerationFull;
@@ -71,12 +72,23 @@ void MovePlayer(){
     // }
   }else{
     //Desacelerar
-    if(player.velocidad >0){
-      player.aceleration.x += player.velocidad;
-      player.aceleration.y += player.velocidad;
+    printf(" Desacelerar");
+    // player.velocidad = 0.00f;
+
+
+    if(player.aceleration.x > 0.0f){
+      player.aceleration.x -= player.velocidad;
     }else{
-      player.velocidad = 0.05f;
+      player.aceleration.x = 0.0f;
     }
+
+    if(player.aceleration.y > 0.0f){
+      player.aceleration.y -= player.velocidad;
+    }else{
+      player.aceleration.y = 0.0f;
+    }
+
+
 
 
 

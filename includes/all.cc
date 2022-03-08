@@ -30,7 +30,7 @@ struct TPlayer{
   float x = 100.0f;
   float y = 100.0f;
   xemath::Vector2 aceleration = {0.0f,0.0f};
-  float velocidad = 0.05f;
+  float velocidad = 0.01f;
 
 };
 
