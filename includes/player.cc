@@ -10,37 +10,37 @@ void DrawPlayer(){
 
   // xemath::Vector2  = {player.vecPunta.x };
 
-  //Arriba izquierda
-  xemath::Vector2 aux = xemath::RotateVec2(player.vecDirector, xemath::ToRadianes(-220));
+  //Linea del centro (columna)
   esat::DrawLine(player.x, player.y, player.x + player.vecDirector.x,player.y + player.vecDirector.y);
 
+
+  //Arriba izquierda
+  xemath::Vector2 aux = xemath::RotateVec2(player.vecDirector, xemath::ToRadianes(-220));
+
+
   // esat::DrawLine(
-  //   player.x + player.vecDirector.x,
-  //   player.y + player.vecDirector.y,
-  //   player.x - player.vecDirector.x + aux.x,
-  //   player.y + player.vecDirector.y + aux.y);
-    // (player.x + player.vecDirector.x) + xemath::RotateVec2(player.vecDirector, xemath::ToRadianes(90)).x,
-    // (player.y + player.vecDirector.y) + xemath::RotateVec2(player.vecDirector, xemath::ToRadianes(90)).y);
+  //  player.x + player.vecDirector.x,
+  //  player.y + player.vecDirector.y,
+  //  player.x - player.vecDirector.x + aux.x,
+  //  player.y + player.vecDirector.y + aux.y);
+
+
+//  (player.x + player.vecDirector.x) + xemath::RotateVec2(player.vecDirector, xemath::ToRadianes(90)).x,
+//  (player.y + player.vecDirector.y) + xemath::RotateVec2(player.vecDirector, xemath::ToRadianes(90)).y);
   //(player.x + player.vecDirector.x) + xemath::RotateVec2(player.vecDirector, 90).x, (player.y + player.vecDirector.y) + xemath::RotateVec2(player.vecDirector, 90).y
 
 
 }
 
 void MovePlayer(){
-  // player.velocidad = xemath::Vec2Normalize(player.vecDirector);
-  // player.vecDirector.x +=player.aceleration;
-  // player.vecDirector.y +=player.aceleration;
 
+  player.x = player.x + player.aceleration.x;
+  player.y = player.y + player.aceleration.y;
 
-  // player.x +=player.aceleration.x;
-  // player.y +=player.aceleration.y;
-  player.x = player.x + (player.vecDirector.x * player.aceleration.x);
-  player.y = player.y + (player.vecDirector.y * player.aceleration.y);
-  printf("Velocidad X[%f] Y[%f]\n", player.aceleration.x, player.aceleration.y);
+  //Normalizar vector director y multiplicar por lo que quiero que mida
+  player.vecDirector.x = xemath::Vec2Normalize(player.vecDirector).x * 15;
+  player.vecDirector.y = xemath::Vec2Normalize(player.vecDirector).y * 15;
 
-
-  // player.x = player.x + player.vecDirector.x * player.acelerationFull;
-  // player.y = player.y + player.vecDirector.y * player.acelerationFull;
 
   if(esat::IsKeyPressed('A')){
     //Rotar sentido contrario de las agujas del reloj
@@ -56,48 +56,17 @@ void MovePlayer(){
   }
 
   if(esat::IsKeyPressed('W')){
-    // player.aceleration.x +=player.velocidad.x;
-    // player.aceleration.y +=player.velocidad.y;
 
+    player.velocity.x = xemath::Vec2Normalize(player.vecDirector).x * player.velocidad;
+    player.velocity.y = xemath::Vec2Normalize(player.vecDirector).y * player.velocidad;
 
+    player.aceleration = xemath::SumVec2(player.aceleration,player.velocity);
 
-
-    //Acelerar hacia arriba
-
-    player.aceleration.x += player.velocidad;
-    player.aceleration.y += player.velocidad;
-
-    // if(player.acelerationFull <0.5f){
-    //   player.acelerationFull +=0.05f;
-    // }
   }else{
     //Desacelerar
-    printf(" Desacelerar");
-    // player.velocidad = 0.00f;
+    player.aceleration.x *= 0.99;
+    player.aceleration.y *= 0.99;
 
-
-    if(player.aceleration.x > 0.0f){
-      player.aceleration.x -= player.velocidad;
-    }else{
-      player.aceleration.x = 0.0f;
-    }
-
-    if(player.aceleration.y > 0.0f){
-      player.aceleration.y -= player.velocidad;
-    }else{
-      player.aceleration.y = 0.0f;
-    }
-
-
-
-
-
-
-    // if(player.acelerationFull >= 0.05f){
-    //   player.acelerationFull -= 0.05f;
-    // }else{
-    //   player.acelerationFull = 0.0f;
-    // }
   }
 }
 

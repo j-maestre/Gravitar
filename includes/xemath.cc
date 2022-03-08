@@ -70,6 +70,12 @@ namespace xemath{
     return aux;
   }
 
+  //Multiplicar Vec2 * Vec2
+  Vector2 MultVec2(Vector2 vec1, Vector2 vec2){
+    Vector2 aux = {vec1.x * vec2.x, vec1.y * vec2.y};
+    return aux;
+  }
+
   //Normalizar Vector2
   Vector2 Vec2Normalize(Vector2 vec){
     float hipotenusa=(vec.x*vec.x)+(vec.y*vec.y);

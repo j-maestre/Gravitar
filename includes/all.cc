@@ -16,6 +16,9 @@ unsigned char fps=60;
 double current_time,last_time;
 const float ANGLE_ROTATION = xemath::ToRadianes(3);
 
+//Para escalar los puntos, cogemos los puntos de un mapa cualquiera, los normalizamos para pasarlos entre 0-1 y luego lo multiplicamos 
+//Por el ancho y alto de nuestra pantalla para escalar cualquier mapa a nuestra pantalla
+
 
 struct TColor{
   int r = 255;
@@ -30,9 +33,14 @@ struct TPlayer{
   float x = 100.0f;
   float y = 100.0f;
   xemath::Vector2 aceleration = {0.0f,0.0f};
-  float velocidad = 0.01f;
+  xemath::Vector2 velocity = {0.0f,0.0f}; //este depende de la direccion de la nave, cuando pulso w la aceleracion = aceleracion anterior + la nueva
+  float velocidad = 0.1f;
+  float angle;
 
 };
 
+//fwd = cos(angel),sin(angle)
+//aceleration = fwd * 0.1f;
+//vel += aceleration
 
 #include "player.cc"
