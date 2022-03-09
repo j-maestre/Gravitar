@@ -143,7 +143,7 @@ namespace xemath{
     printf("0:[%f] 1:[%f] 2:[%f] 3:[%f]\n",mat.m[0],mat.m[1],mat.m[2],mat.m[3]);
   }
 
-    Vector2 ScalateVec2(Vector2 vec, float size){
+  Vector2 ScalateVec2(Vector2 vec, float size){
     // float modulo = sqrt((vec.x * vec.x) + (vec.y * vec.y));
     // Vector2 aux = {(vec.x/modulo) * size, (vec.y/modulo) * size};
     // return aux;
@@ -153,11 +153,7 @@ namespace xemath{
     Vector2 aux = Vec2Normalize(vec);
     aux.x = aux.x * size;
     aux.y = aux.y * size;
-
-    // printf("Escalado:\n");
-    // DebugVector2(aux);
     return aux;
-
   }
 
 
