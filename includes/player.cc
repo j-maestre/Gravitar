@@ -29,8 +29,6 @@ void DrawPlayer(){
   xemath::Vector2 derechaCentro = xemath::RotateVec2(aux,-45);
   derechaCentro = xemath::ScalateVec2(derechaCentro,4);
 
-
-
   //Arriba izquierda
   esat::DrawLine(
     player.x + player.vecDirector.x,
@@ -72,27 +70,37 @@ void DrawPlayer(){
     ((player.y + player.vecDirector.y) + derecha.y) + derechaAbajo.y,
     (((player.x + player.vecDirector.x) + derecha.x) + derechaAbajo.x) + derechaCentro.x,
     (((player.y + player.vecDirector.y) + derecha.y) + derechaAbajo.y) + derechaCentro.y);
-
-
-
-  
 }
 
 void MovePlayer(){
 
   //Movimiento
-    if((player.x <= 0 || player.x >= ANCHO)){
-      //Rebotar en X
-      player.aceleration.x = - (player.aceleration.x * 0.8f);
-    }
-    if(player.y<=0 || player.y >= ALTO){
-      //Rebotar en Y
-      player.aceleration.y = - (player.aceleration.y * 0.8f);
-    }
+  if(player.x <= 0){
+    //Rebotar en X
+    player.x=0;
+    player.aceleration.x = - (player.aceleration.x * 0.8f);
+  }
+  if(player.x >= ANCHO){
+    //Rebotar en X
+    player.x=ANCHO;
+    player.aceleration.x = - (player.aceleration.x * 0.8f);
+  }
 
+  
+  //Movimiento
+  if(player.y <= 0){
+    //Rebotar en Y
+    player.y=0;
+    player.aceleration.y = - (player.aceleration.y * 0.8f);
+  }
+  if(player.y >= ALTO){
+    //Rebotar en X
+    player.y=ALTO;
+    player.aceleration.y = - (player.aceleration.y * 0.8f);
+  }
 
-    player.x = player.x + player.aceleration.x;
-    player.y = player.y + player.aceleration.y;
+  player.x = player.x + player.aceleration.x;
+  player.y = player.y + player.aceleration.y;
 
   if(esat::IsKeyPressed('A')){
     //Rotar sentido contrario de las agujas del reloj
@@ -141,4 +149,5 @@ void MovePlayer(){
 void PlayerActions(){
   DrawPlayer();
   MovePlayer();
+  
 }

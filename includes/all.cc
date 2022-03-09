@@ -36,6 +36,7 @@ struct TPlayer{
   xemath::Vector2 velocity = {0.0f,0.0f}; //este depende de la direccion de la nave, cuando pulso w la aceleracion = aceleracion anterior + la nueva
   float velocidad = 0.1f;
   float angle;
+  int nivel = 0;
 
 };
 
@@ -43,4 +44,22 @@ struct TPlayer{
 //aceleration = fwd * 0.1f;
 //vel += aceleration
 
+
+TColor Rojo = {180,0,0};
+TColor Verde = {0,180,0};
+TColor VerdeClaro = {0,255,157};
+
+TColor Azul = {0,0,180};
+TColor AzulClaro = {0,238,255};
+
+TColor Blanco = {255,255,255};
+TColor Negro = {0,0,0};
+
+TColor Amarillo = {252,255,0};
+TColor Morado = {255,0,243};
+TColor MoradoOscuro = {192,0,255};
+TColor Rosa = {255,0,154};
+
+
 #include "player.cc"
+#include "geometries.cc"
