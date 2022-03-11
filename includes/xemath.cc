@@ -100,6 +100,12 @@ namespace xemath{
     };
     return aux;
   }
+
+  float Vec2Modulo(Vector2 vec){
+    //Raiz de x^2 + y^2
+    float aux = sqrt(((vec.x*vec.x)+(vec.y*vec.y)));
+    return aux;
+  }
   //Normalizar Vector3
   Vector3 Vec3Normalize(Vector3 vec){
     float hipotenusa=(vec.x*vec.x)+(vec.y*vec.y)+(vec.z*vec.z);
