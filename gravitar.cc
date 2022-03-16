@@ -7,6 +7,7 @@ int esat::main(int argc, char **argv) {
 	esat::WindowInit(ANCHO,ALTO);
 	WindowSetMouseVisibility(true);
 	srand(time(NULL));
+	InitMap1();
 
   while(esat::WindowIsOpened() && !esat::IsSpecialKeyDown(esat::kSpecialKey_Escape)) {
 
@@ -28,6 +29,7 @@ int esat::main(int argc, char **argv) {
 
 
   esat::WindowDestroy();
+  free(pointsNormalized);
 
   return 0;
 

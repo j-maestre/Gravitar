@@ -149,5 +149,8 @@ void MovePlayer(){
 void PlayerActions(){
   DrawPlayer();
   MovePlayer();
-  
+  // printf("Aceleracion-> ");
+  // xemath::DebugVector2(player.aceleration);
+  // printf("Velocidad-> ");
+  // xemath::DebugVector2(player.velocity);
 }

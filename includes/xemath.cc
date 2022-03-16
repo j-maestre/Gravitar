@@ -17,6 +17,9 @@ namespace xemath{
   struct Mat2{
     float m[4];
   };
+  struct Mat31{
+    float m[3];
+  };
    float ToRadianes(float valor){
     return valor*(3.1415f/180.0f);
   }
@@ -64,6 +67,17 @@ namespace xemath{
     return aux;
   }
 
+  //Sumar dos Mat31
+  Mat31 SumMat31(Mat31 mat1, Mat31 mat2){
+    Mat31 aux;
+    aux.m[0] = mat1.m[0]+mat2.m[0];
+    aux.m[1] = mat1.m[1]+mat2.m[1];
+    aux.m[2] = mat1.m[2]+mat2.m[2];
+    return aux;
+  }
+
+  //Normalizar Mat31
+  
   //Multiplicar Mat2 * Vector2
   Vector2 Vec2MultMatVec2(Mat2 mat, Vector2 vec){
     Vector2 aux={
