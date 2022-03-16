@@ -1,8 +1,8 @@
-const double dPI = 3.141592653589793238462643383279502884197169;
 int frameCont = -1;
 int animationSelector = 0;
 int animatorSelectorMedio = 0;
-float valorScalate = 1.1f;
+float valorScalate = 1.05f;
+int scalateFramesCount = 0;
 float pointsMap1[38][3] = {
         {74,374,1},
         {307,30,1},
@@ -44,7 +44,6 @@ float pointsMap1[38][3] = {
         {843,368,1},
     };
 
-float *pointsNormalized = (float*) malloc(sizeof(float)*76);
 
 // TMap *map1 = (TMap*) malloc(sizeof(TMap)*10);
 
@@ -68,66 +67,47 @@ void InitMap1(){
     for(int i = 0; i <38; i++){
         pointsMap1[i][0] = pointsMap1[i][0] / 843.0f;
         pointsMap1[i][1] = pointsMap1[i][1] / 718.0f;
-        *(pointsNormalized+(i*2)) = pointsMap1[i][0];
+        // *(pointsNormalized+(i*2)) =  pointsMap1[i][0] / 843.0f;
+        // *(pointsNormalized+(i*2 + 1)) = pointsMap1[i][1] / 718.0f;
+        *(pointsNormalized+(i*2)) =  pointsMap1[i][0];
         *(pointsNormalized+(i*2 + 1)) = pointsMap1[i][1];
     };
 }
 
-void Createcircle(float x, float y, float radio, TColor color,float excentricidadX = 1.0f,float excentricidadY = 1.0f, int points = 360, int extravagancia = -1, float peculiaridad = -1.0f){
 
-    //Iniciar circulo
-    float *circulo = (float*) malloc(sizeof(float)*(points * 2));
-    float angle = (dPI*2) / (float) points;
-    for(int i = 0; i<points; i++){
-        if(extravagancia ==-1){
-            *(circulo + (i * 2)) = (float) cos(angle * i) * excentricidadX;
-            *(circulo + (i * 2 +1)) = (float) sin(angle * i) * excentricidadY;
-        }else{
-            //Cirulo raro
-            if(i%extravagancia == 0){
-                *(circulo + (i * 2)) = ((float) cos(angle * i) * excentricidadX) * peculiaridad;
-                *(circulo + (i * 2 +1)) = ((float) sin(angle * i) * excentricidadY) * peculiaridad;
-            }else{
-                *(circulo + (i * 2)) = (float) cos(angle * i) * excentricidadX;
-                *(circulo + (i * 2 +1)) = (float) sin(angle * i) * excentricidadY;
-
-            }
-        }
-    }
-
-    //Pintar circulo
-    esat::DrawSetStrokeColor(color.r,color.g,color.b);
-    esat::DrawSetFillColor(color.r,color.g,color.b,0);
-
-    float *circleToDraw = (float*) malloc(sizeof(float)*(points*2));
-
-    for(int i = 0; i<points; i++){
-        *(circleToDraw + (i * 2)) = *(circulo + (i * 2)) * radio + x;
-        *(circleToDraw + (i * 2 + 1)) = *(circulo + (i * 2 + 1)) * radio + y;
-    }
-
-    esat::DrawSolidPath(circleToDraw,points);
-    free(circulo);
-    free(circleToDraw);
-}
-
-//Para el raro, cuando la i sera %8==0, la y la multiplico por 0.7
 
 void ScalateMap(float map[38][3]){
     for (int i = 0; i < 38; i++){
-        printf("Escalando\n");
         map[i][0] = map[i][0] * valorScalate;
-        map[i][1] = map[i][1] * valorScalate;
-        *(pointsNormalized+(i*2)) = map[i][0];
-        *(pointsNormalized+(i*2 + 1)) = map[i][1];
+        // map[i][1] = map[i][1] * valorScalate;
+
+        // map[i][0] = (CENTROX - map[i][0]) * valorScalate + CENTROX;
+        // map[i][1] = (CENTROY - map[i][1]) * valorScalate + CENTROY;
+        
+    //*(pointsNormalized+(i*2)) = (map[i][0] + ( ((CENTROX*valorScalate) / CENTROX) + CENTROX) ) ;
+            *(pointsNormalized+(i*2)) = map[i][0];
+            *(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1)) *valorScalate;
+        // *(pointsNormalized+(i*2)) =(CENTROX - *(pointsNormalized+(i*2)) ) * valorScalate + CENTROX;
+        // *(pointsNormalized+(i*2 + 1)) = (CENTROY - *(pointsNormalized+(i*2 + 1)) ) * valorScalate +CENTROY;
     }
     
 }
+
 void CheckInputsGeometries(){
 
     if(esat::IsKeyPressed('Q')){
         printf("inputttt");
         ScalateMap(pointsMap1);
+    }
+    if(esat::IsKeyPressed('H')){
+        for (int i = 0; i < 38; i++){
+            *(pointsNormalized+(i*2)) +=2 ;
+        }
+    }
+    if(esat::IsKeyPressed('F')){
+        for (int i = 0; i < 38; i++){
+            *(pointsNormalized+(i*2)) -=2 ;
+        }
     }
 
 }
@@ -233,11 +213,17 @@ void GeometriesActions(){
             //Pintar mapa1
             CheckInputsGeometries();
            
-           
-            // esat::DrawSetStrokeColor(Verde.r,Verde.g,Verde.b);
-            esat::DrawSetStrokeColor(255,255,255);
+            esat::DrawSetStrokeColor(Verde.r,Verde.g,Verde.b);
+
+            if(scalateFramesCount<=135){
+                ScalateMap(pointsMap1);
+                scalateFramesCount++;
+            }
+    
             esat::DrawSetFillColor(255,255,255);
             esat::DrawPath(pointsNormalized,38);
+            CheckMapColision();
+            
             
 
            

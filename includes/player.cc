@@ -1,5 +1,13 @@
 TPlayer player;
+TPlayer player1;
+
+
+
 // player.velocidad = xemath::Vec2Normalize(player.vecDirector);
+
+void InitPlayer(){
+  player.disparos = (TDisparo*) malloc(sizeof(TDisparo)*4);
+}
 
 void DrawPlayer(){
 
@@ -145,12 +153,44 @@ void MovePlayer(){
   }
 }
 
+void Disparo(){
+  if(esat::IsSpecialKeyDown(esat::kSpecialKey_Enter) || esat::IsSpecialKeyDown(esat::kSpecialKey_Space)){
+    printf("Disparo");
+    if(player.disparosTotal<4){
+      (player.disparos+player.disparosTotal)->x = player.x;
+      (player.disparos+player.disparosTotal)->y = player.y;
+
+      (player.disparos+player.disparosTotal)->vecDirector = player.vecDirector;
+
+      (player.disparos+player.disparosTotal)->vecDirector = xemath::Vec2Normalize((player.disparos+player.disparosTotal)->vecDirector);
+      (player.disparos+player.disparosTotal)->vecDirector.x =(player.disparos+player.disparosTotal)->vecDirector.x*3;
+      (player.disparos+player.disparosTotal)->vecDirector.y = (player.disparos+player.disparosTotal)->vecDirector.y*3;
+      player.disparosTotal++;
+
+    }
+  }
+
+  //Pintar disparos
+  for(int i = 0; i<player.disparosTotal; i++){
+    printf("Player en x->%f y->%f\n",player.x,player.y);
+    printf("Disparo en x->%f y->%f\n",(player.disparos + i)->x,(player.disparos + i)->y);
+    
+    (player.disparos+i)->x += (player.disparos+i)->vecDirector.x; 
+    (player.disparos+i)->y += (player.disparos+i)->vecDirector.y; 
+    Createcircle((player.disparos + i)->x,(player.disparos + i)->y,2,Blanco,1,1,8);
+
+  }
+}
+
 
 void PlayerActions(){
   DrawPlayer();
   MovePlayer();
+  Disparo();
   // printf("Aceleracion-> ");
   // xemath::DebugVector2(player.aceleration);
   // printf("Velocidad-> ");
   // xemath::DebugVector2(player.velocity);
 }
+
+
