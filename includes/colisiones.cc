@@ -1,12 +1,12 @@
 // int aux = 0;
 
 void CheckMapColision(){
-    for (int i = 0; i < 38; i++){
+    for (int i = 0; i < 36; i++){
 
         // int i = aux;
         // if(esat::IsKeyPressed('J')){
         //     aux++;
-        //     if(aux>38)aux=0;
+        //     if(aux>36)aux=0;
         // }
         // esat::DrawLine(player.x,player.y, *(pointsNormalized + (i * 2)), *(pointsNormalized + ((i * 2) + 1)));
         // esat::DrawLine(player.x,player.y,*(pointsNormalized + ((i * 2) + 2)),*(pointsNormalized + ((i * 2) + 3)));
@@ -34,8 +34,8 @@ void CheckMapColision(){
         float moduloSum = modulo1 + modulo2;
         float moduloSum2 = modulo3 + modulo4;
 
-        //esat::DrawLine((player.x + player.vecDirector.x),(player.y + player.vecDirector.y),*(pointsNormalized + (i * 2)), *(pointsNormalized + ((i * 2) + 1)) );
-        //esat::DrawLine((player.x + player.vecDirector.x),(player.y + player.vecDirector.y),*(pointsNormalized + ((i * 2) + 2)), *(pointsNormalized + ((i * 2) + 3)) );
+        // esat::DrawLine((player.x + player.vecDirector.x),(player.y + player.vecDirector.y),*(pointsNormalized + (i * 2)), *(pointsNormalized + ((i * 2) + 1)) );
+        // esat::DrawLine((player.x + player.vecDirector.x),(player.y + player.vecDirector.y),*(pointsNormalized + ((i * 2) + 2)), *(pointsNormalized + ((i * 2) + 3)) );
 
         if(moduloSum < moduloMapa+0.1 || moduloSum2 < moduloMapa+0.1 && !scalating){
             printf("NAVE\n");
