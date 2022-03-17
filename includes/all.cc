@@ -18,6 +18,7 @@ double current_time,last_time;
 const float ANGLE_ROTATION = 3;
 bool intro = true, interfaz = true;
 int credits = 0;
+bool scalating = false;
 
 //Para escalar los puntos, cogemos los puntos de un mapa cualquiera, los normalizamos para pasarlos entre 0-1 y luego lo multiplicamos 
 //Por el ancho y alto de nuestra pantalla para escalar cualquier mapa a nuestra pantalla
@@ -48,7 +49,8 @@ struct TPlayer{
   xemath::Vector2 velocity = {0.0f,0.0f}; //este depende de la direccion de la nave, cuando pulso w la aceleracion = aceleracion anterior + la nueva
   float velocidad = 0.1f;
   float angle;
-  int nivel = 0;
+  int nivel = 1;
+  int vidas = 5;
   int fuel = 10000;
   int score = 0;
 };

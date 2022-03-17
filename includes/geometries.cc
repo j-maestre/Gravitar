@@ -206,6 +206,7 @@ void GeometriesActions(){
             modulo = xemath::Vec2Modulo(nivel1);
             if(modulo<40){
                 //Tp to level 1
+                scalating = true;
                 player.nivel = 1;
                 player.vecDirector.x = 0.0f;
                 player.vecDirector.y = -15.0f;
@@ -226,6 +227,7 @@ void GeometriesActions(){
             if(scalateFramesCount<=135){
                 ScalateMap(pointsMap1);
                 scalateFramesCount++;
+                if(scalateFramesCount>=135)scalating = false;
             }
     
             esat::DrawSetFillColor(255,255,255);

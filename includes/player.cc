@@ -208,7 +208,7 @@ void Disparo(){
 
 void PlayerActions(){
   DrawPlayer();
-  MovePlayer();
+  if(!scalating)MovePlayer();
   Disparo();
   // printf("Aceleracion-> ");
   // xemath::DebugVector2(player.aceleration);
