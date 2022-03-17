@@ -9,12 +9,14 @@ int esat::main(int argc, char **argv) {
 	srand(time(NULL));
 	InitMap1();
 	InitPlayer();
-
+    esat::DrawSetTextFont("./includes/assets/fonts/texto.ttf");
+	
   while(esat::WindowIsOpened() && !esat::IsSpecialKeyDown(esat::kSpecialKey_Escape)) {
 
     	last_time = esat::Time();
     	esat::DrawBegin();
     	esat::DrawClear(0,0,0);
+			InterfaceActions();
 			PlayerActions();
 			GeometriesActions();
 

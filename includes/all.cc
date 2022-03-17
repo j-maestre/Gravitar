@@ -46,7 +46,9 @@ struct TPlayer{
   xemath::Vector2 velocity = {0.0f,0.0f}; //este depende de la direccion de la nave, cuando pulso w la aceleracion = aceleracion anterior + la nueva
   float velocidad = 0.1f;
   float angle;
-  int nivel = 0;
+  int nivel = 1;
+  int fuel = 10000;
+  int score = 0;
 };
 
 struct TMap{
@@ -59,11 +61,15 @@ struct TMap{
 
 
 TColor Rojo = {180,0,0};
+
 TColor Verde = {0,180,0};
 TColor VerdeClaro = {0,255,157};
+TColor VerdeFuel = {144,210,145};
+TColor VerdeScore = {72,147,74};
 
 TColor Azul = {0,0,180};
 TColor AzulClaro = {0,238,255};
+TColor AzulText = {118,209,217};
 
 TColor Blanco = {255,255,255};
 TColor Negro = {0,0,0};
@@ -117,3 +123,4 @@ float *pointsNormalized = (float*) malloc(sizeof(float)*76);
 #include "player.cc"
 #include "colisiones.cc"
 #include "geometries.cc"
+#include "interface.cc"

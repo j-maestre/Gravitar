@@ -85,7 +85,7 @@ void ScalateMap(float map[38][3]){
         // map[i][1] = (CENTROY - map[i][1]) * valorScalate + CENTROY;
         
     //*(pointsNormalized+(i*2)) = (map[i][0] + ( ((CENTROX*valorScalate) / CENTROX) + CENTROX) ) ;
-            *(pointsNormalized+(i*2)) = map[i][0];
+            *(pointsNormalized+(i*2)) = map[i][0] + 150;
             *(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1)) *valorScalate;
         // *(pointsNormalized+(i*2)) =(CENTROX - *(pointsNormalized+(i*2)) ) * valorScalate + CENTROX;
         // *(pointsNormalized+(i*2 + 1)) = (CENTROY - *(pointsNormalized+(i*2 + 1)) ) * valorScalate +CENTROY;
@@ -207,6 +207,14 @@ void GeometriesActions(){
             if(modulo<40){
                 //Tp to level 1
                 player.nivel = 1;
+                player.vecDirector.x = 0.0f;
+                player.vecDirector.y = -15.0f;
+                player.aceleration.x = 0.0f;
+                player.aceleration.y = 0.0f;
+                player.velocity.x = 0.0f;
+                player.velocity.y = 0.0f;
+                player.x = CENTROX;
+                player.y = CENTROY;
             }
         break;
         case 1:
