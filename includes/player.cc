@@ -7,6 +7,10 @@ TPlayer player1;
 
 void InitPlayer(){
   player.disparos = (TDisparo*) malloc(sizeof(TDisparo)*4);
+  (player.disparos)->disparando = false;
+  (player.disparos+1)->disparando = false;
+  (player.disparos+2)->disparando = false;
+  (player.disparos+3)->disparando = false;
 }
 
 void DrawPlayer(){
@@ -156,30 +160,48 @@ void MovePlayer(){
 
 void Disparo(){
   if(esat::IsSpecialKeyDown(esat::kSpecialKey_Enter) || esat::IsSpecialKeyDown(esat::kSpecialKey_Space)){
-    printf("Disparo");
-    if(player.disparosTotal<4){
-      (player.disparos+player.disparosTotal)->x = player.x;
-      (player.disparos+player.disparosTotal)->y = player.y;
+    bool encontrado = false;
+    //Recorrer los 4 disparos buscando uno que esté libre, en caso de estarlo, le damos sus valores y lo ponemos como disparando
+      for (int i = 0; i < 4; i++){
 
-      (player.disparos+player.disparosTotal)->vecDirector = player.vecDirector;
+        //Disparo libre encontrado
+        if(!(player.disparos + i)->disparando && !encontrado){ //Solo entrará aqui la primera vez
+          encontrado = true;
+          (player.disparos+i)->disparando = true;
+          (player.disparos+i)->x = player.x;
+          (player.disparos+i)->y = player.y;
 
-      (player.disparos+player.disparosTotal)->vecDirector = xemath::Vec2Normalize((player.disparos+player.disparosTotal)->vecDirector);
-      (player.disparos+player.disparosTotal)->vecDirector.x =(player.disparos+player.disparosTotal)->vecDirector.x*3;
-      (player.disparos+player.disparosTotal)->vecDirector.y = (player.disparos+player.disparosTotal)->vecDirector.y*3;
-      player.disparosTotal++;
+          (player.disparos+i)->vecDirector = player.vecDirector;
 
-    }
+          (player.disparos+i)->vecDirector = xemath::Vec2Normalize((player.disparos+i)->vecDirector);
+          (player.disparos+i)->vecDirector.x =(player.disparos+i)->vecDirector.x*3;
+          (player.disparos+i)->vecDirector.y = (player.disparos+i)->vecDirector.y*3;
+        } 
+
+
+      }
+
+
   }
 
-  //Pintar disparos
-  for(int i = 0; i<player.disparosTotal; i++){
-    printf("Player en x->%f y->%f\n",player.x,player.y);
-    printf("Disparo en x->%f y->%f\n",(player.disparos + i)->x,(player.disparos + i)->y);
-    
-    (player.disparos+i)->x += (player.disparos+i)->vecDirector.x; 
-    (player.disparos+i)->y += (player.disparos+i)->vecDirector.y; 
-    Createcircle((player.disparos + i)->x,(player.disparos + i)->y,2,Blanco,1,1,8);
 
+
+  //Pintar disparos
+  for(int i = 0; i<4; i++){
+    if((player.disparos+i)->disparando){
+      
+      (player.disparos+i)->x += (player.disparos+i)->vecDirector.x; 
+      (player.disparos+i)->y += (player.disparos+i)->vecDirector.y; 
+      Createcircle((player.disparos + i)->x,(player.disparos + i)->y,2,Blanco,1,1,8);
+
+      if((player.disparos + i)->x<=0 || (player.disparos + i)->x >= ANCHO || (player.disparos + i)->y<=0 || (player.disparos + i)->y >=ALTO){
+        //El disparo ha llegado al borde
+        (player.disparos+i)->disparando = false;
+      }
+
+      //Check colisiones con enemigos / estructuras
+
+    }
   }
 }
 
