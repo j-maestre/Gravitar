@@ -32,3 +32,26 @@ void CheckMapColision(){
     
 
 }
+
+void CheckShootColision(){
+    for (int i = 0; i < 38; i++){
+    
+        for (int j = 0; j < 4; j++){
+            if((player.disparos+j)->disparando){
+                xemath::Vector2 vec1 = {*(pointsNormalized + (i * 2))-(player.disparos+j)->x,*(pointsNormalized + ((i * 2) + 1))-(player.disparos+j)->y};
+                xemath::Vector2 vec2 = {*(pointsNormalized + ((i * 2) + 2))-(player.disparos+j)->x,*(pointsNormalized + ((i * 2) + 3))-(player.disparos+j)->y};
+                xemath::Vector2 vecMapa = {*(pointsNormalized + i * 2)-*(pointsNormalized + i * 2 + 2),*(pointsNormalized + i * 2 + 1)-*(pointsNormalized + i * 2 + 3)};
+                float modulo1 = xemath::Vec2Modulo(vec1);
+                float modulo2 = xemath::Vec2Modulo(vec2);
+                float modulo3 = xemath::Vec2Modulo(vecMapa);
+                float moduloSum = modulo1 + modulo2;
+
+                if(moduloSum < modulo3 + 1){
+                    (player.disparos+j)->disparando = false;
+                }
+            }//End if
+        }//End j for
+    
+    }//End i for
+
+}

@@ -231,6 +231,8 @@ void GeometriesActions(){
             esat::DrawSetFillColor(255,255,255);
             esat::DrawPath(pointsNormalized,38);
             CheckMapColision();
+            CheckShootColision();
+
             
             
 
