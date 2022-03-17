@@ -47,17 +47,57 @@ void DrawFuel(){
     esat::DrawSetFillColor(AzulText.r,AzulText.g,AzulText.b);
     esat::DrawText(500,50,"SCORE");
     esat::DrawText(500,70,"FUEL");
-
-
     free(aux);
-
-
-
 }
 
+void Intro(){
+    esat::DrawText(420,200,"GAME OVER");
+    esat::DrawText(410,220,"INSERT COIN");
+    esat::DrawText(400,240,"1 COIN 1 PLAY");
+    if(esat::IsSpecialKeyDown(esat::kSpecialKey_Space)){
+        printf("ADIOS INTRO");
+        intro = false;
+    }
+}
 
+void Interface(){
+    esat::DrawText(420,200,"GAME OVER");
+    esat::DrawText(410,220,"PRESS ENTER");
+    char *numberToChar = (char*) calloc(11,sizeof(char));
+    char *aux = (char*) calloc(3,sizeof(char));
+    *numberToChar = 'C';
+    *(numberToChar+1) = 'R';
+    *(numberToChar+2) = 'E';
+    *(numberToChar+3) = 'D';
+    *(numberToChar+4) = 'I';
+    *(numberToChar+5) = 'T';
+    *(numberToChar+6) = 'S';
+    *(numberToChar+7) = ' ';
+    if(credits<100 && credits>=10){
+        *(numberToChar+8) = '0';
+    }else if(credits<10){
+        *(numberToChar+8) = '0';
+        *(numberToChar+9) = '0';
+    }
+    itoa(credits,aux,10);
+    strcat(numberToChar,aux);
+    esat::DrawText(400,240,numberToChar);
+    free(aux);
+    free(numberToChar);
+
+
+
+
+    if(esat::IsSpecialKeyPressed(esat::kSpecialKey_Space))credits++;
+    if(esat::IsSpecialKeyDown(esat::kSpecialKey_Enter)){
+        interfaz = false;
+    }
+
+}
 
 void InterfaceActions(){
 	esat::DrawSetTextSize(20);
     DrawFuel();
+    if(intro)Intro();
+    if(!intro && interfaz)Interface();
 }

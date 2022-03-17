@@ -17,8 +17,10 @@ int esat::main(int argc, char **argv) {
     	esat::DrawBegin();
     	esat::DrawClear(0,0,0);
 			InterfaceActions();
-			PlayerActions();
-			GeometriesActions();
+			if(!intro && !interfaz){
+				PlayerActions();
+				GeometriesActions();
+			}
 
 
     	esat::DrawEnd();
