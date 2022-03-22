@@ -1,48 +1,8 @@
 int frameCont = -1;
 int animationSelector = 0;
 int animatorSelectorMedio = 0;
-float valorScalate = 1.05f;
 int scalateFramesCount = 0;
-float pointsMap1[38][3] = {
-        {74,374,1},
-        {307,30,1},
-        {382,115,1},
-        {306,202,1},
-        {382,287,1},
-        {305,287,1},
-        {229,202,1},
-        {153,287,1},
-        {229,287,1},
-        {76,459,1},
-        {152,459,1},
-        {76,545,1},
-        {229,718,1},
-        {306,718,1},
-        {382,631,1},
-        {306,631,1},
-        {230,545,1},
-        {383,545,1},
-        {613,288,1},
-        {689,288,1},
-        {614,374,1},
-        {689,459,1},
-        {766,459,1},
-        {690,545,1},
-        {460,545,1},
-        {537,631,1},
-        {690,631,1},
-        {843,459,1},
-        {768,374,1},
-        {690,374,1},
-        {766,288,1},
-        {690,202,1},
-        {536,202,1},
-        {460,287,1},
-        {383,202,1},
-        {536,30,1},
-        {620,30,1},
-        {843,368,1},
-    };
+
 
 
 // TMap *map1 = (TMap*) malloc(sizeof(TMap)*10);
@@ -58,8 +18,6 @@ float pointsMap1[38][3] = {
 // }
 
 void InitMap1(){
-    
-
     //Dividir la matriz por los elementos mas grandes para que los valores esten entre 0-1    
     //843,718,1
 
@@ -72,13 +30,16 @@ void InitMap1(){
         *(pointsNormalized+(i*2)) =  pointsMap1[i][0];
         *(pointsNormalized+(i*2 + 1)) = pointsMap1[i][1];
     };
+    InitFuelMap1();
 }
 
 
 
-void ScalateMap(float map[38][3]){
+void ScalateMap(float map[38][3],bool zoom = true){
     for (int i = 0; i < 38; i++){
-        map[i][0] = map[i][0] * valorScalate;
+            
+        zoom?map[i][0] = map[i][0] * valorScalate:map[i][0] = map[i][0] / valorScalate;;
+        
         // map[i][1] = map[i][1] * valorScalate;
 
         // map[i][0] = (CENTROX - map[i][0]) * valorScalate + CENTROX;
@@ -86,19 +47,26 @@ void ScalateMap(float map[38][3]){
         
     //*(pointsNormalized+(i*2)) = (map[i][0] + ( ((CENTROX*valorScalate) / CENTROX) + CENTROX) ) ;
             *(pointsNormalized+(i*2)) = map[i][0] + 150;
-            *(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1)) *valorScalate;
+
+            zoom?*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1)) *valorScalate:*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1)) /valorScalate;;
+            
         // *(pointsNormalized+(i*2)) =(CENTROX - *(pointsNormalized+(i*2)) ) * valorScalate + CENTROX;
         // *(pointsNormalized+(i*2 + 1)) = (CENTROY - *(pointsNormalized+(i*2 + 1)) ) * valorScalate +CENTROY;
     }
+    
     
 }
 
 void CheckInputsGeometries(){
 
-    if(esat::IsKeyPressed('Q')){
-        printf("inputttt");
+    if(esat::IsSpecialKeyPressed(esat::kSpecialKey_Up)){
         ScalateMap(pointsMap1);
     }
+    if(esat::IsSpecialKeyPressed(esat::kSpecialKey_Down)){
+        ScalateMap(pointsMap1,false);
+    }
+
+    // printf("Raton X[%f], Y[%f]\n",esat::MousePositionX(),esat::MousePositionY());
     if(esat::IsKeyPressed('H')){
         for (int i = 0; i < 38; i++){
             *(pointsNormalized+(i*2)) +=2 ;
@@ -111,6 +79,36 @@ void CheckInputsGeometries(){
     }
 
 }
+
+void CheckShield(){
+    if(esat::IsKeyPressed('S')){
+        //Activate fuel
+        player.fuel--;
+        // xemath::Vector2 aux ={(player.x + player.vecDirector.x)- player.x,(player.y + player.vecDirector.y)- player.y};
+        // xemath::Vector2 shield1 = {player.x,player.y,player.x-10,player};
+        esat::DrawSetStrokeColor(Verde.r,Verde.g,Verde.b);
+        esat::DrawLine(player.x,player.y,player.x-15,player.y+40);
+        esat::DrawLine(player.x,player.y,player.x+15,player.y+40);
+
+        //Check colision with fuel
+
+        //Vector que une los puntos de los rayos
+        // xemath::Vector2 vector = {(player.x+10 - player.x-10),(player.y+30-player.y+30)};
+        esat::DrawSetStrokeColor(255,0,0);
+        esat::DrawLine(player.x-15,player.y+40,player.x+15,player.y+40);
+
+        if((player.x-15 > Fuel1->x && player.x-15 < *pointsFuel1Normalized+7) || (player.x+15 > *pointsFuel1Normalized && player.x+15 < *pointsFuel1Normalized+7)&& (player.y+40 > *pointsFuel1Normalized+1 && player.y+40 < *pointsFuel1Normalized+8)){
+
+                if(!Fuel1->obtained){
+                    player.fuel += 3000;
+                    printf("COLISION FUEL\n");
+                    Fuel1->obtained = true;
+                }
+        }
+
+    }
+}
+
 
 void GeometriesActions(){
     frameCont<=1000?frameCont++:frameCont=0;
@@ -222,16 +220,27 @@ void GeometriesActions(){
             //Pintar mapa1
             CheckInputsGeometries();
            
-            esat::DrawSetStrokeColor(Verde.r,Verde.g,Verde.b);
 
-            if(scalateFramesCount<=135){
+            if(scalateFramesCount<=134){
                 ScalateMap(pointsMap1);
+                ScalateFuel(pointsFuel1Map1,pointsFuel1Normalized);
+                ScalateFuel(pointsFuel2Map1,pointsFuel2Normalized);
                 scalateFramesCount++;
                 if(scalateFramesCount>=135)scalating = false;
             }
-    
-            esat::DrawSetFillColor(255,255,255);
+
+            esat::DrawSetStrokeColor(Verde.r,Verde.g,Verde.b);
             esat::DrawPath(pointsNormalized,38);
+            esat::DrawSetStrokeColor(0,0,255);
+
+            if(Fuel1->obtained){
+                printf("FUEL1-> TRUE\n");
+            }else{
+                printf("FUEL1-> FALSE\n");
+            }
+            if(!(Fuel1->obtained))esat::DrawPath(pointsFuel1Normalized,4);
+            esat::DrawPath(pointsFuel2Normalized,4);
+            CheckShield();
             CheckMapColision();
             CheckShootColision();
 

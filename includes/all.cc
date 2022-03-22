@@ -12,7 +12,7 @@
 //Ancho -> 256*4
 //Alto -> 192*4
 const int ANCHO = 1024, ALTO = 768, CENTROX = 512, CENTROY = 384 ;
-const double dPI = 3.141592653589793238462643383279502884197169;
+const double dPI = 3.1415926535897;
 unsigned char fps=60;
 double current_time,last_time;
 const float ANGLE_ROTATION = 3;
@@ -53,6 +53,17 @@ struct TPlayer{
   int vidas = 5;
   int fuel = 10000;
   int score = 0;
+};
+
+struct TEnemy{
+  float x,y;
+  bool vivo = true;
+  TDisparo *disparos;
+};
+
+struct TFuel{
+  float x,y;
+  bool obtained = false;
 };
 
 struct TMap{
@@ -121,10 +132,103 @@ void Createcircle(float x, float y, float radio, TColor color,float excentricida
     free(circleToDraw);
 }
 float *pointsNormalized = (float*) malloc(sizeof(float)*76);
+float *pointsFuel1Normalized = (float*) malloc(sizeof(float)*8);
+float *pointsFuel2Normalized = (float*) malloc(sizeof(float)*8);
+
+TFuel *Fuel1 = (TFuel*) malloc(sizeof(TFuel)*8);
+TFuel *Fuel2 = (TFuel*) malloc(sizeof(TFuel)*8);
+
+
+
+float valorScalate = 1.05f;
+float pointsMap1[38][3] = {
+        {74,374,1},
+        {307,30,1},
+        {382,115,1},
+        {306,202,1},
+        {382,287,1},
+        {305,287,1},
+        {229,202,1},
+        {153,287,1},
+        {229,287,1},
+        {76,459,1},
+        {152,459,1},
+        {76,545,1},
+        {229,718,1},
+        {306,718,1},
+        {382,631,1},
+        {306,631,1},
+        {230,545,1},
+        {383,545,1},
+        {613,288,1},
+        {689,288,1},
+        {614,374,1},
+        {689,459,1},
+        {766,459,1},
+        {690,545,1},
+        {460,545,1},
+        {537,631,1},
+        {690,631,1},
+        {843,459,1},
+        {768,374,1},
+        {690,374,1},
+        {766,288,1},
+        {690,202,1},
+        {536,202,1},
+        {460,287,1},
+        {383,202,1},
+        {536,30,1},
+        {620,30,1},
+        {843,368,1},
+    };
+
+//Original
+// float pointsFuelMap1[4][3] = {
+//   {152,640},
+//   {152,656},
+//   {167,656},
+//   {167,640},
+// };
+
+//-35 en X
+//-180 en Y
+
+float pointsFuel1Map1[4][3] = {
+  {117,460},
+  {117,476},
+  {132,476},
+  {132,460},
+};
+float pointsFuel2Map1[4][3] = {
+  {252,719},
+  {252,734},
+  {267,734},
+  {267,719},
+};
+
+// float pointsFuelMapX[4][3] = {
+//     {368,545,1},
+//     {368,532,1},
+//     {381,532,1},
+//     {381,545,1},
+// };
+
+//+53 pixeles de Y extra
+
+// float pointsFuelMap1[4][3] = {
+//     {368,492,1},
+//     {368,479,1},
+//     {381,479,1},
+//     {381,492,1},
+// };
+
+
+
 
 
 
 #include "player.cc"
 #include "colisiones.cc"
+#include "fuel.cc"
 #include "geometries.cc"
 #include "interface.cc"
