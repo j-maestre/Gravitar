@@ -41,8 +41,6 @@ void InitFuelMap1(){
 void ScalateFuel(float fuel[4][3], float *pointsNormalized){
     for (int i = 0; i < 4; i++){
         fuel[i][0] = fuel[i][0] * valorScalate;
-
-        //Fuel1
         *(pointsNormalized+(i*2)) = fuel[i][0] + 150;
         *(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1)) *valorScalate;
 

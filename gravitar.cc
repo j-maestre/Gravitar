@@ -35,6 +35,10 @@ int esat::main(int argc, char **argv) {
 
   esat::WindowDestroy();
   free(pointsNormalized);
+  free(pointsFuel1Normalized);
+  free(pointsFuel2Normalized);
+  free(Fuel1);
+  free(Fuel2);
 
   return 0;
 

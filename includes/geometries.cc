@@ -80,6 +80,16 @@ void CheckInputsGeometries(){
 
 }
 
+
+void CheckFuelObtain(float *points, TFuel *Fuel){
+    if(*points > player.x-15 && *points< player.x+15 && *(points+1)<player.y+40 && *(points+7)<player.y+40 && *(points+3) > player.y ){
+            if(!Fuel->obtained){
+                player.fuel += 3000;
+                printf("COLISION FUEL\n");
+                Fuel->obtained = true;
+            }
+        }
+}
 void CheckShield(){
     if(esat::IsKeyPressed('S')){
         //Activate fuel
@@ -97,14 +107,8 @@ void CheckShield(){
         esat::DrawSetStrokeColor(255,0,0);
         esat::DrawLine(player.x-15,player.y+40,player.x+15,player.y+40);
 
-        if((player.x-15 > Fuel1->x && player.x-15 < *pointsFuel1Normalized+7) || (player.x+15 > *pointsFuel1Normalized && player.x+15 < *pointsFuel1Normalized+7)&& (player.y+40 > *pointsFuel1Normalized+1 && player.y+40 < *pointsFuel1Normalized+8)){
-
-                if(!Fuel1->obtained){
-                    player.fuel += 3000;
-                    printf("COLISION FUEL\n");
-                    Fuel1->obtained = true;
-                }
-        }
+        CheckFuelObtain(pointsFuel1Normalized,Fuel1);
+        CheckFuelObtain(pointsFuel2Normalized,Fuel2);
 
     }
 }
@@ -233,22 +237,17 @@ void GeometriesActions(){
             esat::DrawPath(pointsNormalized,38);
             esat::DrawSetStrokeColor(0,0,255);
 
-            if(Fuel1->obtained){
-                printf("FUEL1-> TRUE\n");
+            printf("%d",Fuel2->obtained);
+            if(Fuel2->obtained){
+                printf("FUEL2-> TRUE\n");
             }else{
-                printf("FUEL1-> FALSE\n");
+                printf("FUEL2-> FALSE\n");
             }
             if(!(Fuel1->obtained))esat::DrawPath(pointsFuel1Normalized,4);
-            esat::DrawPath(pointsFuel2Normalized,4);
+            if(!(Fuel2->obtained))esat::DrawPath(pointsFuel2Normalized,4);
             CheckShield();
             CheckMapColision();
-            CheckShootColision();
-
-            
-            
-
-           
-            
+            CheckShootColision();   
 
         break;
     }
