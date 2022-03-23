@@ -37,8 +37,12 @@ int esat::main(int argc, char **argv) {
   free(pointsNormalized);
   free(pointsFuel1Normalized);
   free(pointsFuel2Normalized);
+  free(pointsFuel3Normalized);
+  free(pointsFuel4Normalized);
   free(Fuel1);
   free(Fuel2);
+  free(Fuel3);
+  free(Fuel4);
 
   return 0;
 

@@ -6,7 +6,6 @@ int scalateFramesCount = 0;
 
 
 // TMap *map1 = (TMap*) malloc(sizeof(TMap)*10);
-
 // void InitMaps(){
 //     map1->x = 213.0f;
 //     map1->y = 42.0f;
@@ -39,19 +38,12 @@ void ScalateMap(float map[38][3],bool zoom = true){
     for (int i = 0; i < 38; i++){
             
         zoom?map[i][0] = map[i][0] * valorScalate:map[i][0] = map[i][0] / valorScalate;;
-        
-        // map[i][1] = map[i][1] * valorScalate;
 
-        // map[i][0] = (CENTROX - map[i][0]) * valorScalate + CENTROX;
-        // map[i][1] = (CENTROY - map[i][1]) * valorScalate + CENTROY;
-        
-    //*(pointsNormalized+(i*2)) = (map[i][0] + ( ((CENTROX*valorScalate) / CENTROX) + CENTROX) ) ;
-            *(pointsNormalized+(i*2)) = map[i][0] + 150;
+        *(pointsNormalized+(i*2)) = map[i][0] + 150;
 
-            zoom?*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1)) *valorScalate:*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1)) /valorScalate;;
+        zoom?*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1)) *valorScalate:*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1)) /valorScalate;
             
-        // *(pointsNormalized+(i*2)) =(CENTROX - *(pointsNormalized+(i*2)) ) * valorScalate + CENTROX;
-        // *(pointsNormalized+(i*2 + 1)) = (CENTROY - *(pointsNormalized+(i*2 + 1)) ) * valorScalate +CENTROY;
+        
     }
     
     
@@ -77,7 +69,10 @@ void CheckInputsGeometries(){
             *(pointsNormalized+(i*2)) -=2 ;
         }
     }
-
+    if(esat::IsSpecialKeyDown(esat::kSpecialKey_Backspace)){
+        player.nivel = 0;
+        scalating = false;
+    }
 }
 
 
@@ -103,22 +98,41 @@ void CheckShield(){
         //Check colision with fuel
 
         //Vector que une los puntos de los rayos
-        // xemath::Vector2 vector = {(player.x+10 - player.x-10),(player.y+30-player.y+30)};
-        esat::DrawSetStrokeColor(255,0,0);
-        esat::DrawLine(player.x-15,player.y+40,player.x+15,player.y+40);
+        // esat::DrawSetStrokeColor(255,0,0);
+        // esat::DrawLine(player.x-15,player.y+40,player.x+15,player.y+40);
 
         CheckFuelObtain(pointsFuel1Normalized,Fuel1);
         CheckFuelObtain(pointsFuel2Normalized,Fuel2);
+        CheckFuelObtain(pointsFuel3Normalized,Fuel3);
+        CheckFuelObtain(pointsFuel4Normalized,Fuel4);
 
     }
 }
 
 
+void CheckGalaxyColision(float x, float y, int level, int margin = 50){
+    float modulo;
+    xemath::Vector2 nivel;
+    nivel = {x - player.x, y-player.y};
+    modulo = xemath::Vec2Modulo(nivel);
+    if(modulo<margin){
+        //Tp to level 1
+        scalating = true;
+        player.nivel = level;
+        player.vecDirector.x = 0.0f;
+        player.vecDirector.y = -15.0f;
+        player.aceleration.x = 0.0f;
+        player.aceleration.y = 0.0f;
+        player.velocity.x = 0.0f;
+        player.velocity.y = 0.0f;
+        player.x = CENTROX;
+        player.y = CENTROY;
+    }
+}
+
 void GeometriesActions(){
     frameCont<=1000?frameCont++:frameCont=0;
     TColor color = Blanco;
-    float modulo;
-    xemath::Vector2 nivel1;
     int xIzInf;
     int yIzInf;
     int xIzInf2;
@@ -129,6 +143,7 @@ void GeometriesActions(){
             //Pintar las galaxias
             // X Y Radio Color ExcentricidadX ExcentricidadY Puntos Extravagancia(cuando hay que invertir la Y) Peculiaridad(cuanto hay que restarle a la Y)
             Createcircle(250.0f,150.0f,40.0f,Rojo,1.0f,0.8f,8);
+            CheckGalaxyColision(250.0f,150.0f,2);
 
             //Medio
             if(frameCont % 15 == 0){
@@ -144,14 +159,18 @@ void GeometriesActions(){
                 case 6:color = Verde;break;
                 case 7:color = Amarillo;break;
             }
+            //RESPAWN
             Createcircle(500.0f,400.0f,40.0f,Blanco,1.0f,0.8f,8);
             Createcircle(500.0f,400.0f,40.0f,color,0.8f,0.6f,8);
 
             Createcircle(800.0f,600.0f,40.0f,Amarillo,1.0f,0.8f,8);
             Createcircle(800.0f,600.0f,40.0f,Azul,1.5f,0.2f,6);
+            CheckGalaxyColision(800.0f,600.0f,3);
 
             //Inferior izquierda
             Createcircle(150.0f,700.0f,20.0f,Rojo,1.0f,0.8f,8);
+            CheckGalaxyColision(150.0f,700.0f,4);
+
             esat::DrawSetStrokeColor(Verde.r,Verde.g,Verde.b);
             xIzInf = 130.0f;
             yIzInf = 680.0f;
@@ -198,27 +217,15 @@ void GeometriesActions(){
 
 
             Createcircle(100.0f,350.0f,40.0f,Rojo,1.0f,1.0f,32,8,0.8f);
+            CheckGalaxyColision(100.0f,350.0f,5);
 
             Createcircle(600.0f,200.0f,30.0f,Amarillo,1.0f,1.0f,8,2,0.2f);
+            CheckGalaxyColision(600.0f,200.0f,6);
+
 
             Createcircle(900.0f,120.0f,25.0f,Rosa,1.0f,1.0f,32,8,0.75f);
-            esat::DrawLine(900.0f,120.0f,player.x,player.y);
-            //Check colision
-            nivel1 = {900.0f - player.x, 120.0f-player.y};
-            modulo = xemath::Vec2Modulo(nivel1);
-            if(modulo<40){
-                //Tp to level 1
-                scalating = true;
-                player.nivel = 1;
-                player.vecDirector.x = 0.0f;
-                player.vecDirector.y = -15.0f;
-                player.aceleration.x = 0.0f;
-                player.aceleration.y = 0.0f;
-                player.velocity.x = 0.0f;
-                player.velocity.y = 0.0f;
-                player.x = CENTROX;
-                player.y = CENTROY;
-            }
+            CheckGalaxyColision(900.0f,120.0f,1,40);
+            
         break;
         case 1:
             //Pintar mapa1
@@ -229,6 +236,8 @@ void GeometriesActions(){
                 ScalateMap(pointsMap1);
                 ScalateFuel(pointsFuel1Map1,pointsFuel1Normalized);
                 ScalateFuel(pointsFuel2Map1,pointsFuel2Normalized);
+                ScalateFuel(pointsFuel3Map1,pointsFuel3Normalized);
+                ScalateFuel(pointsFuel4Map1,pointsFuel4Normalized);
                 scalateFramesCount++;
                 if(scalateFramesCount>=135)scalating = false;
             }
@@ -245,10 +254,16 @@ void GeometriesActions(){
             }
             if(!(Fuel1->obtained))esat::DrawPath(pointsFuel1Normalized,4);
             if(!(Fuel2->obtained))esat::DrawPath(pointsFuel2Normalized,4);
+            if(!(Fuel3->obtained))esat::DrawPath(pointsFuel3Normalized,4);
+            if(!(Fuel4->obtained))esat::DrawPath(pointsFuel4Normalized,4);
             CheckShield();
             CheckMapColision();
             CheckShootColision();   
 
+        break;
+
+        default:
+            CheckInputsGeometries();
         break;
     }
 }

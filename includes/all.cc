@@ -43,13 +43,13 @@ struct TPlayer{
   int disparosTotal = 0;
   xemath::Vector2 vecDirector = {0.0f,-15.0f};   //Esto es a donde apunta
   xemath::Vector2 vecPunta = {100.0f, 100.0f};
-  float x = 100.0f;
-  float y = 100.0f;
+  float x = 500.0f;
+  float y = 400.0f;
   xemath::Vector2 aceleration = {0.0f,0.0f};
   xemath::Vector2 velocity = {0.0f,0.0f}; //este depende de la direccion de la nave, cuando pulso w la aceleracion = aceleracion anterior + la nueva
   float velocidad = 0.1f;
   float angle;
-  int nivel = 1;
+  int nivel = 0;
   int vidas = 5;
   int fuel = 10000;
   int score = 0;
@@ -134,9 +134,13 @@ void Createcircle(float x, float y, float radio, TColor color,float excentricida
 float *pointsNormalized = (float*) malloc(sizeof(float)*76);
 float *pointsFuel1Normalized = (float*) malloc(sizeof(float)*8);
 float *pointsFuel2Normalized = (float*) malloc(sizeof(float)*8);
+float *pointsFuel3Normalized = (float*) malloc(sizeof(float)*8);
+float *pointsFuel4Normalized = (float*) malloc(sizeof(float)*8);
 
 TFuel *Fuel1 = (TFuel*) malloc(sizeof(TFuel)*8);
 TFuel *Fuel2 = (TFuel*) malloc(sizeof(TFuel)*8);
+TFuel *Fuel3 = (TFuel*) malloc(sizeof(TFuel)*8);
+TFuel *Fuel4 = (TFuel*) malloc(sizeof(TFuel)*8);
 
 
 
@@ -182,17 +186,6 @@ float pointsMap1[38][3] = {
         {843,368,1},
     };
 
-//Original
-// float pointsFuelMap1[4][3] = {
-//   {152,640},
-//   {152,656},
-//   {167,656},
-//   {167,640},
-// };
-
-//-35 en X
-//-180 en Y
-
 float pointsFuel1Map1[4][3] = {
   {117,460},
   {117,476},
@@ -205,27 +198,18 @@ float pointsFuel2Map1[4][3] = {
   {267,734},
   {267,719},
 };
-
-// float pointsFuelMapX[4][3] = {
-//     {368,545,1},
-//     {368,532,1},
-//     {381,532,1},
-//     {381,545,1},
-// };
-
-//+53 pixeles de Y extra
-
-// float pointsFuelMap1[4][3] = {
-//     {368,492,1},
-//     {368,479,1},
-//     {381,479,1},
-//     {381,492,1},
-// };
-
-
-
-
-
+float pointsFuel3Map1[4][3] = {
+  {620,632},
+  {620,647},
+  {635,647},
+  {635,632}
+};
+float pointsFuel4Map1[4][3] = {
+  {700,459},
+  {700,474},
+  {715,474},
+  {715,459}
+};
 
 #include "player.cc"
 #include "colisiones.cc"
