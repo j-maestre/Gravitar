@@ -49,7 +49,7 @@ struct TPlayer{
   xemath::Vector2 velocity = {0.0f,0.0f}; //este depende de la direccion de la nave, cuando pulso w la aceleracion = aceleracion anterior + la nueva
   float velocidad = 0.1f;
   float angle;
-  int nivel = 0;
+  int nivel = 4;
   int vidas = 5;
   int fuel = 10000;
   int score = 0;

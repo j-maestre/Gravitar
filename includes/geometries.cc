@@ -2,6 +2,7 @@ int frameCont = -1;
 int animationSelector = 0;
 int animatorSelectorMedio = 0;
 int scalateFramesCount = 0;
+int scalateHorizontalFramesCount = 0;
 
 
 
@@ -35,7 +36,7 @@ void InitMap4Array(){
 }
 
 
-void InitMap(float *mapa,int size, float Xmax, float Ymax){
+void InitMap(float *mapa, float *points, int size, float Xmax, float Ymax){
 
     //Normalizado de la matriz 3x1
     for(int i = 0; i <size; i++){
@@ -46,38 +47,48 @@ void InitMap(float *mapa,int size, float Xmax, float Ymax){
         // *(pointsNormalized+(i*2)) =  pointsMap1[i][0];
         // *(pointsNormalized+(i*2 + 1)) = pointsMap1[i][1];
 
-        *(mapa+(i*2)) /=Xmax; 
-        *(mapa+(i*2 + 1)) /=Ymax; 
+        *(mapa+(i*2)) = *(mapa+(i*2)) / Xmax; 
+        *(mapa+(i*2 + 1))= *(mapa+(i*2 + 1)) / Ymax; 
 
-        *(pointsNormalized+(i*2)) =  *(mapa+(i*2));
-        *(pointsNormalized+(i*2 + 1)) = *(mapa+(i*2 + 1));
+        *(points+(i*2)) =  *(mapa+(i*2));
+        *(points+(i*2 + 1)) = *(mapa+(i*2 + 1));
     };
     InitFuelMap1();
     
 }
 
-
-
-void ScalateMap(float *map,int size,bool zoom = true){
+void ScalateMap(float *map,float *pointsNormalized, int size,bool zoom = true){
+    printf("Scalating X[%f] Y[%f]\n",*pointsNormalized,*(pointsNormalized+1));
     for (int i = 0; i <size; i++){
         //Si hay zoom , multiplicamos el valor normalizado por el valor scalate para ir haciendolo más grande
         //Si no hay zoom, dividimos
-        zoom?*(map +(i*2))*=valorScalate:*(map +(i*2))/= valorScalate;;
+        zoom?*(map +(i*2))*=valorScalate:*(map +(i*2))/= valorScalate;
         *(pointsNormalized+(i*2)) = *(map +(i*2)) + 150;
-        zoom?*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1)) *valorScalate:*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1)) /valorScalate;
+        zoom?*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1)) * valorScalate:*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1))/valorScalate;
             
     }
-    
-    
+}
+
+void ScalateHorizontalMap(float *map,float *pointsNormalized, int size){
+    printf("Scalating X[%f] Y[%f]\n",*pointsNormalized,*(pointsNormalized+1));
+    for (int i = 0; i <size; i++){
+        //Si hay zoom , multiplicamos el valor normalizado por el valor scalate para ir haciendolo más grande
+        //Si no hay zoom, dividimos
+        *(map +(i*2))*=valorScalate;
+        *(map +(i*2)) -=20;
+        *(pointsNormalized+(i*2)) = *(map +(i*2)) + 150;
+        //zoom?*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1)) * valorScalate:*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1))/valorScalate;
+            
+    }
 }
 
 void CheckInputsGeometries(){
 
     if(esat::IsSpecialKeyPressed(esat::kSpecialKey_Up)){
-        ScalateMap(pointsMap1pun,38);
+        ScalateMap(pointsMap1pun,pointsNormalized,38);
     }
     if(esat::IsSpecialKeyPressed(esat::kSpecialKey_Down)){
-        ScalateMap(pointsMap1pun,38,false);
+        ScalateMap(pointsMap1pun,pointsNormalized,38,false);
     }
 
     // printf("Raton X[%f], Y[%f]\n",esat::MousePositionX(),esat::MousePositionY());
@@ -131,7 +142,6 @@ void CheckShield(){
     }
 }
 
-
 void CheckGalaxyColision(float x, float y, int level, int margin = 50){
     float modulo;
     xemath::Vector2 nivel;
@@ -149,6 +159,15 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
         player.velocity.y = 0.0f;
         player.x = CENTROX;
         player.y = CENTROY;
+        scalateFramesCount = 0;
+    }
+}
+
+void CheckScrollX(float *points, int size){
+
+    //Check si ha llegado al borde desplazable
+    if(player.x>=ANCHO - 100){
+
     }
 }
 
@@ -255,7 +274,7 @@ void GeometriesActions(){
            
 
             if(scalateFramesCount<=134){
-                ScalateMap(pointsMap1pun,38);
+                ScalateMap(pointsMap1pun,pointsNormalized,38);
                 ScalateFuel(pointsFuel1Map1,pointsFuel1Normalized);
                 ScalateFuel(pointsFuel2Map1,pointsFuel2Normalized);
                 ScalateFuel(pointsFuel3Map1,pointsFuel3Normalized);
@@ -267,20 +286,33 @@ void GeometriesActions(){
             esat::DrawSetStrokeColor(Verde.r,Verde.g,Verde.b);
             esat::DrawPath(pointsNormalized,38);
             esat::DrawSetStrokeColor(0,0,255);
-
-            printf("%d",Fuel2->obtained);
-            if(Fuel2->obtained){
-                printf("FUEL2-> TRUE\n");
-            }else{
-                printf("FUEL2-> FALSE\n");
-            }
             if(!(Fuel1->obtained))esat::DrawPath(pointsFuel1Normalized,4);
             if(!(Fuel2->obtained))esat::DrawPath(pointsFuel2Normalized,4);
             if(!(Fuel3->obtained))esat::DrawPath(pointsFuel3Normalized,4);
             if(!(Fuel4->obtained))esat::DrawPath(pointsFuel4Normalized,4);
             CheckShield();
-            CheckMapColision();
-            CheckShootColision();   
+            CheckMapColision(pointsNormalized,38);
+            CheckShootColision(pointsNormalized,38);   
+
+        break;
+        case 4:
+            CheckInputsGeometries();
+            if(scalateFramesCount<=130){
+                //Zoom1 vertical & horizontal
+                ScalateMap(pointsMap4pun,points4Normalized,51);
+                scalateFramesCount++;
+            }else if(scalateHorizontalFramesCount<=20){
+                //Zoom2 solo horizontal
+                ScalateHorizontalMap(pointsMap4pun,points4Normalized,51);
+                scalateHorizontalFramesCount++;
+                if(scalateHorizontalFramesCount>=3)scalating = false;
+            }
+            esat::DrawSetStrokeColor(Verde.r,Verde.g,Verde.b);
+            esat::DrawPath(points4Normalized,51);
+            CheckMapColision(points4Normalized,51);
+            CheckShootColision(points4Normalized,51);
+
+            CheckScrollX(points4Normalized,51);
 
         break;
 
@@ -293,7 +325,7 @@ void GeometriesActions(){
 
 void InitMaps(){
     InitMap1Array();
-	InitMap(pointsMap1pun,38.0f,843.0f,718.0f);
-    InitMap1Array();
-    InitMap(pointsMap4pun,51.0f,973.0f,763.0f);
+	InitMap(pointsMap1pun,pointsNormalized,38.0f,843.0f,718.0f);
+    InitMap4Array();
+    InitMap(pointsMap4pun,points4Normalized,51.0f,973.0f,763.0f);
 }

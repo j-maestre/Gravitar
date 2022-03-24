@@ -1,7 +1,7 @@
 // int aux = 0;
 
-void CheckMapColision(){
-    for (int i = 0; i < 36; i++){
+void CheckMapColision(float *points, int size){
+    for (int i = 0; i < (size-2); i++){
 
         // int i = aux;
         // if(esat::IsKeyPressed('J')){
@@ -14,13 +14,13 @@ void CheckMapColision(){
         // esat::DrawLine(*(pointsNormalized + i * 2),*(pointsNormalized + ((i * 2) + 1)),*(pointsNormalized + ((i * 2) + 2)),*(pointsNormalized + ((i * 2) + 3)));
         
         //Vectores con player x/y
-        xemath::Vector2 vec1 = {*(pointsNormalized + (i * 2))-player.x,*(pointsNormalized + ((i * 2) + 1))-player.y};
-        xemath::Vector2 vec2 = {*(pointsNormalized + ((i * 2) + 2))-player.x,*(pointsNormalized + ((i * 2) + 3))-player.y};
+        xemath::Vector2 vec1 = {*(points + (i * 2))-player.x,*(points + ((i * 2) + 1))-player.y};
+        xemath::Vector2 vec2 = {*(points + ((i * 2) + 2))-player.x,*(points + ((i * 2) + 3))-player.y};
 
         //Vectores con player x/y + vectorDirector
-        xemath::Vector2 vec3 = {*(pointsNormalized + (i * 2))-(player.x + player.vecDirector.x),*(pointsNormalized + ((i * 2) + 1))-(player.y + player.vecDirector.y)};
-        xemath::Vector2 vec4 = {*(pointsNormalized + ((i * 2) + 2))-(player.x + player.vecDirector.x),*(pointsNormalized + ((i * 2) + 3))-(player.y + player.vecDirector.y)};
-        xemath::Vector2 vecMapa = {*(pointsNormalized + i * 2)-*(pointsNormalized + i * 2 + 2),*(pointsNormalized + i * 2 + 1)-*(pointsNormalized + i * 2 + 3)};
+        xemath::Vector2 vec3 = {*(points + (i * 2))-(player.x + player.vecDirector.x),*(points + ((i * 2) + 1))-(player.y + player.vecDirector.y)};
+        xemath::Vector2 vec4 = {*(points + ((i * 2) + 2))-(player.x + player.vecDirector.x),*(points + ((i * 2) + 3))-(player.y + player.vecDirector.y)};
+        xemath::Vector2 vecMapa = {*(points + i * 2)-*(points + i * 2 + 2),*(points + i * 2 + 1)-*(points + i * 2 + 3)};
         //El modulo del vector2 que une los dos puntos del mapa, habrá colision cuando la suma del modulo 
         //de los dos vectores que unen la nave sea < que el modulo de los vectores que unen el mapa 
         float modulo1 = xemath::Vec2Modulo(vec1);
@@ -56,14 +56,14 @@ void CheckMapColision(){
 
 }
 
-void CheckShootColision(){
-    for (int i = 0; i < 38; i++){
+void CheckShootColision(float *points, int size){
+    for (int i = 0; i < size; i++){
     
         for (int j = 0; j < 4; j++){
             if((player.disparos+j)->disparando){
-                xemath::Vector2 vec1 = {*(pointsNormalized + (i * 2))-(player.disparos+j)->x,*(pointsNormalized + ((i * 2) + 1))-(player.disparos+j)->y};
-                xemath::Vector2 vec2 = {*(pointsNormalized + ((i * 2) + 2))-(player.disparos+j)->x,*(pointsNormalized + ((i * 2) + 3))-(player.disparos+j)->y};
-                xemath::Vector2 vecMapa = {*(pointsNormalized + i * 2)-*(pointsNormalized + i * 2 + 2),*(pointsNormalized + i * 2 + 1)-*(pointsNormalized + i * 2 + 3)};
+                xemath::Vector2 vec1 = {*(points + (i * 2))-(player.disparos+j)->x,*(points + ((i * 2) + 1))-(player.disparos+j)->y};
+                xemath::Vector2 vec2 = {*(points + ((i * 2) + 2))-(player.disparos+j)->x,*(points + ((i * 2) + 3))-(player.disparos+j)->y};
+                xemath::Vector2 vecMapa = {*(points + i * 2)-*(points + i * 2 + 2),*(points + i * 2 + 1)-*(points + i * 2 + 3)};
                 float modulo1 = xemath::Vec2Modulo(vec1);
                 float modulo2 = xemath::Vec2Modulo(vec2);
                 float modulo3 = xemath::Vec2Modulo(vecMapa);
