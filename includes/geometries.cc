@@ -16,34 +16,56 @@ int scalateFramesCount = 0;
 
 // }
 
-void InitMap1(){
-    //Dividir la matriz por los elementos mas grandes para que los valores esten entre 0-1    
-    //843,718,1
+
+//Init ma1 points TODO Quitar y poner los valores a mano en el puntero
+void InitMap1Array(){
+  for(int i = 0; i<38;++i){
+      printf("X[%d] Y[%d]\n",(i*2),(i*2)+1);
+    *(pointsMap1pun + (i*2)) = pointsMap1[i][0];
+    *(pointsMap1pun + ((i*2) + 1)) = pointsMap1[i][1];
+  }
+}
+
+void InitMap4Array(){
+    for(int i = 0; i<102;++i){
+      printf("X[%d] Y[%d]\n",(i*2),(i*2)+1);
+    *(pointsMap4pun + (i*2)) = pointsMap4[i][0];
+    *(pointsMap4pun + ((i*2) + 1)) = pointsMap4[i][1];
+  }
+}
+
+
+void InitMap(float *mapa,int size, float Xmax, float Ymax){
 
     //Normalizado de la matriz 3x1
-    for(int i = 0; i <38; i++){
-        pointsMap1[i][0] = pointsMap1[i][0] / 843.0f;
-        pointsMap1[i][1] = pointsMap1[i][1] / 718.0f;
-        // *(pointsNormalized+(i*2)) =  pointsMap1[i][0] / 843.0f;
-        // *(pointsNormalized+(i*2 + 1)) = pointsMap1[i][1] / 718.0f;
-        *(pointsNormalized+(i*2)) =  pointsMap1[i][0];
-        *(pointsNormalized+(i*2 + 1)) = pointsMap1[i][1];
+    for(int i = 0; i <size; i++){
+        //Anterior
+
+        // pointsMap1[i][0] = pointsMap1[i][0] / 843.0f;
+        // pointsMap1[i][1] = pointsMap1[i][1] / 718.0f;
+        // *(pointsNormalized+(i*2)) =  pointsMap1[i][0];
+        // *(pointsNormalized+(i*2 + 1)) = pointsMap1[i][1];
+
+        *(mapa+(i*2)) /=Xmax; 
+        *(mapa+(i*2 + 1)) /=Ymax; 
+
+        *(pointsNormalized+(i*2)) =  *(mapa+(i*2));
+        *(pointsNormalized+(i*2 + 1)) = *(mapa+(i*2 + 1));
     };
     InitFuelMap1();
+    
 }
 
 
 
-void ScalateMap(float map[38][3],bool zoom = true){
-    for (int i = 0; i < 38; i++){
-            
-        zoom?map[i][0] = map[i][0] * valorScalate:map[i][0] = map[i][0] / valorScalate;;
-
-        *(pointsNormalized+(i*2)) = map[i][0] + 150;
-
+void ScalateMap(float *map,int size,bool zoom = true){
+    for (int i = 0; i <size; i++){
+        //Si hay zoom , multiplicamos el valor normalizado por el valor scalate para ir haciendolo más grande
+        //Si no hay zoom, dividimos
+        zoom?*(map +(i*2))*=valorScalate:*(map +(i*2))/= valorScalate;;
+        *(pointsNormalized+(i*2)) = *(map +(i*2)) + 150;
         zoom?*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1)) *valorScalate:*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1)) /valorScalate;
             
-        
     }
     
     
@@ -52,10 +74,10 @@ void ScalateMap(float map[38][3],bool zoom = true){
 void CheckInputsGeometries(){
 
     if(esat::IsSpecialKeyPressed(esat::kSpecialKey_Up)){
-        ScalateMap(pointsMap1);
+        ScalateMap(pointsMap1pun,38);
     }
     if(esat::IsSpecialKeyPressed(esat::kSpecialKey_Down)){
-        ScalateMap(pointsMap1,false);
+        ScalateMap(pointsMap1pun,38,false);
     }
 
     // printf("Raton X[%f], Y[%f]\n",esat::MousePositionX(),esat::MousePositionY());
@@ -116,7 +138,7 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
     nivel = {x - player.x, y-player.y};
     modulo = xemath::Vec2Modulo(nivel);
     if(modulo<margin){
-        //Tp to level 1
+        //Tp to level 
         scalating = true;
         player.nivel = level;
         player.vecDirector.x = 0.0f;
@@ -233,7 +255,7 @@ void GeometriesActions(){
            
 
             if(scalateFramesCount<=134){
-                ScalateMap(pointsMap1);
+                ScalateMap(pointsMap1pun,38);
                 ScalateFuel(pointsFuel1Map1,pointsFuel1Normalized);
                 ScalateFuel(pointsFuel2Map1,pointsFuel2Normalized);
                 ScalateFuel(pointsFuel3Map1,pointsFuel3Normalized);
@@ -269,4 +291,9 @@ void GeometriesActions(){
 }
 
 
-
+void InitMaps(){
+    InitMap1Array();
+	InitMap(pointsMap1pun,38.0f,843.0f,718.0f);
+    InitMap1Array();
+    InitMap(pointsMap4pun,51.0f,973.0f,763.0f);
+}

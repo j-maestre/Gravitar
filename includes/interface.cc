@@ -101,3 +101,18 @@ void InterfaceActions(){
     if(intro)Intro();
     if(!intro && interfaz)Interface();
 }
+
+void FreePointers(){
+    free(pointsNormalized);
+    free(points4Normalized);
+    free(pointsFuel1Normalized);
+    free(pointsFuel2Normalized);
+    free(pointsFuel3Normalized);
+    free(pointsFuel4Normalized);
+    free(Fuel1);
+    free(Fuel2);
+    free(Fuel3);
+    free(Fuel4);
+    free(pointsMap1pun);
+    free(pointsMap4pun);
+}
