@@ -19,6 +19,7 @@ const float ANGLE_ROTATION = 3;
 bool intro = true, interfaz = true;
 int credits = 0;
 bool scalating = false;
+bool scrollHorizontal = false;
 
 //Para escalar los puntos, cogemos los puntos de un mapa cualquiera, los normalizamos para pasarlos entre 0-1 y luego lo multiplicamos 
 //Por el ancho y alto de nuestra pantalla para escalar cualquier mapa a nuestra pantalla
@@ -49,7 +50,7 @@ struct TPlayer{
   xemath::Vector2 velocity = {0.0f,0.0f}; //este depende de la direccion de la nave, cuando pulso w la aceleracion = aceleracion anterior + la nueva
   float velocidad = 0.1f;
   float angle;
-  int nivel = 4;
+  int nivel = 1;
   int vidas = 5;
   int fuel = 10000;
   int score = 0;
@@ -136,12 +137,21 @@ float *pointsFuel1Normalized = (float*) malloc(sizeof(float)*8);
 float *pointsFuel2Normalized = (float*) malloc(sizeof(float)*8);
 float *pointsFuel3Normalized = (float*) malloc(sizeof(float)*8);
 float *pointsFuel4Normalized = (float*) malloc(sizeof(float)*8);
+float *pointsFuel1Normalized = (float*) malloc(sizeof(float)*8);
+float *pointsFuel2Normalized = (float*) malloc(sizeof(float)*8);
+float *pointsFuel3Normalized = (float*) malloc(sizeof(float)*8);
+float *pointsFuel4Normalized = (float*) malloc(sizeof(float)*8);
 
 TFuel *Fuel1 = (TFuel*) malloc(sizeof(TFuel)*8);
 TFuel *Fuel2 = (TFuel*) malloc(sizeof(TFuel)*8);
 TFuel *Fuel3 = (TFuel*) malloc(sizeof(TFuel)*8);
 TFuel *Fuel4 = (TFuel*) malloc(sizeof(TFuel)*8);
+TFuel *Fuel1Original = (TFuel*) malloc(sizeof(TFuel)*8);
+TFuel *Fuel2Original = (TFuel*) malloc(sizeof(TFuel)*8);
+TFuel *Fuel3Original = (TFuel*) malloc(sizeof(TFuel)*8);
+TFuel *Fuel4Original = (TFuel*) malloc(sizeof(TFuel)*8);
 
+float *pointsMap1Original = (float*) malloc(sizeof(float)*76);
 float *pointsMap1pun = (float*) malloc(sizeof(float)*76);
 float pointsMap1[38][3] = {
         {74,374,1},
@@ -214,6 +224,7 @@ float pointsFuel4Map1[4][3] = {
 };
 
 //Map 4 with X scroll
+float *pointsMap4Original = (float*) malloc(sizeof(float)*102);
 float *pointsMap4pun = (float*) malloc(sizeof(float)*102);
 float *points4Normalized = (float*) malloc(sizeof(float)*102);
 float pointsMap4[51][3] = {

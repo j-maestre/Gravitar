@@ -33,19 +33,29 @@ void InitFuelMap1(){
 
 
         //Fuel struct to check colision TODO cambiar a algo mas limpio
+        //TODO TE HAS QUEDADO AQUI
+        //Cambiar la struct de tfuel que es *8, tiene que ser de uno, y dentro de cada uno un puntero *8 para los puntos
 
         //Fuel1
         (Fuel1+(i*2))->x =  pointsFuel1Map1[i][0];
         (Fuel1+(i*2 + 1))->y = pointsFuel1Map1[i][1];
+        (Fuel1Original+(i*2))->x =  pointsFuel1Map1[i][0];
+        (Fuel1Original+(i*2 + 1))->y = pointsFuel1Map1[i][1];
         //Fuel2
         (Fuel2+(i*2))->x =  pointsFuel2Map1[i][0];
         (Fuel2+(i*2 + 1))->y = pointsFuel2Map1[i][1];
+        (Fuel2Original+(i*2))->x =  pointsFuel2Map1[i][0];
+        (Fuel2Original+(i*2 + 1))->y = pointsFuel2Map1[i][1];
         //Fuel3
         (Fuel3+(i*2))->x =  pointsFuel3Map1[i][0];
         (Fuel3+(i*2 + 1))->y = pointsFuel3Map1[i][1];
+        (Fuel3Original+(i*2))->x =  pointsFuel3Map1[i][0];
+        (Fuel3Original+(i*2 + 1))->y = pointsFuel3Map1[i][1];
         //Fuel4
         (Fuel4+(i*2))->x =  pointsFuel4Map1[i][0];
         (Fuel4+(i*2 + 1))->y = pointsFuel4Map1[i][1];
+        (Fuel4Original+(i*2))->x =  pointsFuel4Map1[i][0];
+        (Fuel4Original+(i*2 + 1))->y = pointsFuel4Map1[i][1];
 
     };
 

@@ -3,6 +3,7 @@ int animationSelector = 0;
 int animatorSelectorMedio = 0;
 int scalateFramesCount = 0;
 int scalateHorizontalFramesCount = 0;
+float *scalateXaux = (float*) malloc(sizeof(float));
 
 
 
@@ -36,7 +37,7 @@ void InitMap4Array(){
 }
 
 
-void InitMap(float *mapa, float *points, int size, float Xmax, float Ymax){
+void InitMap(float *mapa, float *points,float *original, int size, float Xmax, float Ymax){
 
     //Normalizado de la matriz 3x1
     for(int i = 0; i <size; i++){
@@ -50,21 +51,34 @@ void InitMap(float *mapa, float *points, int size, float Xmax, float Ymax){
         *(mapa+(i*2)) = *(mapa+(i*2)) / Xmax; 
         *(mapa+(i*2 + 1))= *(mapa+(i*2 + 1)) / Ymax; 
 
-        *(points+(i*2)) =  *(mapa+(i*2));
-        *(points+(i*2 + 1)) = *(mapa+(i*2 + 1));
+        *(points+(i*2)) =  *(mapa+(i*2)) / Xmax;
+        *(points+(i*2 + 1)) = *(mapa+(i*2 + 1)) / Ymax;
+
+        //Guardamos los valores originales para futuro resets
+
+        *(original+(i*2)) = *(mapa+(i*2));
+        *(original+(i*2 +1)) = *(mapa+(i*2 +1));
     };
+    printf("Mapa normalizado X[%f] Y[%f]\n",*points,*(points+1));
     InitFuelMap1();
     
 }
 
 void ScalateMap(float *map,float *pointsNormalized, int size,bool zoom = true){
-    printf("Scalating X[%f] Y[%f]\n",*pointsNormalized,*(pointsNormalized+1));
+    // printf("Scalating X[%f] Y[%f]\n",*pointsNormalized,*(pointsNormalized+1));
     for (int i = 0; i <size; i++){
         //Si hay zoom , multiplicamos el valor normalizado por el valor scalate para ir haciendolo más grande
         //Si no hay zoom, dividimos
+        //TE HAS QUEDADO AQUI
+        //Hay que dejar map como está, que son los puntos normalizados, y lo que tenemos que ampliar es pointsNormalized
         zoom?*(map +(i*2))*=valorScalate:*(map +(i*2))/= valorScalate;
+        zoom?*(map +(i*2 +1))*=valorScalate:*(map +(i*2))/= valorScalate;
         *(pointsNormalized+(i*2)) = *(map +(i*2)) + 150;
-        zoom?*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1)) * valorScalate:*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1))/valorScalate;
+        *(pointsNormalized+(i*2 + 1)) = *(map +(i*2 +1));
+
+        //zoom?*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1)) * valorScalate:*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1))/valorScalate;
+
+        // zoom?*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1)) * valorScalate:*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1))/valorScalate;
             
     }
 }
@@ -79,6 +93,12 @@ void ScalateHorizontalMap(float *map,float *pointsNormalized, int size){
         *(pointsNormalized+(i*2)) = *(map +(i*2)) + 150;
         //zoom?*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1)) * valorScalate:*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1))/valorScalate;
             
+    }
+}
+
+void ScrollMap(float *points,int size,float scrollSize){
+    for (int i = 0; i < size; i++){
+        *(points + (i*2)) += -scrollSize;
     }
 }
 
@@ -160,14 +180,53 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
         player.x = CENTROX;
         player.y = CENTROY;
         scalateFramesCount = 0;
+
+        //Set original points
+        float *original = nullptr;
+        float *nuevo = nullptr;
+        int lenght = 0;
+
+        TFuel
+        switch (level){
+        case 1:
+            lenght = 76;    
+            original = pointsMap1Original;
+            nuevo = pointsMap1pun;
+            // pointsMap1pun = pointsMap1Original;
+        break;
+        case 4:
+            lenght = 102;
+            original = pointsMap1Original;
+            nuevo = pointsMap1pun;
+            // pointsMap4pun = pointsMap4Original;
+            break;
+        default:
+            break;
+        }
+
+        printf("RESET MAP!\n");
+
+        for (int i = 0; i < lenght; i++){
+            *(nuevo+(i*2)) = *(original+(i*2));
+            *(nuevo+(i*2 +1)) = *(original+(i*2 +1));
+        }
+        
     }
 }
 
 void CheckScrollX(float *points, int size){
-
     //Check si ha llegado al borde desplazable
-    if(player.x>=ANCHO - 100){
+    Createcircle(*points, *(points+1),3,Blanco);
+    if( (player.x>=ANCHO-100 && player.aceleration.x > 0) || (player.x<=100 && player.aceleration.x <0)){
+        if( (player.aceleration.x > 0 && *(points+(size-2))>=ANCHO) || (player.aceleration.x < 0 && *points<0) ){
+            scrollHorizontal = true;
+            ScrollMap(points, size,player.aceleration.x);
+        }else{
+             scrollHorizontal = false;
+        }
 
+    }else{
+        scrollHorizontal = false;
     }
 }
 
@@ -273,7 +332,7 @@ void GeometriesActions(){
             CheckInputsGeometries();
            
 
-            if(scalateFramesCount<=134){
+            if(scalateFramesCount<=133){
                 ScalateMap(pointsMap1pun,pointsNormalized,38);
                 ScalateFuel(pointsFuel1Map1,pointsFuel1Normalized);
                 ScalateFuel(pointsFuel2Map1,pointsFuel2Normalized);
@@ -311,8 +370,10 @@ void GeometriesActions(){
             esat::DrawPath(points4Normalized,51);
             CheckMapColision(points4Normalized,51);
             CheckShootColision(points4Normalized,51);
+            CheckScrollX(points4Normalized,102);
 
-            CheckScrollX(points4Normalized,51);
+            //Make gravity
+            // player.aceleration.y -= 5;
 
         break;
 
@@ -325,7 +386,7 @@ void GeometriesActions(){
 
 void InitMaps(){
     InitMap1Array();
-	InitMap(pointsMap1pun,pointsNormalized,38.0f,843.0f,718.0f);
+	InitMap(pointsMap1pun,pointsNormalized,pointsMap1Original,38.0f,843.0f,718.0f);
     InitMap4Array();
-    InitMap(pointsMap4pun,points4Normalized,51.0f,973.0f,763.0f);
+    InitMap(pointsMap4pun,points4Normalized,pointsMap4Original,51.0f,973.0f,763.0f);
 }

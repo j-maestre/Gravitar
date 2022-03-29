@@ -111,7 +111,7 @@ void MovePlayer(){
     player.aceleration.y = - (player.aceleration.y * 0.8f);
   }
 
-  player.x = player.x + player.aceleration.x;
+  if(!scrollHorizontal)player.x = player.x + player.aceleration.x;
   player.y = player.y + player.aceleration.y;
 
   if(esat::IsKeyPressed('A')){
