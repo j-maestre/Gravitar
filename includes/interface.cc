@@ -55,7 +55,6 @@ void Intro(){
     esat::DrawText(410,220,"INSERT COIN");
     esat::DrawText(400,240,"1 COIN 1 PLAY");
     if(esat::IsSpecialKeyDown(esat::kSpecialKey_Space)){
-        printf("ADIOS INTRO");
         intro = false;
     }
 }
@@ -115,4 +114,5 @@ void FreePointers(){
     free(Fuel4);
     free(pointsMap1pun);
     free(pointsMap4pun);
+    // free(Fuel1New);
 }

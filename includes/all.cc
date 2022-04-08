@@ -15,6 +15,7 @@ const int ANCHO = 1024, ALTO = 768, CENTROX = 512, CENTROY = 384 ;
 const double dPI = 3.1415926535897;
 unsigned char fps=60;
 double current_time,last_time;
+const bool debug = true;
 const float ANGLE_ROTATION = 3;
 bool intro = true, interfaz = true;
 int credits = 0;
@@ -50,10 +51,11 @@ struct TPlayer{
   xemath::Vector2 velocity = {0.0f,0.0f}; //este depende de la direccion de la nave, cuando pulso w la aceleracion = aceleracion anterior + la nueva
   float velocidad = 0.1f;
   float angle;
-  int nivel = 1;
+  int nivel = 0;
   int vidas = 5;
   int fuel = 10000;
   int score = 0;
+  float gravityForce = 0.01f;
 };
 
 struct TEnemy{
@@ -64,6 +66,11 @@ struct TEnemy{
 
 struct TFuel{
   float x,y;
+  bool obtained = false;
+};
+
+struct TFuelNew{
+  float *points;
   bool obtained = false;
 };
 
@@ -137,19 +144,12 @@ float *pointsFuel1Normalized = (float*) malloc(sizeof(float)*8);
 float *pointsFuel2Normalized = (float*) malloc(sizeof(float)*8);
 float *pointsFuel3Normalized = (float*) malloc(sizeof(float)*8);
 float *pointsFuel4Normalized = (float*) malloc(sizeof(float)*8);
-float *pointsFuel1Normalized = (float*) malloc(sizeof(float)*8);
-float *pointsFuel2Normalized = (float*) malloc(sizeof(float)*8);
-float *pointsFuel3Normalized = (float*) malloc(sizeof(float)*8);
-float *pointsFuel4Normalized = (float*) malloc(sizeof(float)*8);
 
-TFuel *Fuel1 = (TFuel*) malloc(sizeof(TFuel)*8);
-TFuel *Fuel2 = (TFuel*) malloc(sizeof(TFuel)*8);
-TFuel *Fuel3 = (TFuel*) malloc(sizeof(TFuel)*8);
-TFuel *Fuel4 = (TFuel*) malloc(sizeof(TFuel)*8);
-TFuel *Fuel1Original = (TFuel*) malloc(sizeof(TFuel)*8);
-TFuel *Fuel2Original = (TFuel*) malloc(sizeof(TFuel)*8);
-TFuel *Fuel3Original = (TFuel*) malloc(sizeof(TFuel)*8);
-TFuel *Fuel4Original = (TFuel*) malloc(sizeof(TFuel)*8);
+
+TFuelNew *Fuel1 = (TFuelNew*) malloc(sizeof(TFuelNew));
+TFuelNew *Fuel2 = (TFuelNew*) malloc(sizeof(TFuelNew));
+TFuelNew *Fuel3 = (TFuelNew*) malloc(sizeof(TFuelNew));
+TFuelNew *Fuel4 = (TFuelNew*) malloc(sizeof(TFuelNew));
 
 float *pointsMap1Original = (float*) malloc(sizeof(float)*76);
 float *pointsMap1pun = (float*) malloc(sizeof(float)*76);
@@ -193,9 +193,6 @@ float pointsMap1[38][3] = {
         {620,30,1},
         {843,368,1},
     };
-
-
-
 
 float valorScalate = 1.05f;
 float pointsFuel1Map1[4][3] = {
@@ -285,5 +282,6 @@ float pointsMap4[51][3] = {
 #include "player.cc"
 #include "colisiones.cc"
 #include "fuel.cc"
+#include "gravity.cc"
 #include "geometries.cc"
 #include "interface.cc"

@@ -5,20 +5,6 @@ int scalateFramesCount = 0;
 int scalateHorizontalFramesCount = 0;
 float *scalateXaux = (float*) malloc(sizeof(float));
 
-
-
-// TMap *map1 = (TMap*) malloc(sizeof(TMap)*10);
-// void InitMaps(){
-//     map1->x = 213.0f;
-//     map1->y = 42.0f;
-//     (map1+1)->x = 361.0f;
-//     (map1+1)->y = 209.0f;
-//     (map1+2)->x = 68.0f;
-//     (map1+2)->y = 538.0f;
-
-// }
-
-
 //Init ma1 points TODO Quitar y poner los valores a mano en el puntero
 void InitMap1Array(){
   for(int i = 0; i<38;++i){
@@ -35,7 +21,6 @@ void InitMap4Array(){
     *(pointsMap4pun + ((i*2) + 1)) = pointsMap4[i][1];
   }
 }
-
 
 void InitMap(float *mapa, float *points,float *original, int size, float Xmax, float Ymax){
 
@@ -60,8 +45,15 @@ void InitMap(float *mapa, float *points,float *original, int size, float Xmax, f
         *(original+(i*2 +1)) = *(mapa+(i*2 +1));
     };
     printf("Mapa normalizado X[%f] Y[%f]\n",*points,*(points+1));
-    InitFuelMap1();
+    // InitFuelMap1();
     
+}
+
+void InitMaps(){
+    InitMap1Array();
+	InitMap(pointsMap1pun,pointsNormalized,pointsMap1Original,38.0f,843.0f,718.0f);
+    InitMap4Array();
+    InitMap(pointsMap4pun,points4Normalized,pointsMap4Original,51.0f,973.0f,763.0f);
 }
 
 void ScalateMap(float *map,float *pointsNormalized, int size,bool zoom = true){
@@ -125,25 +117,28 @@ void CheckInputsGeometries(){
     if(esat::IsSpecialKeyDown(esat::kSpecialKey_Backspace)){
         player.nivel = 0;
         scalating = false;
+        InitMap1Array();
+        InitMaps();
+	    // InitMap(pointsMap1pun,pointsNormalized,pointsMap1Original,38.0f,843.0f,718.0f);
+        // ResetFuelPoints(pointsFuel1Map1,pointsFuel1Normalized);
     }
 }
 
-
-void CheckFuelObtain(float *points, TFuel *Fuel){
+void CheckFuelObtain(float *points, TFuelNew *Fuel){
+    printf("Obtained: %d\n",Fuel->obtained);
     if(*points > player.x-15 && *points< player.x+15 && *(points+1)<player.y+40 && *(points+7)<player.y+40 && *(points+3) > player.y ){
             if(!Fuel->obtained){
                 player.fuel += 3000;
                 printf("COLISION FUEL\n");
-                Fuel->obtained = true;
+                (Fuel->obtained) = true;
             }
         }
 }
+
 void CheckShield(){
     if(esat::IsKeyPressed('S')){
         //Activate fuel
         player.fuel--;
-        // xemath::Vector2 aux ={(player.x + player.vecDirector.x)- player.x,(player.y + player.vecDirector.y)- player.y};
-        // xemath::Vector2 shield1 = {player.x,player.y,player.x-10,player};
         esat::DrawSetStrokeColor(Verde.r,Verde.g,Verde.b);
         esat::DrawLine(player.x,player.y,player.x-15,player.y+40);
         esat::DrawLine(player.x,player.y,player.x+15,player.y+40);
@@ -186,12 +181,20 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
         float *nuevo = nullptr;
         int lenght = 0;
 
-        TFuel
         switch (level){
         case 1:
             lenght = 76;    
             original = pointsMap1Original;
             nuevo = pointsMap1pun;
+            Fuel1->points = (float*) malloc(sizeof(float)*8);
+            Fuel2->points = (float*) malloc(sizeof(float)*8);
+            Fuel3->points = (float*) malloc(sizeof(float)*8);
+            Fuel4->points = (float*) malloc(sizeof(float)*8);
+            InitFuelMap1(pointsFuel1Map1,pointsFuel1Normalized,Fuel1);
+            InitFuelMap1(pointsFuel2Map1,pointsFuel2Normalized,Fuel2);
+            printf("Fuel2 points X[%f] Y[%f]\n", *(Fuel2->points),*(Fuel2->points+1));
+            InitFuelMap1(pointsFuel3Map1,pointsFuel3Normalized,Fuel3);
+            InitFuelMap1(pointsFuel4Map1,pointsFuel4Normalized,Fuel4);
             // pointsMap1pun = pointsMap1Original;
         break;
         case 4:
@@ -334,24 +337,27 @@ void GeometriesActions(){
 
             if(scalateFramesCount<=133){
                 ScalateMap(pointsMap1pun,pointsNormalized,38);
-                ScalateFuel(pointsFuel1Map1,pointsFuel1Normalized);
-                ScalateFuel(pointsFuel2Map1,pointsFuel2Normalized);
-                ScalateFuel(pointsFuel3Map1,pointsFuel3Normalized);
-                ScalateFuel(pointsFuel4Map1,pointsFuel4Normalized);
+                ScalateFuelNew(Fuel1->points,pointsFuel1Normalized);
+                ScalateFuelNew(Fuel2->points,pointsFuel2Normalized);
+                ScalateFuelNew(Fuel3->points,pointsFuel3Normalized);
+                ScalateFuelNew(Fuel4->points,pointsFuel4Normalized);
                 scalateFramesCount++;
-                if(scalateFramesCount>=135)scalating = false;
+                if(scalateFramesCount>=133)scalating = false;
             }
 
             esat::DrawSetStrokeColor(Verde.r,Verde.g,Verde.b);
             esat::DrawPath(pointsNormalized,38);
             esat::DrawSetStrokeColor(0,0,255);
+            // printf("PointsFuel1Normalized X[%f] Y[%f]\n",*pointsFuel1Normalized,*(pointsFuel1Normalized+1));
             if(!(Fuel1->obtained))esat::DrawPath(pointsFuel1Normalized,4);
             if(!(Fuel2->obtained))esat::DrawPath(pointsFuel2Normalized,4);
             if(!(Fuel3->obtained))esat::DrawPath(pointsFuel3Normalized,4);
             if(!(Fuel4->obtained))esat::DrawPath(pointsFuel4Normalized,4);
             CheckShield();
-            CheckMapColision(pointsNormalized,38);
-            CheckShootColision(pointsNormalized,38);   
+            if(!debug)CheckMapColision(pointsNormalized,38);
+            CheckShootColision(pointsNormalized,38);
+
+            if(!scalating)AplyGravity((float) CENTROX,(float) CENTROY);
 
         break;
         case 4:
@@ -384,9 +390,4 @@ void GeometriesActions(){
 }
 
 
-void InitMaps(){
-    InitMap1Array();
-	InitMap(pointsMap1pun,pointsNormalized,pointsMap1Original,38.0f,843.0f,718.0f);
-    InitMap4Array();
-    InitMap(pointsMap4pun,points4Normalized,pointsMap4Original,51.0f,973.0f,763.0f);
-}
+
