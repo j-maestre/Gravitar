@@ -1,5 +1,3 @@
-// TODO: Te has quedado por aqui, hacer lo mismo que Fuel1 en Fuel2,3 y 4 y ya están los fuels
-// TODO: Pasar parametros a la funcion InitFuelMap1 para parametrizar los fuels
 
 void InitFuelMap1(float points[4][3], float *pointsNormalized, TFuelNew *fuel){
     for (int i = 0; i < 4; i++){

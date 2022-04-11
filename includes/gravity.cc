@@ -17,13 +17,12 @@ void AplyGravity(float X, float Y){
         distance.y*= player.gravityForce;
 
         //Incrementamos la fuerza
-        player.gravityForce+=0.01;
+        // player.gravityForce+=0.001;
         printf("Fuerza aplicada-> %f\n",player.gravityForce);
         //Sumamos la distancia al jugador
-        player.x += distance.x;
-        player.y += distance.y;
-    }else{
-        player.gravityForce = 0.0f;
+        player.aceleration.x += distance.x;
+        player.aceleration.y += distance.y;
+    
     }
 
 
