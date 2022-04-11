@@ -37,8 +37,8 @@ void CheckMapColision(float *points, int size){
         // esat::DrawLine((player.x + player.vecDirector.x),(player.y + player.vecDirector.y),*(pointsNormalized + (i * 2)), *(pointsNormalized + ((i * 2) + 1)) );
         // esat::DrawLine((player.x + player.vecDirector.x),(player.y + player.vecDirector.y),*(pointsNormalized + ((i * 2) + 2)), *(pointsNormalized + ((i * 2) + 3)) );
 
-        if(moduloSum < moduloMapa+0.1 || moduloSum2 < moduloMapa+0.1 && !scalating){
-            printf("NAVE\n");
+        if(moduloSum < moduloMapa+0.1 || moduloSum2 < moduloMapa+0.1 && !scalating && !debug){
+            printf("COLISION\n");
             player.vidas--;
             player.vecDirector.x = 0.0f;
             player.vecDirector.y = -15.0f;

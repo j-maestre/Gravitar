@@ -51,7 +51,7 @@ struct TPlayer{
   xemath::Vector2 velocity = {0.0f,0.0f}; //este depende de la direccion de la nave, cuando pulso w la aceleracion = aceleracion anterior + la nueva
   float velocidad = 0.1f;
   float angle;
-  int nivel = 0;
+  int nivel = 4;
   int vidas = 5;
   int fuel = 10000;
   int score = 0;
@@ -102,7 +102,7 @@ TColor Morado = {255,0,243};
 TColor MoradoOscuro = {192,0,255};
 TColor Rosa = {255,0,154};
 
-void Createcircle(float x, float y, float radio, TColor color,float excentricidadX = 1.0f,float excentricidadY = 1.0f, int points = 360, int extravagancia = -1, float peculiaridad = -1.0f){
+void Createcircle(float x, float y, float radio, TColor color = Rosa,float excentricidadX = 1.0f,float excentricidadY = 1.0f, int points = 360, int extravagancia = -1, float peculiaridad = -1.0f){
 
     //Iniciar circulo
     float *circulo = (float*) malloc(sizeof(float)*(points * 2));
@@ -225,59 +225,98 @@ float *pointsMap4Original = (float*) malloc(sizeof(float)*102);
 float *pointsMap4pun = (float*) malloc(sizeof(float)*102);
 float *points4Normalized = (float*) malloc(sizeof(float)*102);
 float pointsMap4[51][3] = {
-  {70,763,1},
-  {127,731,1},
-  {155,731,1},
-  {168,698,1},
-  {184,746,1},
-  {190,738,1},
-  {211,738,1},
-  {225,714,1},
-  {254,755,1},
-  {281,755,1},
-  {297,738,1},
-  {310,690,1},
-  {323,737,1},
-  {352,762,1},
-  {359,731,1},
-  {373,731,1},
-  {409,762,1},
-  {415,731,1},
-  {430,731,1},
-  {437,763,1},
-  {435,730,1},
-  {479,754,1},
-  {500,754,1},
-  {521,715,1},
-  {550,715,1},
-  {564,691,1},
-  {578,714,1},
-  {592,691,1},
-  {606,714,1},
-  {627,714,1},
-  {635,746,1},
-  {648,746,1},
-  {663,731,1},
-  {677,699,1},
-  {704,755,1},
-  {719,755,1},
-  {733,723,1},
-  {747,755,1},
-  {761,746,1},
-  {776,746,1},
-  {789,700,1},
-  {804,746,1},
-  {817,731,1},
-  {833,731,1},
-  {860,747,1},
-  {881,731,1},
-  {917,731,1},
-  {930,692,1},
-  {945,731,1},
-  {958,731,1},
-  {973,762,1},
+  {70,863,1},
+  {127,831,1},
+  {155,831,1},
+  {168,798,1},
+  {184,846,1},
+  {190,838,1},
+  {211,838,1},
+  {225,814,1},
+  {254,855,1},
+  {281,855,1},
+  {297,838,1},
+  {310,790,1},
+  {323,837,1},
+  {352,862,1},
+  {359,831,1},
+  {373,831,1},
+  {409,862,1},
+  {415,831,1},
+  {430,831,1},
+  {437,863,1},
+  {435,830,1},
+  {479,854,1},
+  {500,854,1},
+  {521,815,1},
+  {550,815,1},
+  {564,791,1},
+  {578,814,1},
+  {592,791,1},
+  {606,814,1},
+  {627,814,1},
+  {635,846,1},
+  {648,846,1},
+  {663,831,1},
+  {677,799,1},
+  {704,855,1},
+  {719,855,1},
+  {733,823,1},
+  {747,855,1},
+  {761,846,1},
+  {776,846,1},
+  {789,800,1},
+  {804,846,1},
+  {817,831,1},
+  {833,831,1},
+  {860,847,1},
+  {881,831,1},
+  {917,831,1},
+  {930,792,1},
+  {945,831,1},
+  {958,831,1},
+  {973,862,1},
 };
 
+float *points2Map4Original = (float*) malloc(sizeof(float)*13);
+float *points2Map4pun = (float*) malloc(sizeof(float)*13);
+float *points24Normalized = (float*) malloc(sizeof(float)*13);
+
+float *points3Map4Original = (float*) malloc(sizeof(float)*11);
+float *points3Map4pun = (float*) malloc(sizeof(float)*11);
+float *points34Normalized = (float*) malloc(sizeof(float)*11);
+
+
+float points2Map4[13][3] ={
+   {11,311,1},
+   {29,311,1},
+   {42,330,1},
+   {56,311,1},
+   {64,311,1},
+   {99,326,1},
+   {112,311,1},
+   {146,311,1},
+   {131,296,1},
+   {80,296,1},
+   {63,296,1},
+   {30,296,1},
+   {11,296,1},
+   
+};
+
+float points3Map4[11][3]{
+  {352,331,1},
+  {366,371,1},
+  {380,331,1},
+  {409,331,1},
+  {422,363,1},
+  {437,331,1},
+  {465,331,1},
+  {451,316,1},
+  {410,316,1},
+  {367,316,1},
+  {352,331,1},
+};
 
 #include "player.cc"
 #include "colisiones.cc"

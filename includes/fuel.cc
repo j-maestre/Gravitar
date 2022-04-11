@@ -29,7 +29,7 @@ void ScalateFuelNew(float *pointsStruct, float *points){
 }
 
 void ScalateFuel(float fuel[4][3], float *pointsNormalized){
-    printf("---Escalando---\n");
+    // printf("---Escalando---\n");
     for (int i = 0; i < 4; i++){
         fuel[i][0] = fuel[i][0] * valorScalate;
         *(pointsNormalized+(i*2)) = fuel[i][0] + 150;

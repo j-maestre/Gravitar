@@ -20,9 +20,19 @@ void InitMap4Array(){
     *(pointsMap4pun + (i*2)) = pointsMap4[i][0];
     *(pointsMap4pun + ((i*2) + 1)) = pointsMap4[i][1];
   }
+
+  for (int i = 0; i < 13; i++){
+      *(points2Map4pun + (i*2)) = points2Map4[i][0]; 
+      *(points2Map4pun + (i*2+1)) = points2Map4[i][1]; 
+  }
+  for (int i = 0; i < 11; i++){
+      *(points3Map4pun + (i*2)) = points3Map4[i][0]; 
+      *(points3Map4pun + (i*2+1)) = points3Map4[i][1]; 
+  }
+  
 }
 
-void InitMap(float *mapa, float *points,float *original, int size, float Xmax, float Ymax){
+void InitMap(float *mapa, float *points,float *original, int size, float Xmax, float Ymax, bool prueba = false){
 
     //Normalizado de la matriz 3x1
     for(int i = 0; i <size; i++){
@@ -32,12 +42,17 @@ void InitMap(float *mapa, float *points,float *original, int size, float Xmax, f
         // pointsMap1[i][1] = pointsMap1[i][1] / 718.0f;
         // *(pointsNormalized+(i*2)) =  pointsMap1[i][0];
         // *(pointsNormalized+(i*2 + 1)) = pointsMap1[i][1];
+        if(prueba){
+            *(mapa+(i*2 + 1))+=100;
+            *(points+(i*2 + 1))+=100;
+        }
 
         *(mapa+(i*2)) = *(mapa+(i*2)) / Xmax; 
-        *(mapa+(i*2 + 1))= *(mapa+(i*2 + 1)) / Ymax; 
+        *(mapa+(i*2 + 1))= *(mapa+(i*2 + 1)) / Ymax;
 
         *(points+(i*2)) =  *(mapa+(i*2)) / Xmax;
         *(points+(i*2 + 1)) = *(mapa+(i*2 + 1)) / Ymax;
+
 
         //Guardamos los valores originales para futuro resets
 
@@ -50,10 +65,15 @@ void InitMap(float *mapa, float *points,float *original, int size, float Xmax, f
 }
 
 void InitMaps(){
+    //Map1
     InitMap1Array();
 	InitMap(pointsMap1pun,pointsNormalized,pointsMap1Original,38.0f,843.0f,718.0f);
+
+    //Map4
     InitMap4Array();
-    InitMap(pointsMap4pun,points4Normalized,pointsMap4Original,51.0f,973.0f,763.0f);
+    InitMap(pointsMap4pun,points4Normalized,pointsMap4Original,51.0f,973.0f,863.0f,true);
+    InitMap(points2Map4pun,points24Normalized,points2Map4Original,13,259.0f,396.0f);
+    InitMap(points3Map4pun,points34Normalized,points3Map4Original,11,465.0f,551.0f);
 }
 
 void ScalateMap(float *map,float *pointsNormalized, int size,bool zoom = true){
@@ -75,13 +95,14 @@ void ScalateMap(float *map,float *pointsNormalized, int size,bool zoom = true){
     }
 }
 
-void ScalateHorizontalMap(float *map,float *pointsNormalized, int size){
-    printf("Scalating X[%f] Y[%f]\n",*pointsNormalized,*(pointsNormalized+1));
+void ScalateHorizontalMap(float *map,float *pointsNormalized, int size, bool smaller = false){
+    // printf("Scalating X[%f] Y[%f]\n",*pointsNormalized,*(pointsNormalized+1));
     for (int i = 0; i <size; i++){
         //Si hay zoom , multiplicamos el valor normalizado por el valor scalate para ir haciendolo más grande
         //Si no hay zoom, dividimos
-        *(map +(i*2))*=valorScalate;
+        if(!smaller)*(map +(i*2))*=valorScalate;
         *(map +(i*2)) -=20;
+        if(smaller)*(map +(i*2)) -=37;
         *(pointsNormalized+(i*2)) = *(map +(i*2)) + 150;
         //zoom?*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1)) * valorScalate:*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1))/valorScalate;
             
@@ -217,13 +238,14 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
     }
 }
 
-void CheckScrollX(float *points, int size){
+void CheckScrollX(float *points, int size, float *points2, int size2,float *points3, int size3){
     //Check si ha llegado al borde desplazable
-    Createcircle(*points, *(points+1),3,Blanco);
-    if( (player.x>=ANCHO-100 && player.aceleration.x > 0) || (player.x<=100 && player.aceleration.x <0)){
+    if((player.x>=ANCHO-100 && player.aceleration.x > 0) || (player.x<=100 && player.aceleration.x <0)){
         if( (player.aceleration.x > 0 && *(points+(size-2))>=ANCHO) || (player.aceleration.x < 0 && *points<0) ){
             scrollHorizontal = true;
             ScrollMap(points, size,player.aceleration.x);
+            ScrollMap(points2, size2,player.aceleration.x);
+            ScrollMap(points3, size3,player.aceleration.x);
         }else{
              scrollHorizontal = false;
         }
@@ -365,18 +387,38 @@ void GeometriesActions(){
             if(scalateFramesCount<=130){
                 //Zoom1 vertical & horizontal
                 ScalateMap(pointsMap4pun,points4Normalized,51);
+                ScalateMap(points2Map4pun,points24Normalized,13);
+                ScalateMap(points3Map4pun,points34Normalized,11);
                 scalateFramesCount++;
             }else if(scalateHorizontalFramesCount<=20){
                 //Zoom2 solo horizontal
                 ScalateHorizontalMap(pointsMap4pun,points4Normalized,51);
+                if(scalateHorizontalFramesCount<=10)ScalateHorizontalMap(points2Map4pun,points24Normalized,13,true);
+                if(scalateHorizontalFramesCount<=10)ScalateHorizontalMap(points3Map4pun,points34Normalized,11,true);
                 scalateHorizontalFramesCount++;
                 if(scalateHorizontalFramesCount>=3)scalating = false;
             }
+
+            //Draw Map
             esat::DrawSetStrokeColor(Verde.r,Verde.g,Verde.b);
             esat::DrawPath(points4Normalized,51);
+            esat::DrawPath(points24Normalized,13);
+            esat::DrawPath(points34Normalized,11);
+            Createcircle(*points34Normalized,*(points34Normalized+1),5);
+
+            //Player map colision
             CheckMapColision(points4Normalized,51);
+            CheckMapColision(points24Normalized,13);
+            CheckMapColision(points34Normalized,11);
+
+            //Shot map colision
             CheckShootColision(points4Normalized,51);
-            CheckScrollX(points4Normalized,102);
+            CheckShootColision(points24Normalized,13);
+            CheckShootColision(points34Normalized,11);
+
+            // CheckScrollX(points24Normalized,13);
+            CheckScrollX(points4Normalized,102,points24Normalized,13,points34Normalized,11);
+            if(!scalating)AplyGravity((float) player.x,(float) ALTO);
 
             //Make gravity
             // player.aceleration.y -= 5;
