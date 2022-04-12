@@ -48,7 +48,7 @@ struct TPlayer{
   float x = 500.0f;
   float y = 400.0f;
   xemath::Vector2 aceleration = {0.0f,0.0f};
-  xemath::Vector2 velocity = {0.0f,0.0f}; //este depende de la direccion de la nave, cuando pulso w la aceleracion = aceleracion anterior + la nueva
+  xemath::Vector2 velocity = {0.0f,0.0f}; //NO SE USAeste depende de la direccion de la nave, cuando pulso w la aceleracion = aceleracion anterior + la nueva
   float velocidad = 0.1f;
   float angle;
   int nivel = 4;
@@ -286,6 +286,10 @@ float *points3Map4Original = (float*) malloc(sizeof(float)*11);
 float *points3Map4pun = (float*) malloc(sizeof(float)*11);
 float *points34Normalized = (float*) malloc(sizeof(float)*11);
 
+float *points4Map4Original = (float*) malloc(sizeof(float)*23);
+float *points4Map4pun = (float*) malloc(sizeof(float)*23);
+float *points44Normalized = (float*) malloc(sizeof(float)*23);
+
 
 float points2Map4[13][3] ={
    {11,311,1},
@@ -305,18 +309,55 @@ float points2Map4[13][3] ={
 };
 
 float points3Map4[11][3]{
-  {352,331,1},
-  {366,371,1},
-  {380,331,1},
-  {409,331,1},
-  {422,363,1},
-  {437,331,1},
-  {465,331,1},
-  {451,316,1},
-  {410,316,1},
-  {367,316,1},
-  {352,331,1},
+  {352,431,1},
+  {366,471,1},
+  {380,431,1},
+  {409,431,1},
+  {422,463,1},
+  {437,431,1},
+  {465,431,1},
+  {451,416,1},
+  {410,416,1},
+  {367,416,1},
+  {352,431,1},
 };
+
+float points4Map4[23][3]{
+  {622,431,1},
+  {649,431,1},
+  {664,471,1},
+  {678,431,1},
+  {706,431,1},
+  {720,456,1},
+  {735,431,1},
+  {790,431,1},
+  {853,431,1},
+  {896,431,1},
+  {933,431,1},
+  {946,462,1},
+  {960,431,1},
+  {946,416,1},
+  {905,416,1},
+  {849,416,1},
+  {800,416,1},
+  {770,416,1},
+  {730,416,1},
+  {700,416,1},
+  {670,416,1},
+  {635,416,1},
+  {622,411,1},
+
+};
+
+
+void DebugPointer(float *ptr, int sizePtr){
+  for (int i = 0; i < sizePtr; i++){
+    printf("Valor [%f] Memoria [%p]\n",*(ptr+i),(ptr+i));
+  }
+  printf("----------------\n");
+  
+}
+
 
 #include "player.cc"
 #include "colisiones.cc"

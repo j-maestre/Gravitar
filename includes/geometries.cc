@@ -5,10 +5,10 @@ int scalateFramesCount = 0;
 int scalateHorizontalFramesCount = 0;
 float *scalateXaux = (float*) malloc(sizeof(float));
 
-//Init ma1 points TODO Quitar y poner los valores a mano en el puntero
+//TODO Init ma1 points Quitar y poner los valores a mano en el puntero
 void InitMap1Array(){
   for(int i = 0; i<38;++i){
-      printf("X[%d] Y[%d]\n",(i*2),(i*2)+1);
+    //   printf("X[%d] Y[%d]\n",(i*2),(i*2)+1);
     *(pointsMap1pun + (i*2)) = pointsMap1[i][0];
     *(pointsMap1pun + ((i*2) + 1)) = pointsMap1[i][1];
   }
@@ -16,7 +16,7 @@ void InitMap1Array(){
 
 void InitMap4Array(){
     for(int i = 0; i<102;++i){
-      printf("X[%d] Y[%d]\n",(i*2),(i*2)+1);
+    //   printf("X[%d] Y[%d]\n",(i*2),(i*2)+1);
     *(pointsMap4pun + (i*2)) = pointsMap4[i][0];
     *(pointsMap4pun + ((i*2) + 1)) = pointsMap4[i][1];
   }
@@ -28,6 +28,10 @@ void InitMap4Array(){
   for (int i = 0; i < 11; i++){
       *(points3Map4pun + (i*2)) = points3Map4[i][0]; 
       *(points3Map4pun + (i*2+1)) = points3Map4[i][1]; 
+  }
+  for (int i = 0; i < 23; i++){
+    *(points4Map4pun + (i*2)) = points4Map4[i][0]; 
+    *(points4Map4pun + (i*2+1)) = points4Map4[i][1]; 
   }
   
 }
@@ -74,6 +78,11 @@ void InitMaps(){
     InitMap(pointsMap4pun,points4Normalized,pointsMap4Original,51.0f,973.0f,863.0f,true);
     InitMap(points2Map4pun,points24Normalized,points2Map4Original,13,259.0f,396.0f);
     InitMap(points3Map4pun,points34Normalized,points3Map4Original,11,465.0f,551.0f);
+    InitMap(points4Map4pun,points44Normalized,points4Map4Original,23,860.0f,451.0f);
+    
+    DebugPointer(points2Map4Original,13);
+    DebugPointer(points2Map4pun,13);
+    DebugPointer(points2Map4pun,13);
 }
 
 void ScalateMap(float *map,float *pointsNormalized, int size,bool zoom = true){
@@ -196,6 +205,7 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
         player.x = CENTROX;
         player.y = CENTROY;
         scalateFramesCount = 0;
+        scalateHorizontalFramesCount = 0;
 
         //Set original points
         float *original = nullptr;
@@ -238,7 +248,9 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
     }
 }
 
-void CheckScrollX(float *points, int size, float *points2, int size2,float *points3, int size3){
+
+
+void CheckScrollX(float *points, int size, float *points2, int size2,float *points3, int size3,float *points4, int size4){
     //Check si ha llegado al borde desplazable
     if((player.x>=ANCHO-100 && player.aceleration.x > 0) || (player.x<=100 && player.aceleration.x <0)){
         if( (player.aceleration.x > 0 && *(points+(size-2))>=ANCHO) || (player.aceleration.x < 0 && *points<0) ){
@@ -246,6 +258,8 @@ void CheckScrollX(float *points, int size, float *points2, int size2,float *poin
             ScrollMap(points, size,player.aceleration.x);
             ScrollMap(points2, size2,player.aceleration.x);
             ScrollMap(points3, size3,player.aceleration.x);
+            ScrollMap(points4, size4,player.aceleration.x);
+            ApplyShotScroll();
         }else{
              scrollHorizontal = false;
         }
@@ -389,14 +403,18 @@ void GeometriesActions(){
                 ScalateMap(pointsMap4pun,points4Normalized,51);
                 ScalateMap(points2Map4pun,points24Normalized,13);
                 ScalateMap(points3Map4pun,points34Normalized,11);
+                ScalateMap(points4Map4pun,points44Normalized,23);
                 scalateFramesCount++;
             }else if(scalateHorizontalFramesCount<=20){
                 //Zoom2 solo horizontal
                 ScalateHorizontalMap(pointsMap4pun,points4Normalized,51);
                 if(scalateHorizontalFramesCount<=10)ScalateHorizontalMap(points2Map4pun,points24Normalized,13,true);
                 if(scalateHorizontalFramesCount<=10)ScalateHorizontalMap(points3Map4pun,points34Normalized,11,true);
+                if(scalateHorizontalFramesCount<=10)ScalateHorizontalMap(points4Map4pun,points44Normalized,23,true);
                 scalateHorizontalFramesCount++;
                 if(scalateHorizontalFramesCount>=3)scalating = false;
+            }else{
+                scalating = false;
             }
 
             //Draw Map
@@ -404,20 +422,23 @@ void GeometriesActions(){
             esat::DrawPath(points4Normalized,51);
             esat::DrawPath(points24Normalized,13);
             esat::DrawPath(points34Normalized,11);
-            Createcircle(*points34Normalized,*(points34Normalized+1),5);
+            esat::DrawPath(points44Normalized,23);
+            // Createcircle(*points44Normalized,*(points44Normalized+1),5);
 
             //Player map colision
             CheckMapColision(points4Normalized,51);
             CheckMapColision(points24Normalized,13);
             CheckMapColision(points34Normalized,11);
+            CheckMapColision(points44Normalized,23);
 
             //Shot map colision
             CheckShootColision(points4Normalized,51);
             CheckShootColision(points24Normalized,13);
             CheckShootColision(points34Normalized,11);
+            CheckShootColision(points44Normalized,23);
 
             // CheckScrollX(points24Normalized,13);
-            CheckScrollX(points4Normalized,102,points24Normalized,13,points34Normalized,11);
+            CheckScrollX(points4Normalized,102,points24Normalized,13,points34Normalized,11,points44Normalized,23);
             if(!scalating)AplyGravity((float) player.x,(float) ALTO);
 
             //Make gravity

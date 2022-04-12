@@ -165,7 +165,7 @@ void Disparo(){
       for (int i = 0; i < 4; i++){
 
         //Disparo libre encontrado
-        if(!(player.disparos + i)->disparando && !encontrado){ //Solo entrará aqui la primera vez
+        if(!(player.disparos + i)->disparando && !encontrado){
           encontrado = true;
           (player.disparos+i)->disparando = true;
           (player.disparos+i)->x = player.x;
@@ -203,6 +203,17 @@ void Disparo(){
 
     }
   }
+}
+
+void ApplyShotScroll(){
+  for (int i = 0; i < 4; i++){
+    if((player.disparos+i)->disparando){
+      (player.disparos+i)->x -= (player.aceleration.x);
+      // (player.disparos+i)->y -= (player.aceleration.y);
+    }
+  }
+  
+    
 }
 
 

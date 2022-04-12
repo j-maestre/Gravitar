@@ -1,5 +1,5 @@
 // int aux = 0;
-
+//TODO check colision disparo con el borde del mapa cuando he hecho scroll
 void CheckMapColision(float *points, int size){
     for (int i = 0; i < (size-2); i++){
 
@@ -36,18 +36,19 @@ void CheckMapColision(float *points, int size){
 
         // esat::DrawLine((player.x + player.vecDirector.x),(player.y + player.vecDirector.y),*(pointsNormalized + (i * 2)), *(pointsNormalized + ((i * 2) + 1)) );
         // esat::DrawLine((player.x + player.vecDirector.x),(player.y + player.vecDirector.y),*(pointsNormalized + ((i * 2) + 2)), *(pointsNormalized + ((i * 2) + 3)) );
-
-        if(moduloSum < moduloMapa+0.1 || moduloSum2 < moduloMapa+0.1 && !scalating && !debug){
-            printf("COLISION\n");
-            player.vidas--;
-            player.vecDirector.x = 0.0f;
-            player.vecDirector.y = -15.0f;
-            player.aceleration.x = 0.0f;
-            player.aceleration.y = 0.0f;
-            player.velocity.x = 0.0f;
-            player.velocity.y = 0.0f;
-            player.x = CENTROX;
-            player.y = CENTROY;
+        if(!debug){
+            if(moduloSum < moduloMapa+0.1 || moduloSum2 < moduloMapa+0.1 && !scalating){
+                printf("COLISION\n");
+                player.vidas--;
+                player.vecDirector.x = 0.0f;
+                player.vecDirector.y = -15.0f;
+                player.aceleration.x = 0.0f;
+                player.aceleration.y = 0.0f;
+                player.velocity.x = 0.0f;
+                player.velocity.y = 0.0f;
+                player.x = CENTROX;
+                player.y = CENTROY;
+            }
         }
 
 
@@ -70,6 +71,7 @@ void CheckShootColision(float *points, int size){
                 float moduloSum = modulo1 + modulo2;
 
                 if(moduloSum < modulo3 + 1){
+                    printf("colision mapa");
                     (player.disparos+j)->disparando = false;
                 }
             }//End if

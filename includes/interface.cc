@@ -120,5 +120,8 @@ void FreePointers(){
     free(points3Map4Original);
     free(points3Map4pun);
     free(points34Normalized);
+    free(points4Map4Original);
+    free(points4Map4pun);
+    free(points44Normalized);
     // free(Fuel1New);
 }
