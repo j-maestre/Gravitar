@@ -51,7 +51,7 @@ struct TPlayer{
   xemath::Vector2 velocity = {0.0f,0.0f}; //NO SE USAeste depende de la direccion de la nave, cuando pulso w la aceleracion = aceleracion anterior + la nueva
   float velocidad = 0.1f;
   float angle;
-  int nivel = 4;
+  int nivel = 0;
   int vidas = 5;
   int fuel = 10000;
   int score = 0;
@@ -75,8 +75,11 @@ struct TFuelNew{
 };
 
 struct TMap{
-  float x,y;
+  esat::Vec3 *map;
+  float escalar = 1.0f;
 };
+
+
 
 //fwd = cos(angel),sin(angle)
 //aceleration = fwd * 0.1f;
@@ -350,6 +353,8 @@ float points4Map4[23][3]{
 };
 
 
+
+
 void DebugPointer(float *ptr, int sizePtr){
   for (int i = 0; i < sizePtr; i++){
     printf("Valor [%f] Memoria [%p]\n",*(ptr+i),(ptr+i));
@@ -363,5 +368,6 @@ void DebugPointer(float *ptr, int sizePtr){
 #include "colisiones.cc"
 #include "fuel.cc"
 #include "gravity.cc"
+#include "map.cc"
 #include "geometries.cc"
 #include "interface.cc"

@@ -4,6 +4,7 @@ int animatorSelectorMedio = 0;
 int scalateFramesCount = 0;
 int scalateHorizontalFramesCount = 0;
 float *scalateXaux = (float*) malloc(sizeof(float));
+int scalateMatFramesCount = 0;
 
 //TODO Init ma1 points Quitar y poner los valores a mano en el puntero
 void InitMap1Array(){
@@ -228,6 +229,9 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
             InitFuelMap1(pointsFuel4Map1,pointsFuel4Normalized,Fuel4);
             // pointsMap1pun = pointsMap1Original;
         break;
+        case 2:
+            CreateMap2();
+        break;
         case 4:
             lenght = 102;
             original = pointsMap1Original;
@@ -395,6 +399,11 @@ void GeometriesActions(){
 
             if(!scalating)AplyGravity((float) CENTROX,(float) CENTROY);
 
+        break;
+        case 2:
+            if(scalateMatFramesCount <= 20){
+                esat::Mat3 aux = UpdateBaseFigure(map2);
+            }
         break;
         case 4:
             CheckInputsGeometries();
