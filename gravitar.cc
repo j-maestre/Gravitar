@@ -9,6 +9,8 @@ int esat::main(int argc, char **argv) {
 	srand(time(NULL));
 	InitMaps();
 	InitPlayer();
+	CreateMaps();
+
 	// InitMap4();
 
     esat::DrawSetTextFont("./includes/assets/fonts/texto.ttf");

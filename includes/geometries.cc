@@ -150,7 +150,9 @@ void CheckInputsGeometries(){
         scalating = false;
         InitMap1Array();
         InitMaps();
-	    // InitMap(pointsMap1pun,pointsNormalized,pointsMap1Original,38.0f,843.0f,718.0f);
+        scalateMatFramesCount = 0;
+        map2.escalar = 331.0f;
+        // InitMap(pointsMap1pun,pointsNormalized,pointsMap1Original,38.0f,843.0f,718.0f);
         // ResetFuelPoints(pointsFuel1Map1,pointsFuel1Normalized);
     }
 }
@@ -194,6 +196,8 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
     nivel = {x - player.x, y-player.y};
     modulo = xemath::Vec2Modulo(nivel);
     if(modulo<margin){
+        printf("Level-> %d", level);
+
         //Tp to level 
         scalating = true;
         player.nivel = level;
@@ -230,13 +234,16 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
             // pointsMap1pun = pointsMap1Original;
         break;
         case 2:
-            CreateMap2();
-        break;
+            NormalizeMap(map2,49, 892.0f, 714.0f);
+            break;
         case 4:
             lenght = 102;
             original = pointsMap1Original;
             nuevo = pointsMap1pun;
             // pointsMap4pun = pointsMap4Original;
+            break;
+        case 5:
+            NormalizeMap(map3,74, 931.0f, 724.0f);
             break;
         default:
             break;
@@ -394,17 +401,32 @@ void GeometriesActions(){
             if(!(Fuel3->obtained))esat::DrawPath(pointsFuel3Normalized,4);
             if(!(Fuel4->obtained))esat::DrawPath(pointsFuel4Normalized,4);
             CheckShield();
-            if(!debug)CheckMapColision(pointsNormalized,38);
+            CheckMapColision(pointsNormalized,38);
             CheckShootColision(pointsNormalized,38);
 
             if(!scalating)AplyGravity((float) CENTROX,(float) CENTROY);
 
         break;
         case 2:
-            if(scalateMatFramesCount <= 20){
-                esat::Mat3 aux = UpdateBaseFigure(map2);
+            if(scalateMatFramesCount <= 100){
+                // esat::Mat3 aux = UpdateBaseFigure(map2);
+                DrawFigure(&map2,49);
+                scalateMatFramesCount++;
+                if(scalateMatFramesCount>=20)scalating = false;
+            }else{
+                // esat::Mat3 aux = UpdateBaseFigure(map2,false);
+                DrawFigure(&map2,49,false);
+                //Llamar a colisiones
+                
+                CheckMapColision(points_tmp_map2,48);
+                CheckShootColision(points_tmp_map2,48);
+                // printf("free\n");
+                // free(points_tmp);
+                
             }
-        break;
+            CheckInputsGeometries();
+
+            break;
         case 4:
             CheckInputsGeometries();
             if(scalateFramesCount<=130){
@@ -454,6 +476,21 @@ void GeometriesActions(){
             // player.aceleration.y -= 5;
 
         break;
+        case 5:
+            if(scalateMatFramesCount <= 100){
+                DrawFigure3(&map3,74);
+                scalateMatFramesCount++;
+                if(scalateMatFramesCount>=20)scalating = false;
+            }else{
+                DrawFigure3(&map3,74,false);
+                //Llamar a colisiones
+                
+                CheckMapColision(points_tmp_map3,74);
+                CheckShootColision(points_tmp_map3,74);
+            }
+            CheckInputsGeometries();
+
+            break;
 
         default:
             CheckInputsGeometries();

@@ -1,7 +1,9 @@
 // int aux = 0;
 //TODO check colision disparo con el borde del mapa cuando he hecho scroll
 void CheckMapColision(float *points, int size){
+    // printf("uep\n");
     for (int i = 0; i < (size-2); i++){
+        // printf("uep %d\n",i);
 
         // int i = aux;
         // if(esat::IsKeyPressed('J')){
@@ -57,26 +59,30 @@ void CheckMapColision(float *points, int size){
 
 }
 
-void CheckShootColision(float *points, int size){
-    for (int i = 0; i < size; i++){
-    
-        for (int j = 0; j < 4; j++){
-            if((player.disparos+j)->disparando){
-                xemath::Vector2 vec1 = {*(points + (i * 2))-(player.disparos+j)->x,*(points + ((i * 2) + 1))-(player.disparos+j)->y};
-                xemath::Vector2 vec2 = {*(points + ((i * 2) + 2))-(player.disparos+j)->x,*(points + ((i * 2) + 3))-(player.disparos+j)->y};
-                xemath::Vector2 vecMapa = {*(points + i * 2)-*(points + i * 2 + 2),*(points + i * 2 + 1)-*(points + i * 2 + 3)};
-                float modulo1 = xemath::Vec2Modulo(vec1);
-                float modulo2 = xemath::Vec2Modulo(vec2);
-                float modulo3 = xemath::Vec2Modulo(vecMapa);
-                float moduloSum = modulo1 + modulo2;
+    void CheckShootColision(float *points, int size)
+    {
+        for (int i = 0; i < size; i++)
+        {
 
-                if(moduloSum < modulo3 + 1){
-                    printf("colision mapa");
-                    (player.disparos+j)->disparando = false;
-                }
-            }//End if
-        }//End j for
-    
-    }//End i for
+            for (int j = 0; j < 4; j++)
+            {
+                if ((player.disparos + j)->disparando)
+                {
+                    xemath::Vector2 vec1 = {*(points + (i * 2)) - (player.disparos + j)->x, *(points + ((i * 2) + 1)) - (player.disparos + j)->y};
+                    xemath::Vector2 vec2 = {*(points + ((i * 2) + 2)) - (player.disparos + j)->x, *(points + ((i * 2) + 3)) - (player.disparos + j)->y};
+                    xemath::Vector2 vecMapa = {*(points + i * 2) - *(points + i * 2 + 2), *(points + i * 2 + 1) - *(points + i * 2 + 3)};
+                    float modulo1 = xemath::Vec2Modulo(vec1);
+                    float modulo2 = xemath::Vec2Modulo(vec2);
+                    float modulo3 = xemath::Vec2Modulo(vecMapa);
+                    float moduloSum = modulo1 + modulo2;
 
-}
+                    if (moduloSum < modulo3 + 1)
+                    {
+                        printf("colision mapa");
+                        (player.disparos + j)->disparando = false;
+                    }
+                } // End if
+            }     // End j for
+
+        } // End i for
+    }

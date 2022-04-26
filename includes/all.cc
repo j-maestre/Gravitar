@@ -15,7 +15,7 @@ const int ANCHO = 1024, ALTO = 768, CENTROX = 512, CENTROY = 384 ;
 const double dPI = 3.1415926535897;
 unsigned char fps=60;
 double current_time,last_time;
-const bool debug = true;
+const bool debug = false;
 const float ANGLE_ROTATION = 3;
 bool intro = true, interfaz = true;
 int credits = 0;
@@ -76,10 +76,12 @@ struct TFuelNew{
 
 struct TMap{
   esat::Vec3 *map;
-  float escalar = 1.0f;
+  float escalar = 231.0f;
+  int size;
 };
 
-
+float *points_tmp_map2 = (float *)malloc(sizeof(float) * 48);
+float *points_tmp_map3 = (float *)malloc(sizeof(float) * 74);
 
 //fwd = cos(angel),sin(angle)
 //aceleration = fwd * 0.1f;
