@@ -152,6 +152,7 @@ void CheckInputsGeometries(){
         InitMaps();
         scalateMatFramesCount = 0;
         map2.escalar = 331.0f;
+        InitEnemies();
         // InitMap(pointsMap1pun,pointsNormalized,pointsMap1Original,38.0f,843.0f,718.0f);
         // ResetFuelPoints(pointsFuel1Map1,pointsFuel1Normalized);
     }
@@ -290,9 +291,9 @@ void GeometriesActions(){
     switch(player.nivel){
         //MAPA MENU
         case 0:
-            //Pintar las galaxias
-            // X Y Radio Color ExcentricidadX ExcentricidadY Puntos Extravagancia(cuando hay que invertir la Y) Peculiaridad(cuanto hay que restarle a la Y)
-            Createcircle(250.0f,150.0f,40.0f,Rojo,1.0f,0.8f,8);
+                // Pintar las galaxias
+                //  X Y Radio Color ExcentricidadX ExcentricidadY Puntos Extravagancia(cuando hay que invertir la Y) Peculiaridad(cuanto hay que restarle a la Y)
+                Createcircle(250.0f, 150.0f, 40.0f, Rojo, 1.0f, 0.8f, 8);
             CheckGalaxyColision(250.0f,150.0f,2);
 
             //Medio

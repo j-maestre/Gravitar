@@ -56,6 +56,7 @@ void Intro(){
     esat::DrawText(400,240,"1 COIN 1 PLAY");
     if(esat::IsSpecialKeyDown(esat::kSpecialKey_Space)){
         intro = false;
+        InitEnemies();
     }
 }
 
@@ -126,5 +127,6 @@ void FreePointers(){
     free(map2.map);
     free(points_tmp_map2);
     free(points_tmp_map3);
+    free(enemi1.disparos);
     // free(Fuel1New);
 }

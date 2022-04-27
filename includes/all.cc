@@ -17,6 +17,7 @@ unsigned char fps=60;
 double current_time,last_time;
 const bool debug = false;
 const float ANGLE_ROTATION = 3;
+const int SHOOT_FRECUENCY = 1;
 bool intro = true, interfaz = true;
 int credits = 0;
 bool scalating = false;
@@ -150,6 +151,62 @@ void Createcircle(float x, float y, float radio, TColor color = Rosa,float excen
     free(circulo);
     free(circleToDraw);
 }
+
+void DrawShoot(TDisparo *disparo, TColor color){
+  // Pintar disparos
+    if ((disparo)->disparando){
+
+      (disparo)->x += (disparo)->vecDirector.x;
+      (disparo)->y += (disparo)->vecDirector.y;
+      printf("Dibujar disparo en X->%f Y->%f\n", (disparo)->x, (disparo)->y);
+      Createcircle((disparo)->x, (disparo)->y, 2, color, 1, 1, 8);
+
+      if ((disparo)->x <= 0 || (disparo)->x >= ANCHO || (disparo)->y <= 0 || (disparo)->y >= ALTO){
+        // El disparo ha llegado al borde
+        (disparo)->disparando = false;
+      }
+
+      // Check colisiones con enemigos / estructuras
+    }
+  
+}
+
+void Disparo(TDisparo *disparo, float x, float y, xemath::Vector2 vecDirector,TColor color = Blanco, bool enemy = false){
+
+  //Entrará cuando pulse la tecla o cuando sea un enemigo
+  if (esat::IsSpecialKeyDown(esat::kSpecialKey_Enter) || esat::IsSpecialKeyDown(esat::kSpecialKey_Space) || enemy){
+    bool encontrado = false;
+    // Recorrer los 4 disparos buscando uno que esté libre, en caso de estarlo, le damos sus valores y lo ponemos como disparando
+    for (int i = 0; i < 4; i++){
+      // Disparo libre encontrado
+      if (!(disparo + i)->disparando && !encontrado){
+        encontrado = true;
+        if(enemy)printf("Disparo enemigo encontrado\n");
+        (disparo + i)->disparando = true;
+        (disparo + i)->x = x;
+        (disparo + i)->y = y;
+        (disparo + i)->vecDirector = vecDirector;
+
+        //Lo normalizo solo para el jugador porque el vector director del enemigo ya llega normalizado
+        if(!enemy){
+          (disparo + i)->vecDirector = xemath::Vec2Normalize((disparo + i)->vecDirector);
+        }
+        (disparo + i)->vecDirector.x = (disparo + i)->vecDirector.x * 3;
+        (disparo + i)->vecDirector.y = (disparo + i)->vecDirector.y * 3;
+
+      }
+
+
+    }
+  }
+
+  for (int i = 0; i < 4; i++){
+    DrawShoot((disparo + i), color);
+  }
+  
+
+  }
+
 float *pointsNormalized = (float*) malloc(sizeof(float)*76);
 float *pointsFuel1Normalized = (float*) malloc(sizeof(float)*8);
 float *pointsFuel2Normalized = (float*) malloc(sizeof(float)*8);

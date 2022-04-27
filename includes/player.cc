@@ -158,53 +158,6 @@ void MovePlayer(){
   }
 }
 
-void Disparo(){
-  if(esat::IsSpecialKeyDown(esat::kSpecialKey_Enter) || esat::IsSpecialKeyDown(esat::kSpecialKey_Space)){
-    bool encontrado = false;
-    //Recorrer los 4 disparos buscando uno que esté libre, en caso de estarlo, le damos sus valores y lo ponemos como disparando
-      for (int i = 0; i < 4; i++){
-
-        //Disparo libre encontrado
-        if(!(player.disparos + i)->disparando && !encontrado){
-          encontrado = true;
-          (player.disparos+i)->disparando = true;
-          (player.disparos+i)->x = player.x;
-          (player.disparos+i)->y = player.y;
-
-          (player.disparos+i)->vecDirector = player.vecDirector;
-
-          (player.disparos+i)->vecDirector = xemath::Vec2Normalize((player.disparos+i)->vecDirector);
-          (player.disparos+i)->vecDirector.x =(player.disparos+i)->vecDirector.x*3;
-          (player.disparos+i)->vecDirector.y = (player.disparos+i)->vecDirector.y*3;
-        } 
-
-
-      }
-
-
-  }
-
-
-
-  //Pintar disparos
-  for(int i = 0; i<4; i++){
-    if((player.disparos+i)->disparando){
-      
-      (player.disparos+i)->x += (player.disparos+i)->vecDirector.x; 
-      (player.disparos+i)->y += (player.disparos+i)->vecDirector.y; 
-      Createcircle((player.disparos + i)->x,(player.disparos + i)->y,2,Blanco,1,1,8);
-
-      if((player.disparos + i)->x<=0 || (player.disparos + i)->x >= ANCHO || (player.disparos + i)->y<=0 || (player.disparos + i)->y >=ALTO){
-        //El disparo ha llegado al borde
-        (player.disparos+i)->disparando = false;
-      }
-
-      //Check colisiones con enemigos / estructuras
-
-    }
-  }
-}
-
 void ApplyShotScroll(){
   for (int i = 0; i < 4; i++){
     if((player.disparos+i)->disparando){
@@ -220,7 +173,7 @@ void ApplyShotScroll(){
 void PlayerActions(){
   DrawPlayer();
   if(!scalating)MovePlayer();
-  Disparo();
+  Disparo(player.disparos, player.x,player.y,player.vecDirector);
   // printf("Aceleracion-> ");
   // xemath::DebugVector2(player.aceleration);
   // printf("Velocidad-> ");
