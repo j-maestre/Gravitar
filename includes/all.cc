@@ -59,9 +59,15 @@ struct TPlayer{
 };
 
 struct TEnemy{
-  float x,y;
   bool vivo = true;
   TDisparo *disparos;
+  xemath::Vector2 vecDirector = {0.0f, -5.0f};
+  xemath::Vector2 vecPunta = {100.0f, 200.0f};
+  float x = 100.0f;
+  float y = 300.0f;
+  float velocidad = 1.5f;
+  float gravityForce = 0.01f;
+  float angle;
 };
 
 struct TFuel{
@@ -356,7 +362,6 @@ float points4Map4[23][3]{
 
 
 
-
 void DebugPointer(float *ptr, int sizePtr){
   for (int i = 0; i < sizePtr; i++){
     printf("Valor [%f] Memoria [%p]\n",*(ptr+i),(ptr+i));
@@ -365,11 +370,13 @@ void DebugPointer(float *ptr, int sizePtr){
   
 }
 
+TEnemy enemi1;
 
 #include "player.cc"
 #include "colisiones.cc"
 #include "fuel.cc"
 #include "gravity.cc"
 #include "map.cc"
+#include "enemies.cc"
 #include "geometries.cc"
 #include "interface.cc"

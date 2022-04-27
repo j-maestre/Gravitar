@@ -1,4 +1,3 @@
-// TODO normalizar los puntos para poder escalarlos
 // const int map2Size = 48;
 float xPrueba = 0.0f;
 float YPrueba = 0.0f;

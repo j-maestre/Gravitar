@@ -375,8 +375,12 @@ void GeometriesActions(){
 
             Createcircle(900.0f,120.0f,25.0f,Rosa,1.0f,1.0f,32,8,0.75f);
             CheckGalaxyColision(900.0f,120.0f,1,40);
-            
-        break;
+
+            //Pintar enemigos
+            DrawEnemy1(&enemi1);
+            MoveEnemy(&enemi1);
+
+            break;
         case 1:
             //Pintar mapa1
             CheckInputsGeometries();
