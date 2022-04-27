@@ -41,19 +41,23 @@ void DrawFuel(){
     //Print fuel
     esat::DrawSetFillColor(VerdeFuel.r,VerdeFuel.g,VerdeFuel.b);
     aux = IntToAscii(player.fuel);
-    esat::DrawText(200,70,aux);
+    esat::DrawText(200,90,aux);
 
     //Print fuel&score text
     esat::DrawSetFillColor(AzulText.r,AzulText.g,AzulText.b);
     esat::DrawText(500,50,"SCORE");
-    esat::DrawText(500,70,"FUEL");
+    esat::DrawText(500,90,"FUEL");
     free(aux);
+}
+
+void DrawVidas(){
+    
 }
 
 void Intro(){
     esat::DrawText(420,200,"GAME OVER");
-    esat::DrawText(410,220,"INSERT COIN");
-    esat::DrawText(400,240,"1 COIN 1 PLAY");
+    esat::DrawText(410,240,"INSERT COIN");
+    esat::DrawText(400,280,"1 COIN 1 PLAY");
     if(esat::IsSpecialKeyDown(esat::kSpecialKey_Space)){
         intro = false;
         InitEnemies();
@@ -62,7 +66,7 @@ void Intro(){
 
 void Interface(){
     esat::DrawText(420,200,"GAME OVER");
-    esat::DrawText(410,220,"PRESS ENTER");
+    esat::DrawText(410,240,"PRESS ENTER");
     char *numberToChar = (char*) calloc(11,sizeof(char));
     char *aux = (char*) calloc(3,sizeof(char));
     *numberToChar = 'C';
@@ -81,7 +85,7 @@ void Interface(){
     }
     itoa(credits,aux,10);
     strcat(numberToChar,aux);
-    esat::DrawText(400,240,numberToChar);
+    esat::DrawText(400,280,numberToChar);
     free(aux);
     free(numberToChar);
 
@@ -96,8 +100,9 @@ void Interface(){
 }
 
 void InterfaceActions(){
-	esat::DrawSetTextSize(20);
+	esat::DrawSetTextSize(38);
     DrawFuel();
+    DrawVidas();
     if(intro)Intro();
     if(!intro && interfaz)Interface();
 }

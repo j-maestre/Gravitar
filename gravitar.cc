@@ -14,8 +14,9 @@ int esat::main(int argc, char **argv) {
 	// InitMap4();
 
     esat::DrawSetTextFont("./includes/assets/fonts/fuente.ttf");
-	
-  while(esat::WindowIsOpened() && !esat::IsSpecialKeyDown(esat::kSpecialKey_Escape)) {
+
+	while (esat::WindowIsOpened() && !esat::IsSpecialKeyDown(esat::kSpecialKey_Escape))
+	{
 
     	last_time = esat::Time();
     	esat::DrawBegin();

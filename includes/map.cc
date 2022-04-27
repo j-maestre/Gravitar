@@ -55,11 +55,15 @@ void DrawFigure(TMap *m, int size, bool scalate = true){
     esat::DrawPath(&tr_circle[0].x,size);
 }
 
+void DrawBomb(){
+    //Dibujar bomba y contador de la misma
+}
+
 void DrawFigure3(TMap *m, int size, bool scalate = true){
     // const int sizeConst = size;
     //  if(scalate)m->escalar += 5.0f;
     //escalar tiene que llegar a 731
-
+    
     if (IsSpecialKeyPressed(esat::kSpecialKey_Up)){
         YPrueba--;
     }
@@ -104,6 +108,8 @@ void DrawFigure3(TMap *m, int size, bool scalate = true){
     esat::DrawSetStrokeColor(Verde.r, Verde.g, Verde.b);
     // esat::DrawSetFillColor(0,0,0);
     esat::DrawPath(&tr_circle[0].x,size);
+
+    DrawBomb();
 }
 
 esat::Mat3 UpdateBaseFigure(TMap mapa, bool scalate = true){

@@ -146,10 +146,6 @@ void DrawEnemy2(TEnemy *enemi){
 
 }
 
-void EnemyShoot(TEnemy *enemi){
-
-}
-
 void MoveEnemy(TEnemy *enemi){
     // Sacar vector director entre el enemigo y el jugador
     bool nuevoDisp = false;
