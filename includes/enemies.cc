@@ -1,7 +1,6 @@
 
 void DrawEnemy1(TEnemy *enemi){
     enemi->vecDirector = xemath::ScalateVec2(enemi->vecDirector,5);
-    esat::DrawSetStrokeColor(255,50, 0);
 
     //Vector de la linea central
     xemath::Vector2 aux = {(enemi->x + enemi->vecDirector.x) - enemi->x, (enemi->y + enemi->vecDirector.y) - enemi->y};
@@ -21,6 +20,7 @@ void DrawEnemy1(TEnemy *enemi){
     //Central
     // esat::DrawLine(enemi->x, enemi->y, enemi->x + enemi->vecDirector.x, enemi->y + enemi->vecDirector.y);
 
+    esat::DrawSetStrokeColor(255,50, 0);
     //Izquierda
     esat::DrawLine(enemi->x + enemi->vecDirector.x, enemi->y + enemi->vecDirector.y, (enemi->x + enemi->vecDirector.x) + izquierda.x, (enemi->y + enemi->vecDirector.y) + izquierda.y);
     esat::DrawLine((enemi->x + enemi->vecDirector.x) + izquierda.x,
@@ -44,8 +44,39 @@ void DrawEnemy1(TEnemy *enemi){
                    enemi->x,
                    enemi->y);
 
-    //Dibujar triangulillo del medio
+    //Triangulillo
+    esat::DrawSetStrokeColor(Amarillo.r, Amarillo.g, Amarillo.b);
 
+    // Abajo
+    xemath::Vector2 abajo = xemath::ScalateVec2(aux,7); 
+    abajo = xemath::RotateVec2(abajo, 90.0f);
+    esat::DrawLine((enemi->x + enemi->vecDirector.x),
+                   (enemi->y + enemi->vecDirector.y),
+                   (enemi->x + enemi->vecDirector.x) + abajo.x,
+                   (enemi->y + enemi->vecDirector.y) + abajo.y);
+
+    xemath::Vector2 abajo2 = xemath::RotateVec2(abajo, 180.0f);
+    esat::DrawLine((enemi->x + enemi->vecDirector.x),
+                   (enemi->y + enemi->vecDirector.y),
+                   (enemi->x + enemi->vecDirector.x) + abajo2.x,
+                   (enemi->y + enemi->vecDirector.y) + abajo2.y);
+
+    //Arriba
+    xemath::Vector2 punta = xemath::ScalateVec2(enemi->vecDirector,15);
+    punta = xemath::RotateVec2(punta,-30);
+
+    //Izquierda
+    esat::DrawLine((enemi->x + enemi->vecDirector.x) + abajo.x,
+                   (enemi->y + enemi->vecDirector.y) + abajo.y,
+                   (enemi->x + enemi->vecDirector.x) + abajo.x + punta.x,
+                   (enemi->y + enemi->vecDirector.y) + abajo.y + punta.y );
+
+    //Derecha
+    punta = xemath::RotateVec2(punta, 55);
+    esat::DrawLine((enemi->x + enemi->vecDirector.x) + abajo2.x,
+                   (enemi->y + enemi->vecDirector.y) + abajo2.y,
+                   (enemi->x + enemi->vecDirector.x) + abajo2.x + punta.x,
+                   (enemi->y + enemi->vecDirector.y) + abajo2.y + punta.y);
 }
 
 void DrawEnemy2(TEnemy *enemi){
