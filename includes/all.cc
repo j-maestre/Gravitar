@@ -9,13 +9,14 @@
 #include <time.h>
 #include "xemath.cc"
 
+const bool debug = true;
+
 //Ancho -> 256*4
 //Alto -> 192*4
 const int ANCHO = 1024, ALTO = 768, CENTROX = 512, CENTROY = 384 ;
 const double dPI = 3.1415926535897;
 unsigned char fps=60;
 double current_time,last_time;
-const bool debug = false;
 const float ANGLE_ROTATION = 3;
 const int SHOOT_FRECUENCY = 1;
 bool intro = true, interfaz = true;
@@ -90,6 +91,7 @@ struct TMap{
 
 float *points_tmp_map2 = (float *)malloc(sizeof(float) * 48);
 float *points_tmp_map3 = (float *)malloc(sizeof(float) * 74);
+float *points_tmp_map1 = (float *)malloc(sizeof(float) * 91);
 
 //fwd = cos(angel),sin(angle)
 //aceleration = fwd * 0.1f;

@@ -7,7 +7,7 @@ int esat::main(int argc, char **argv) {
 	esat::WindowInit(ANCHO,ALTO);
 	WindowSetMouseVisibility(true);
 	srand(time(NULL));
-	InitMaps();
+	// InitMaps();
 	InitPlayer();
 	CreateMaps();
 

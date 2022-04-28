@@ -220,18 +220,19 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
 
         switch (level){
         case 1:
-            lenght = 76;    
-            original = pointsMap1Original;
-            nuevo = pointsMap1pun;
-            Fuel1->points = (float*) malloc(sizeof(float)*8);
-            Fuel2->points = (float*) malloc(sizeof(float)*8);
-            Fuel3->points = (float*) malloc(sizeof(float)*8);
-            Fuel4->points = (float*) malloc(sizeof(float)*8);
-            InitFuelMap1(pointsFuel1Map1,pointsFuel1Normalized,Fuel1);
-            InitFuelMap1(pointsFuel2Map1,pointsFuel2Normalized,Fuel2);
-            printf("Fuel2 points X[%f] Y[%f]\n", *(Fuel2->points),*(Fuel2->points+1));
-            InitFuelMap1(pointsFuel3Map1,pointsFuel3Normalized,Fuel3);
-            InitFuelMap1(pointsFuel4Map1,pointsFuel4Normalized,Fuel4);
+            NormalizeMap(map1, 74, 928.0f, 739.0f);
+            // lenght = 76;    
+            // original = pointsMap1Original;
+            // nuevo = pointsMap1pun;
+            // Fuel1->points = (float*) malloc(sizeof(float)*8);
+            // Fuel2->points = (float*) malloc(sizeof(float)*8);
+            // Fuel3->points = (float*) malloc(sizeof(float)*8);
+            // Fuel4->points = (float*) malloc(sizeof(float)*8);
+            // InitFuelMap1(pointsFuel1Map1,pointsFuel1Normalized,Fuel1);
+            // InitFuelMap1(pointsFuel2Map1,pointsFuel2Normalized,Fuel2);
+            // printf("Fuel2 points X[%f] Y[%f]\n", *(Fuel2->points),*(Fuel2->points+1));
+            // InitFuelMap1(pointsFuel3Map1,pointsFuel3Normalized,Fuel3);
+            // InitFuelMap1(pointsFuel4Map1,pointsFuel4Normalized,Fuel4);
             // pointsMap1pun = pointsMap1Original;
         break;
         case 2:
@@ -383,37 +384,52 @@ void GeometriesActions(){
             MoveEnemy(&enemi1);
 
             break;
-        case 1:
+        //*MATRICES
+        case 1: 
             //Pintar mapa1
             CheckInputsGeometries();
-           
 
-            if(scalateFramesCount<=133){
-                ScalateMap(pointsMap1pun,pointsNormalized,38);
-                ScalateFuelNew(Fuel1->points,pointsFuel1Normalized);
-                ScalateFuelNew(Fuel2->points,pointsFuel2Normalized);
-                ScalateFuelNew(Fuel3->points,pointsFuel3Normalized);
-                ScalateFuelNew(Fuel4->points,pointsFuel4Normalized);
-                scalateFramesCount++;
-                if(scalateFramesCount>=133)scalating = false;
+            if(scalateMatFramesCount <= 100){
+                DrawFigure1(&map1,map1.size);
+                scalateMatFramesCount++;
+                if(scalateMatFramesCount>=20)scalating = false;
+            }else{
+                DrawFigure1(&map1,map1.size,false);
+
+                //Llamar a colisiones
+                CheckMapColision(points_tmp_map1,map1.size);
+                CheckShootColision(points_tmp_map1,map1.size);
             }
 
-            esat::DrawSetStrokeColor(Verde.r,Verde.g,Verde.b);
-            esat::DrawPath(pointsNormalized,38);
-            esat::DrawSetStrokeColor(0,0,255);
-            // printf("PointsFuel1Normalized X[%f] Y[%f]\n",*pointsFuel1Normalized,*(pointsFuel1Normalized+1));
-            if(!(Fuel1->obtained))esat::DrawPath(pointsFuel1Normalized,4);
-            if(!(Fuel2->obtained))esat::DrawPath(pointsFuel2Normalized,4);
-            if(!(Fuel3->obtained))esat::DrawPath(pointsFuel3Normalized,4);
-            if(!(Fuel4->obtained))esat::DrawPath(pointsFuel4Normalized,4);
-            CheckShield();
-            CheckMapColision(pointsNormalized,38);
-            CheckShootColision(pointsNormalized,38);
+           
 
-            if(!scalating)AplyGravity((float) CENTROX,(float) CENTROY);
+            // if(scalateFramesCount<=133){
+            //     ScalateMap(pointsMap1pun,pointsNormalized,38);
+            //     ScalateFuelNew(Fuel1->points,pointsFuel1Normalized);
+            //     ScalateFuelNew(Fuel2->points,pointsFuel2Normalized);
+            //     ScalateFuelNew(Fuel3->points,pointsFuel3Normalized);
+            //     ScalateFuelNew(Fuel4->points,pointsFuel4Normalized);
+            //     scalateFramesCount++;
+            //     if(scalateFramesCount>=133)scalating = false;
+            // }
+
+            // esat::DrawSetStrokeColor(Verde.r,Verde.g,Verde.b);
+            // esat::DrawPath(pointsNormalized,38);
+            // esat::DrawSetStrokeColor(0,0,255);
+            // // printf("PointsFuel1Normalized X[%f] Y[%f]\n",*pointsFuel1Normalized,*(pointsFuel1Normalized+1));
+            // if(!(Fuel1->obtained))esat::DrawPath(pointsFuel1Normalized,4);
+            // if(!(Fuel2->obtained))esat::DrawPath(pointsFuel2Normalized,4);
+            // if(!(Fuel3->obtained))esat::DrawPath(pointsFuel3Normalized,4);
+            // if(!(Fuel4->obtained))esat::DrawPath(pointsFuel4Normalized,4);
+            // CheckShield();
+            // CheckMapColision(pointsNormalized,38);
+            // CheckShootColision(pointsNormalized,38);
+
+            // if(!scalating)AplyGravity((float) CENTROX,(float) CENTROY);
 
         break;
-        case 2:
+        case 2: //*MATRICES
+
             if(scalateMatFramesCount <= 100){
                 // esat::Mat3 aux = UpdateBaseFigure(map2);
                 DrawFigure(&map2,49);
@@ -435,54 +451,54 @@ void GeometriesActions(){
             break;
         case 4:
             CheckInputsGeometries();
-            if(scalateFramesCount<=130){
-                //Zoom1 vertical & horizontal
-                ScalateMap(pointsMap4pun,points4Normalized,51);
-                ScalateMap(points2Map4pun,points24Normalized,13);
-                ScalateMap(points3Map4pun,points34Normalized,11);
-                ScalateMap(points4Map4pun,points44Normalized,23);
-                scalateFramesCount++;
-            }else if(scalateHorizontalFramesCount<=20){
-                //Zoom2 solo horizontal
-                ScalateHorizontalMap(pointsMap4pun,points4Normalized,51);
-                if(scalateHorizontalFramesCount<=10)ScalateHorizontalMap(points2Map4pun,points24Normalized,13,true);
-                if(scalateHorizontalFramesCount<=10)ScalateHorizontalMap(points3Map4pun,points34Normalized,11,true);
-                if(scalateHorizontalFramesCount<=10)ScalateHorizontalMap(points4Map4pun,points44Normalized,23,true);
-                scalateHorizontalFramesCount++;
-                if(scalateHorizontalFramesCount>=3)scalating = false;
-            }else{
-                scalating = false;
-            }
+            // if(scalateFramesCount<=130){
+            //     //Zoom1 vertical & horizontal
+            //     ScalateMap(pointsMap4pun,points4Normalized,51);
+            //     ScalateMap(points2Map4pun,points24Normalized,13);
+            //     ScalateMap(points3Map4pun,points34Normalized,11);
+            //     ScalateMap(points4Map4pun,points44Normalized,23);
+            //     scalateFramesCount++;
+            // }else if(scalateHorizontalFramesCount<=20){
+            //     //Zoom2 solo horizontal
+            //     ScalateHorizontalMap(pointsMap4pun,points4Normalized,51);
+            //     if(scalateHorizontalFramesCount<=10)ScalateHorizontalMap(points2Map4pun,points24Normalized,13,true);
+            //     if(scalateHorizontalFramesCount<=10)ScalateHorizontalMap(points3Map4pun,points34Normalized,11,true);
+            //     if(scalateHorizontalFramesCount<=10)ScalateHorizontalMap(points4Map4pun,points44Normalized,23,true);
+            //     scalateHorizontalFramesCount++;
+            //     if(scalateHorizontalFramesCount>=3)scalating = false;
+            // }else{
+            //     scalating = false;
+            // }
 
-            //Draw Map
-            esat::DrawSetStrokeColor(Verde.r,Verde.g,Verde.b);
-            esat::DrawPath(points4Normalized,51);
-            esat::DrawPath(points24Normalized,13);
-            esat::DrawPath(points34Normalized,11);
-            esat::DrawPath(points44Normalized,23);
-            // Createcircle(*points44Normalized,*(points44Normalized+1),5);
+            // //Draw Map
+            // esat::DrawSetStrokeColor(Verde.r,Verde.g,Verde.b);
+            // esat::DrawPath(points4Normalized,51);
+            // esat::DrawPath(points24Normalized,13);
+            // esat::DrawPath(points34Normalized,11);
+            // esat::DrawPath(points44Normalized,23);
+            // // Createcircle(*points44Normalized,*(points44Normalized+1),5);
 
-            //Player map colision
-            CheckMapColision(points4Normalized,51);
-            CheckMapColision(points24Normalized,13);
-            CheckMapColision(points34Normalized,11);
-            CheckMapColision(points44Normalized,23);
+            // //Player map colision
+            // CheckMapColision(points4Normalized,51);
+            // CheckMapColision(points24Normalized,13);
+            // CheckMapColision(points34Normalized,11);
+            // CheckMapColision(points44Normalized,23);
 
-            //Shot map colision
-            CheckShootColision(points4Normalized,51);
-            CheckShootColision(points24Normalized,13);
-            CheckShootColision(points34Normalized,11);
-            CheckShootColision(points44Normalized,23);
+            // //Shot map colision
+            // CheckShootColision(points4Normalized,51);
+            // CheckShootColision(points24Normalized,13);
+            // CheckShootColision(points34Normalized,11);
+            // CheckShootColision(points44Normalized,23);
 
-            // CheckScrollX(points24Normalized,13);
-            CheckScrollX(points4Normalized,102,points24Normalized,13,points34Normalized,11,points44Normalized,23);
-            if(!scalating)AplyGravity((float) player.x,(float) ALTO);
+            // // CheckScrollX(points24Normalized,13);
+            // CheckScrollX(points4Normalized,102,points24Normalized,13,points34Normalized,11,points44Normalized,23);
+            // if(!scalating)AplyGravity((float) player.x,(float) ALTO);
 
             //Make gravity
             // player.aceleration.y -= 5;
 
         break;
-        case 5:
+        case 5: //*MATRICES
             if(scalateMatFramesCount <= 100){
                 DrawFigure3(&map3,map3.size);
                 DrawFigure3(&map3Bomb, map3Bomb.size, true, Morado);
