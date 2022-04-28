@@ -1,3 +1,5 @@
+//TODO volve a coger los puntos del mapa1, pero coger a la vez los puntos del fuel y de las torretas
+
 // const int map2Size = 48;
 float xPrueba = 0.0f;
 float YPrueba = 0.0f;
@@ -42,9 +44,9 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
 
     //Puntos para el puntero de las colisiones
     if(scalate){
-        for (int i = 0; i < 74; i++){
-            *(points_tmp_map3 + 2 * i) = tr_circle[i].x;
-            *(points_tmp_map3 + 2 * i + 1) = tr_circle[i].y;
+        for (int i = 0; i < 91; i++){
+            *(points_tmp_map1 + 2 * i) = tr_circle[i].x;
+            *(points_tmp_map1 + 2 * i + 1) = tr_circle[i].y;
         }
     }
     esat::DrawSetStrokeColor(color.r, color.g, color.b);
@@ -203,6 +205,7 @@ void CreateMaps(){
     map1.map = nullptr;
     map1.map = (esat::Vec3*) malloc(sizeof(esat::Vec3)*91);
     map1.size = 91;
+    //74
 
     (map1.map+0)->x = 149.0f;(map1.map+0)->y = 391.0f;(map1.map+0)->z = 1.0f;
     (map1.map+1)->x = 168.0f;(map1.map+1)->y = 348.0f;(map1.map+1)->z = 1.0f;
@@ -279,6 +282,7 @@ void CreateMaps(){
     (map1.map+72)->x = 583.0f;(map1.map+72)->y = 254.0f;(map1.map+72)->z = 1.0f;
     (map1.map+73)->x = 540.0f;(map1.map+73)->y = 303.0f;(map1.map+73)->z = 1.0f;
     (map1.map+74)->x = 503.0f;(map1.map+74)->y = 262.0f;(map1.map+74)->z = 1.0f;
+
     (map1.map+75)->x = 462.0f;(map1.map+75)->y = 217.0f;(map1.map+75)->z = 1.0f;
     (map1.map+76)->x = 501.0f;(map1.map+76)->y = 173.0f;(map1.map+76)->z = 1.0f;
     (map1.map+77)->x = 535.0f;(map1.map+77)->y = 133.0f;(map1.map+77)->z = 1.0f;

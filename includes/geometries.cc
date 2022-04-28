@@ -6,85 +6,7 @@ int scalateHorizontalFramesCount = 0;
 float *scalateXaux = (float*) malloc(sizeof(float));
 int scalateMatFramesCount = 0;
 
-//TODO Init ma1 points Quitar y poner los valores a mano en el puntero
-void InitMap1Array(){
-  for(int i = 0; i<38;++i){
-    //   printf("X[%d] Y[%d]\n",(i*2),(i*2)+1);
-    *(pointsMap1pun + (i*2)) = pointsMap1[i][0];
-    *(pointsMap1pun + ((i*2) + 1)) = pointsMap1[i][1];
-  }
-}
-
-void InitMap4Array(){
-    for(int i = 0; i<102;++i){
-    //   printf("X[%d] Y[%d]\n",(i*2),(i*2)+1);
-    *(pointsMap4pun + (i*2)) = pointsMap4[i][0];
-    *(pointsMap4pun + ((i*2) + 1)) = pointsMap4[i][1];
-  }
-
-  for (int i = 0; i < 13; i++){
-      *(points2Map4pun + (i*2)) = points2Map4[i][0]; 
-      *(points2Map4pun + (i*2+1)) = points2Map4[i][1]; 
-  }
-  for (int i = 0; i < 11; i++){
-      *(points3Map4pun + (i*2)) = points3Map4[i][0]; 
-      *(points3Map4pun + (i*2+1)) = points3Map4[i][1]; 
-  }
-  for (int i = 0; i < 23; i++){
-    *(points4Map4pun + (i*2)) = points4Map4[i][0]; 
-    *(points4Map4pun + (i*2+1)) = points4Map4[i][1]; 
-  }
-  
-}
-
-void InitMap(float *mapa, float *points,float *original, int size, float Xmax, float Ymax, bool prueba = false){
-
-    //Normalizado de la matriz 3x1
-    for(int i = 0; i <size; i++){
-        //Anterior
-
-        // pointsMap1[i][0] = pointsMap1[i][0] / 843.0f;
-        // pointsMap1[i][1] = pointsMap1[i][1] / 718.0f;
-        // *(pointsNormalized+(i*2)) =  pointsMap1[i][0];
-        // *(pointsNormalized+(i*2 + 1)) = pointsMap1[i][1];
-        if(prueba){
-            *(mapa+(i*2 + 1))+=100;
-            *(points+(i*2 + 1))+=100;
-        }
-
-        *(mapa+(i*2)) = *(mapa+(i*2)) / Xmax; 
-        *(mapa+(i*2 + 1))= *(mapa+(i*2 + 1)) / Ymax;
-
-        *(points+(i*2)) =  *(mapa+(i*2)) / Xmax;
-        *(points+(i*2 + 1)) = *(mapa+(i*2 + 1)) / Ymax;
-
-
-        //Guardamos los valores originales para futuro resets
-
-        *(original+(i*2)) = *(mapa+(i*2));
-        *(original+(i*2 +1)) = *(mapa+(i*2 +1));
-    };
-    printf("Mapa normalizado X[%f] Y[%f]\n",*points,*(points+1));
-    // InitFuelMap1();
-    
-}
-
-void InitMaps(){
-    //Map1
-    InitMap1Array();
-	InitMap(pointsMap1pun,pointsNormalized,pointsMap1Original,38.0f,843.0f,718.0f);
-
-    //Map4
-    InitMap4Array();
-    InitMap(pointsMap4pun,points4Normalized,pointsMap4Original,51.0f,973.0f,863.0f,true);
-    InitMap(points2Map4pun,points24Normalized,points2Map4Original,13,259.0f,396.0f);
-    InitMap(points3Map4pun,points34Normalized,points3Map4Original,11,465.0f,551.0f);
-    InitMap(points4Map4pun,points44Normalized,points4Map4Original,23,860.0f,451.0f);
-    
-    DebugPointer(points2Map4Original,13);
-    DebugPointer(points2Map4pun,13);
-    DebugPointer(points2Map4pun,13);
-}
+//TODO Ver porque coño no vuelve a escalar al volver a entrar a un mapa
 
 void ScalateMap(float *map,float *pointsNormalized, int size,bool zoom = true){
     // printf("Scalating X[%f] Y[%f]\n",*pointsNormalized,*(pointsNormalized+1));
@@ -148,10 +70,10 @@ void CheckInputsGeometries(){
     if(esat::IsSpecialKeyDown(esat::kSpecialKey_Backspace)){
         player.nivel = 0;
         scalating = false;
-        InitMap1Array();
-        InitMaps();
+        // InitMap1Array();
+        // InitMaps();
         scalateMatFramesCount = 0;
-        map2.escalar = 331.0f;
+        // map2.escalar = 331.0f;
         InitEnemies();
         // InitMap(pointsMap1pun,pointsNormalized,pointsMap1Original,38.0f,843.0f,718.0f);
         // ResetFuelPoints(pointsFuel1Map1,pointsFuel1Normalized);
@@ -214,9 +136,9 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
         scalateHorizontalFramesCount = 0;
 
         //Set original points
-        float *original = nullptr;
-        float *nuevo = nullptr;
-        int lenght = 0;
+        // float *original = nullptr;
+        // float *nuevo = nullptr;
+        // int lenght = 0;
 
         switch (level){
         case 1:
@@ -239,9 +161,9 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
             NormalizeMap(map2,49, 892.0f, 714.0f);
             break;
         case 4:
-            lenght = 102;
-            original = pointsMap1Original;
-            nuevo = pointsMap1pun;
+            // lenght = 102;
+            // original = pointsMap1Original;
+            // nuevo = pointsMap1pun;
             // pointsMap4pun = pointsMap4Original;
             break;
         case 5:
@@ -252,12 +174,12 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
             break;
         }
 
-        printf("RESET MAP!\n");
+        // printf("RESET MAP!\n");
 
-        for (int i = 0; i < lenght; i++){
-            *(nuevo+(i*2)) = *(original+(i*2));
-            *(nuevo+(i*2 +1)) = *(original+(i*2 +1));
-        }
+        // for (int i = 0; i < lenght; i++){
+        //     *(nuevo+(i*2)) = *(original+(i*2));
+        //     *(nuevo+(i*2 +1)) = *(original+(i*2 +1));
+        // }
         
     }
 }
