@@ -55,11 +55,7 @@ void DrawFigure(TMap *m, int size, bool scalate = true){
     esat::DrawPath(&tr_circle[0].x,size);
 }
 
-void DrawBomb(){
-    //Dibujar bomba y contador de la misma
-}
-
-void DrawFigure3(TMap *m, int size, bool scalate = true){
+void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde){
     // const int sizeConst = size;
     //  if(scalate)m->escalar += 5.0f;
     //escalar tiene que llegar a 731
@@ -105,12 +101,36 @@ void DrawFigure3(TMap *m, int size, bool scalate = true){
             *(points_tmp_map2 + 2 * i + 1) = tr_circle[i].y;
         }
     }
-    esat::DrawSetStrokeColor(Verde.r, Verde.g, Verde.b);
+    esat::DrawSetStrokeColor(color.r, color.g, color.b);
     // esat::DrawSetFillColor(0,0,0);
     esat::DrawPath(&tr_circle[0].x,size);
 
-    DrawBomb();
 }
+
+int bombFpsCounter = 0;
+
+void DrawTimeLeft(){
+    esat::DrawText(246.0f,397.0f,"ESCAPE TIME");
+    
+    // float tiempo = esat::Time();
+    // tiempo /= 1000;
+    // player.timeLeft = 29 - tiempo ;
+
+
+    bombFpsCounter++;
+    if(bombFpsCounter%fps == 0){
+        player.timeLeft--;
+    }
+
+    char *aux;
+    aux = IntToAscii(player.timeLeft, false);
+    esat::DrawText(246.0f, 457.0f, aux);
+    free(aux);
+
+    esat::DrawText(318.0f,560.0f,"SHOOT REACTOR");
+}
+
+
 
 esat::Mat3 UpdateBaseFigure(TMap mapa, bool scalate = true){
     //Con esto escalo y traslado al centro
@@ -126,6 +146,7 @@ esat::Mat3 UpdateBaseFigure(TMap mapa, bool scalate = true){
 //**************** Map2 points **************** 
 TMap map2;
 TMap map3;
+TMap map3Bomb;
 void CreateMaps(){
     map2.map = nullptr;
     map2.map = (esat::Vec3*) malloc(sizeof(esat::Vec3)*49);
@@ -259,7 +280,22 @@ void CreateMaps(){
     (map3.map+72)->x = 553.0f;(map3.map+72)->y = 109.0f;(map3.map+72)->z = 1.0f;
     (map3.map+73)->x = 608.0f;(map3.map+73)->y = 48.0f;(map3.map+73)->z = 1.0f;
 
-    
+
+    //Map3 Bomb
+    map3Bomb.map = nullptr;
+    map3Bomb.map = (esat::Vec3 *)malloc(sizeof(esat::Vec3) * 11);
+    map3Bomb.size = 11;
+    (map3Bomb.map+0)->x = 468.0f;(map3Bomb.map+0)->y = 274.0f;(map3Bomb.map+0)->z = 1.0f;
+    (map3Bomb.map+1)->x = 498.0f;(map3Bomb.map+1)->y = 286.0f;(map3Bomb.map+1)->z = 1.0f;
+    (map3Bomb.map+2)->x = 468.0f;(map3Bomb.map+2)->y = 299.0f;(map3Bomb.map+2)->z = 1.0f;
+    (map3Bomb.map+3)->x = 458.0f;(map3Bomb.map+3)->y = 287.0f;(map3Bomb.map+3)->z = 1.0f;
+    (map3Bomb.map+4)->x = 489.0f;(map3Bomb.map+4)->y = 276.0f;(map3Bomb.map+4)->z = 1.0f;
+    (map3Bomb.map+5)->x = 499.0f;(map3Bomb.map+5)->y = 286.0f;(map3Bomb.map+5)->z = 1.0f;
+    (map3Bomb.map+6)->x = 489.0f;(map3Bomb.map+6)->y = 298.0f;(map3Bomb.map+6)->z = 1.0f;
+    (map3Bomb.map+7)->x = 468.0f;(map3Bomb.map+7)->y = 299.0f;(map3Bomb.map+7)->z = 1.0f;
+    (map3Bomb.map+8)->x = 489.0f;(map3Bomb.map+8)->y = 299.0f;(map3Bomb.map+8)->z = 1.0f;
+    (map3Bomb.map+9)->x = 458.0f;(map3Bomb.map+9)->y = 287.0f;(map3Bomb.map+9)->z = 1.0f;
+    (map3Bomb.map+10)->x = 469.0f;(map3Bomb.map+10)->y = 276.0f;(map3Bomb.map+10)->z = 1.0f;
 }
 
 void NormalizeMap(TMap mapa,float lenght,float sizeX, float sizeY){

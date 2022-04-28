@@ -57,6 +57,7 @@ struct TPlayer{
   int fuel = 10000;
   int score = 0;
   float gravityForce = 0.01f;
+  int timeLeft = 23;
 };
 
 struct TEnemy{
@@ -158,7 +159,7 @@ void DrawShoot(TDisparo *disparo, TColor color){
 
       (disparo)->x += (disparo)->vecDirector.x;
       (disparo)->y += (disparo)->vecDirector.y;
-      printf("Dibujar disparo en X->%f Y->%f\n", (disparo)->x, (disparo)->y);
+      // printf("Dibujar disparo en X->%f Y->%f\n", (disparo)->x, (disparo)->y);
       Createcircle((disparo)->x, (disparo)->y, 2, color, 1, 1, 8);
 
       if ((disparo)->x <= 0 || (disparo)->x >= ANCHO || (disparo)->y <= 0 || (disparo)->y >= ALTO){
@@ -207,6 +208,41 @@ void Disparo(TDisparo *disparo, float x, float y, xemath::Vector2 vecDirector,TC
 
   }
 
+char* IntToAscii(int number, bool addCeros = true){
+    char *numberToChar = (char*) calloc(7,sizeof(char));
+    char *aux = (char*) calloc(7,sizeof(char));
+    itoa(number,aux,10);
+    //Añadimos los 0 correspondientes segun la puntuacion
+    if(addCeros){
+        
+        if(number>=10000){
+            *numberToChar = '0';
+        }else if(number>=1000){
+            *numberToChar = '0';
+            *(numberToChar+1) = '0';
+        }else if(number>=100){
+            *numberToChar = '0';
+            *(numberToChar+1) = '0';
+            *(numberToChar+2) = '0';
+        }else if(number>=10){
+            *numberToChar = '0';
+            *(numberToChar+1) = '0';
+            *(numberToChar+2) = '0';
+            *(numberToChar+3) = '0';
+        }else{
+            *numberToChar = '0';
+            *(numberToChar+1) = '0';
+            *(numberToChar+2) = '0';
+            *(numberToChar+3) = '0';
+            *(numberToChar+4) = '0';
+        }
+    }
+
+    strcat(numberToChar,aux);
+    free(aux);
+    return numberToChar;
+    free(numberToChar);
+}
 float *pointsNormalized = (float*) malloc(sizeof(float)*76);
 float *pointsFuel1Normalized = (float*) malloc(sizeof(float)*8);
 float *pointsFuel2Normalized = (float*) malloc(sizeof(float)*8);

@@ -1,35 +1,4 @@
-char* IntToAscii(int number){
-    char *numberToChar = (char*) calloc(7,sizeof(char));
-    char *aux = (char*) calloc(7,sizeof(char));
-    itoa(number,aux,10);
-    //Añadimos los 0 correspondientes segun la puntuacion
-    if(number>=10000){
-        *numberToChar = '0';
-    }else if(number>=1000){
-        *numberToChar = '0';
-        *(numberToChar+1) = '0';
-    }else if(number>=100){
-        *numberToChar = '0';
-        *(numberToChar+1) = '0';
-        *(numberToChar+2) = '0';
-    }else if(number>=10){
-        *numberToChar = '0';
-        *(numberToChar+1) = '0';
-        *(numberToChar+2) = '0';
-        *(numberToChar+3) = '0';
-    }else{
-        *numberToChar = '0';
-        *(numberToChar+1) = '0';
-        *(numberToChar+2) = '0';
-        *(numberToChar+3) = '0';
-        *(numberToChar+4) = '0';
-    }
 
-    strcat(numberToChar,aux);
-    free(aux);
-    return numberToChar;
-    free(numberToChar);
-}
 
 void DrawFuel(){
     //Print score

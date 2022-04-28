@@ -245,6 +245,7 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
             break;
         case 5:
             NormalizeMap(map3,74, 931.0f, 724.0f);
+            NormalizeMap(map3Bomb,map3Bomb.size, 699.0f, 489.0f);
             break;
         default:
             break;
@@ -483,13 +484,22 @@ void GeometriesActions(){
         break;
         case 5:
             if(scalateMatFramesCount <= 100){
-                DrawFigure3(&map3,74);
+                DrawFigure3(&map3,map3.size);
+                DrawFigure3(&map3Bomb, map3Bomb.size, true, Morado);
                 scalateMatFramesCount++;
                 if(scalateMatFramesCount>=20)scalating = false;
             }else{
                 DrawFigure3(&map3,74,false);
+                DrawFigure3(&map3Bomb, map3Bomb.size, false, Morado);
+
+                DrawTimeLeft();
+                if(player.timeLeft<0){
+                    //Explota la bomba
+                    player.vidas--;
+                    player.nivel = 0;
+                }
+
                 //Llamar a colisiones
-                
                 CheckMapColision(points_tmp_map3,74);
                 CheckShootColision(points_tmp_map3,74);
             }

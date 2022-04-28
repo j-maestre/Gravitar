@@ -51,7 +51,7 @@ int esat::main(int argc, char **argv) {
 		esat::DrawSprite(sprite,{X,Y, 0, zoom, zoom, zoom});
 
         if(esat::MouseButtonDown(0)){
-			printf("(map3.map+%d)->x = %.0f.0f;(map3.map+%d)->y = %.0f.0f;(map3.map+%d)->z = 1.0f;\n", counter, esat::MousePositionX(), counter, esat::MousePositionY(), counter);
+			printf("(map3Bomb.map+%d)->x = %.0f.0f;(map3Bomb.map+%d)->y = %.0f.0f;(map3Bomb.map+%d)->z = 1.0f;\n", counter, esat::MousePositionX(), counter, esat::MousePositionY(), counter);
 			counter++;
 		}
         
