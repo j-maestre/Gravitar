@@ -143,7 +143,10 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
 
         switch (level){
         case 1:
-            NormalizeMap(map1, 74, 928.0f, 739.0f);
+            if(!map1.normalized){
+                NormalizeMap(map1, 74, 928.0f, 739.0f);
+                map1.normalized = true;
+            }
             // lenght = 76;    
             // original = pointsMap1Original;
             // nuevo = pointsMap1pun;
@@ -311,13 +314,17 @@ void GeometriesActions(){
         case 1: 
             //Pintar mapa1
             CheckInputsGeometries();
+            printf("Scalating-> %d Framescount-> %d\n",scalating, scalateMatFramesCount);
+            // printf("ValorEscalar-> %f\n", map1.escalar);
+            printf("X mapa-> %f \n", (map1.map)->x);
 
             if(scalateMatFramesCount <= 100){
-                printf("Escalando 1\n");
+                // printf("Escalando 1\n");
                 DrawFigure1(&map1,map1.size);
                 scalateMatFramesCount++;
-                if(scalateMatFramesCount>=20)scalating = false;
+                if(scalateMatFramesCount>=100)scalating = false;
             }else{
+                printf(".\n");
                 DrawFigure1(&map1,map1.size,false);
 
                 //Llamar a colisiones
@@ -326,31 +333,6 @@ void GeometriesActions(){
                 CheckShield();
             }
 
-           
-
-            // if(scalateFramesCount<=133){
-            //     ScalateMap(pointsMap1pun,pointsNormalized,38);
-            //     ScalateFuelNew(Fuel1->points,pointsFuel1Normalized);
-            //     ScalateFuelNew(Fuel2->points,pointsFuel2Normalized);
-            //     ScalateFuelNew(Fuel3->points,pointsFuel3Normalized);
-            //     ScalateFuelNew(Fuel4->points,pointsFuel4Normalized);
-            //     scalateFramesCount++;
-            //     if(scalateFramesCount>=133)scalating = false;
-            // }
-
-            // esat::DrawSetStrokeColor(Verde.r,Verde.g,Verde.b);
-            // esat::DrawPath(pointsNormalized,38);
-            // esat::DrawSetStrokeColor(0,0,255);
-            // // printf("PointsFuel1Normalized X[%f] Y[%f]\n",*pointsFuel1Normalized,*(pointsFuel1Normalized+1));
-            // if(!(Fuel1->obtained))esat::DrawPath(pointsFuel1Normalized,4);
-            // if(!(Fuel2->obtained))esat::DrawPath(pointsFuel2Normalized,4);
-            // if(!(Fuel3->obtained))esat::DrawPath(pointsFuel3Normalized,4);
-            // if(!(Fuel4->obtained))esat::DrawPath(pointsFuel4Normalized,4);
-            // CheckShield();
-            // CheckMapColision(pointsNormalized,38);
-            // CheckShootColision(pointsNormalized,38);
-
-            // if(!scalating)AplyGravity((float) CENTROX,(float) CENTROY);
 
         break;
         case 2: //*MATRICES

@@ -17,7 +17,6 @@ void NormalizeFuel(TFuelMat mapa,float lenght,float sizeX, float sizeY){
 }
 
 void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
-    // printf("Figure 1\n");
  
     
     if (IsSpecialKeyPressed(esat::kSpecialKey_Up)){
@@ -33,11 +32,9 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
         xPrueba--;
     }
     
-    // printf(" X-> %f Y-> %f\n", xPrueba,YPrueba);
     if(esat::IsKeyPressed('T'))m->escalar++;
     if(esat::IsKeyPressed('Y'))m->escalar--;
 
-    // printf("Escalar-> %f\n",m->escalar);
     if(scalate){
         m->escalar+=5;
     }
@@ -46,20 +43,19 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
     esat::Vec2 tr_fuel2[4];
     esat::Vec2 tr_fuel3[4];
     esat::Vec2 tr_fuel4[4];
-    for (int i = 0; i < size; i++){
-        // Scalar cada mat3
-        esat::Mat3 matIdentity = esat::Mat3Identity();
-        //  esat::Vec3 vecAux = {(m.map + i)->x, (m.map + i)->y, (m.map + i)->z};
 
+    //Scalating map
+    for (int i = 0; i < size; i++){
+        esat::Mat3 matIdentity = esat::Mat3Identity();
         matIdentity = esat::Mat3Multiply(esat::Mat3Scale(m->escalar, m->escalar), matIdentity);
         matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY), matIdentity);
-        // matIdentity = esat::Mat3Multiply(esat::Mat3Translate(85.0f, 11.0f), matIdentity);
-        esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i) );
+        esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i));
         tr_circle[i] = {tmp.x, tmp.y};
         
     }
 
-    
+
+    //Drawing Fuel
     for (int i = 0; i < 4; i++){
         // printf("Antes-> x[%f] y[%f]\n", (fuel1.map + i)->x, (fuel1.map + i)->y);
         esat::Mat3 matIdentity = esat::Mat3Identity();
@@ -115,16 +111,15 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
         //     *(points_tmp_map1 + 2 * i + 1) = tr_circle[i].y;
         // }
     }
+    
     esat::DrawSetStrokeColor(color.r, color.g, color.b);
-    // esat::DrawSetFillColor(0,0,0);
     esat::DrawPath(&tr_circle[0].x,size);
+
     esat::DrawSetStrokeColor(Azul.r, Azul.g, Azul.b);
     if(!fuel1.obtained)esat::DrawPath(&tr_fuel[0].x, 4);
     if(!fuel2.obtained)esat::DrawPath(&tr_fuel2[0].x, 4);
     if(!fuel3.obtained)esat::DrawPath(&tr_fuel3[0].x, 4);
     if(!fuel4.obtained)esat::DrawPath(&tr_fuel4[0].x, 4);
-    printf("TRfuel1 X->%f Y->%f\n", tr_fuel[0].x, tr_fuel[0].y);
-    printf("TRfuel1 Puntero X->%f Y->%f\n", *(fuel1.points), *(fuel1.points + 1));
 }
 
 void DrawFigure(TMap *m, int size, bool scalate = true){
@@ -145,10 +140,8 @@ void DrawFigure(TMap *m, int size, bool scalate = true){
         xPrueba--;
     }
     
-    // printf(" X-> %f Y-> %f\n", xPrueba,YPrueba);
     if(esat::IsKeyPressed('T'))m->escalar++;
 
-    // printf("Escalar-> %f\n",m->escalar);
     if(scalate){
         m->escalar+=5;
     }
@@ -291,6 +284,8 @@ void CreateMaps(){
     fuel2.obtained = false;
     fuel3.obtained = false;
     fuel4.obtained = false;
+
+    map1.normalized = false;
 
     // fuel2.map = nullptr;
     // fuel2.map = (esat::Vec3 *)malloc(sizeof(esat::Vec3) * 4);

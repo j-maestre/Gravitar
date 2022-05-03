@@ -95,6 +95,7 @@ struct TMap{
   esat::Vec3 *map;
   float escalar = 231.0f;
   int size;
+  bool normalized;
 };
 
 float *points_tmp_map2 = (float *)malloc(sizeof(float) * 48);
