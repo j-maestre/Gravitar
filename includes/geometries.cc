@@ -331,6 +331,7 @@ void GeometriesActions(){
                 CheckMapColision(points_tmp_map1,map1.size);
                 CheckShootColision(points_tmp_map1,map1.size);
                 CheckShield();
+                ShotTurret(turret1);
             }
 
 

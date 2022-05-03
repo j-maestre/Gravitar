@@ -6,7 +6,19 @@ TFuelMat fuel2;
 TFuelMat fuel3;
 TFuelMat fuel4;
 
+TTurret turret1;
+float temporal = 0.0f;
+
 void NormalizeFuel(TFuelMat mapa,float lenght,float sizeX, float sizeY){
+    for (int i = 0; i < lenght; i++){
+        // (mapa.map + i)->x -= CENTROX;
+        // (mapa.map + i)->y -= CENTROY;
+        (mapa.map + i)->x /= sizeX;
+        (mapa.map + i)->y /= sizeY;
+    }
+    
+}
+void NormalizeTurret(TTurret mapa,float lenght,float sizeX, float sizeY){
     for (int i = 0; i < lenght; i++){
         // (mapa.map + i)->x -= CENTROX;
         // (mapa.map + i)->y -= CENTROY;
@@ -38,11 +50,22 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
     if(scalate){
         m->escalar+=5;
     }
+
+    //El escalar de fuel tiene que llegar a 30
+    if(fuel1.escalar<30)fuel1.escalar+=0.3f;
+    if(fuel2.escalar<30)fuel2.escalar+=0.3f;
+    if(fuel3.escalar<30)fuel3.escalar+=0.3f;
+    if(fuel4.escalar<30)fuel4.escalar+=0.3f;
+
+
     esat::Vec2 tr_circle[91];
     esat::Vec2 tr_fuel[4];
     esat::Vec2 tr_fuel2[4];
     esat::Vec2 tr_fuel3[4];
     esat::Vec2 tr_fuel4[4];
+
+    esat::Vec2 tr_turret11[4];
+    esat::Vec2 tr_turret12[4];
 
     //Scalating map
     for (int i = 0; i < size; i++){
@@ -53,6 +76,41 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
         tr_circle[i] = {tmp.x, tmp.y};
         
     }
+
+    if(esat::IsKeyPressed('P'))temporal+=0.1f;
+    if(esat::IsKeyPressed('O'))temporal-=0.1f;
+
+    printf("temp %f\n", temporal);
+
+    //Drawing turrets
+    //Draw Base
+    for (int i = 0; i < 4; i++){
+        esat::Mat3 matIdentity = esat::Mat3Identity();
+
+        matIdentity = esat::Mat3Multiply(esat::Mat3Scale(turret1.escalar, turret1.escalar), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Rotate(5.999997f), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[20].x-147.0f, tr_circle[20].y), matIdentity);
+
+        esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(turret1.map + i));
+
+        tr_turret11[i] = {tmp.x, tmp.y};
+    }
+
+    //Draw head
+    for (int i = 4; i < 8; i++){
+        esat::Mat3 matIdentity = esat::Mat3Identity();
+
+        matIdentity = esat::Mat3Multiply(esat::Mat3Scale(turret1.escalar, turret1.escalar), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Rotate(5.999997f), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[20].x -147.0f, tr_circle[20].y), matIdentity);
+
+        esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(turret1.map + i));
+
+        tr_turret12[i-4] = {tmp.x, tmp.y};
+    }
+    
+
+   
 
 
     //Drawing Fuel
@@ -84,7 +142,6 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
         // printf("Fuel X-> %f Y->%f\n",tmp.x,tmp.y);
     }
 
-    // Createcircle(tr_fuel3[0].x, tr_fuel3[0].y,5);
 
     //Puntos para el puntero de las colisiones
     if(scalate){
@@ -114,6 +171,11 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
     
     esat::DrawSetStrokeColor(color.r, color.g, color.b);
     esat::DrawPath(&tr_circle[0].x,size);
+
+    esat::DrawSetStrokeColor(Rojo.r, Rojo.g, Rojo.b);
+    esat::DrawSetFillColor(0, 0, 0);
+    esat::DrawPath(&tr_turret11[0].x, 4);
+    esat::DrawSolidPath(&tr_turret12[0].x, 4);
 
     esat::DrawSetStrokeColor(Azul.r, Azul.g, Azul.b);
     if(!fuel1.obtained)esat::DrawPath(&tr_fuel[0].x, 4);
@@ -264,6 +326,7 @@ TMap map1;
 TMap map2;
 TMap map3;
 TMap map3Bomb;
+
 void CreateMaps(){
 
     //Map1
@@ -275,6 +338,7 @@ void CreateMaps(){
     fuel1.map = (esat::Vec3 *)malloc(sizeof(esat::Vec3) * 4);
     fuel1.size = 4;
 
+    //Map1 fuels
     fuel1.points = (float*) malloc(sizeof(float)*8);
     fuel2.points = (float*) malloc(sizeof(float)*8);
     fuel3.points = (float*) malloc(sizeof(float)*8);
@@ -286,6 +350,28 @@ void CreateMaps(){
     fuel4.obtained = false;
 
     map1.normalized = false;
+    map2.normalized = false;
+    map3.normalized = false;
+
+    //Turrets
+    turret1.map = (esat::Vec3*) malloc(sizeof(esat::Vec3)*8);
+    turret1.points = (float*) malloc(sizeof(float)*16);
+    turret1.disparos = (TDisparo*) malloc(sizeof(TDisparo)*4);
+    (turret1.disparos)->disparando = false;
+    (turret1.disparos + 1)->disparando = false;
+    (turret1.disparos + 2)->disparando = false;
+    (turret1.disparos + 3)->disparando = false;
+
+    (turret1.map+0)->x = 110.0f;(turret1.map+0)->y = 216.0f;(turret1.map+0)->z = 1.0f;
+    (turret1.map+1)->x = 124.0f;(turret1.map+1)->y = 217.0f;(turret1.map+1)->z = 1.0f;
+    (turret1.map+2)->x = 141.0f;(turret1.map+2)->y = 199.0f;(turret1.map+2)->z = 1.0f;
+    (turret1.map+3)->x = 141.0f;(turret1.map+3)->y = 181.0f;(turret1.map+3)->z = 1.0f;
+    (turret1.map+4)->x = 129.0f;(turret1.map+4)->y = 214.0f;(turret1.map+4)->z = 1.0f;
+    (turret1.map+5)->x = 138.0f;(turret1.map+5)->y = 205.0f;(turret1.map+5)->z = 1.0f;
+    (turret1.map+6)->x = 146.0f;(turret1.map+6)->y = 213.0f;(turret1.map+6)->z = 1.0f;
+    (turret1.map+7)->x = 137.0f;(turret1.map+7)->y = 222.0f;(turret1.map+7)->z = 1.0f;
+
+    NormalizeTurret(turret1, 8, 146.0f, 222.0f);
 
     // fuel2.map = nullptr;
     // fuel2.map = (esat::Vec3 *)malloc(sizeof(esat::Vec3) * 4);

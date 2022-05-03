@@ -86,9 +86,17 @@ struct TFuelNew{
 struct TFuelMat{
   esat::Vec3 *map;
   float *points;
-  float escalar = 30.0f;
+  float escalar = 1.0f;
   int size;
   bool obtained;
+};
+struct TTurret{
+  esat::Vec3 *map;
+  float *points;
+  float escalar = 100.0f;
+  int size;
+  bool vivo;
+  TDisparo *disparos;
 };
 
 struct TMap{
@@ -482,5 +490,6 @@ TEnemy enemi1;
 #include "gravity.cc"
 #include "map.cc"
 #include "enemies.cc"
+#include "turret.cc"
 #include "geometries.cc"
 #include "interface.cc"
