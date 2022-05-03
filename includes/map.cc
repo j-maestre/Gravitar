@@ -2,6 +2,9 @@
 float xPrueba = 0.0f;
 float YPrueba = 0.0f;
 TFuelMat fuel1;
+TFuelMat fuel2;
+TFuelMat fuel3;
+TFuelMat fuel4;
 
 void NormalizeFuel(TFuelMat mapa,float lenght,float sizeX, float sizeY){
     for (int i = 0; i < lenght; i++){
@@ -14,7 +17,7 @@ void NormalizeFuel(TFuelMat mapa,float lenght,float sizeX, float sizeY){
 }
 
 void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
-    printf("Figure 1\n");
+    // printf("Figure 1\n");
  
     
     if (IsSpecialKeyPressed(esat::kSpecialKey_Up)){
@@ -40,6 +43,9 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
     }
     esat::Vec2 tr_circle[91];
     esat::Vec2 tr_fuel[4];
+    esat::Vec2 tr_fuel2[4];
+    esat::Vec2 tr_fuel3[4];
+    esat::Vec2 tr_fuel4[4];
     for (int i = 0; i < size; i++){
         // Scalar cada mat3
         esat::Mat3 matIdentity = esat::Mat3Identity();
@@ -54,18 +60,35 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
     }
 
     
-    NormalizeFuel(fuel1,4,40,40);
     for (int i = 0; i < 4; i++){
-        printf("Antes-> x[%f] y[%f]\n", *(fuel1.map + i));
+        // printf("Antes-> x[%f] y[%f]\n", (fuel1.map + i)->x, (fuel1.map + i)->y);
         esat::Mat3 matIdentity = esat::Mat3Identity();
+        esat::Mat3 matIdentity2 = esat::Mat3Identity();
+        esat::Mat3 matIdentity3 = esat::Mat3Identity();
+        esat::Mat3 matIdentity4 = esat::Mat3Identity();
+
         matIdentity = esat::Mat3Multiply(esat::Mat3Scale(fuel1.escalar, fuel1.escalar), matIdentity);
-        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY), matIdentity);
+        matIdentity2 = esat::Mat3Multiply(esat::Mat3Scale(fuel1.escalar, fuel1.escalar), matIdentity2);
+        matIdentity3 = esat::Mat3Multiply(esat::Mat3Scale(fuel1.escalar, fuel1.escalar), matIdentity3);
+        matIdentity4 = esat::Mat3Multiply(esat::Mat3Scale(fuel1.escalar, fuel1.escalar), matIdentity4);
+
+        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[24].x +5, tr_circle[24].y-12), matIdentity);
+        matIdentity2 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[30].x +5, tr_circle[30].y-12), matIdentity2);
+        matIdentity3 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[50].x -60, tr_circle[50].y-12), matIdentity3);
+        matIdentity4 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[57].x -10, tr_circle[57].y-12), matIdentity4);
+
         esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(fuel1.map + i));
+        esat::Vec3 tmp2 = esat::Mat3TransformVec3(matIdentity2, *(fuel1.map + i));
+        esat::Vec3 tmp3 = esat::Mat3TransformVec3(matIdentity3, *(fuel1.map + i));
+        esat::Vec3 tmp4 = esat::Mat3TransformVec3(matIdentity4, *(fuel1.map + i));
         tr_fuel[i] = {tmp.x, tmp.y};
-        printf("Fuel X-> %f Y->%f\n",tmp.x,tmp.y);
+        tr_fuel2[i] = {tmp2.x, tmp2.y};
+        tr_fuel3[i] = {tmp3.x, tmp3.y};
+        tr_fuel4[i] = {tmp4.x, tmp4.y};
+        // printf("Fuel X-> %f Y->%f\n",tmp.x,tmp.y);
     }
 
-    Createcircle(tr_fuel[0].x, tr_fuel[0].y,5);
+    // Createcircle(tr_fuel3[0].x, tr_fuel3[0].y,5);
 
     //Puntos para el puntero de las colisiones
     if(scalate){
@@ -73,6 +96,20 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
             *(points_tmp_map1 + 2 * i) = tr_circle[i].x;
             *(points_tmp_map1 + 2 * i + 1) = tr_circle[i].y;
         }
+        for (int i = 0; i < 4; i++){
+            *(fuel1.points + i * 2) =tr_fuel[i].x;
+            *(fuel1.points + i * 2 + 1) =tr_fuel[i].y;
+
+            *(fuel2.points + i * 2) =tr_fuel2[i].x;
+            *(fuel2.points + i * 2 + 1) =tr_fuel2[i].y;
+
+            *(fuel3.points + i * 2) =tr_fuel3[i].x;
+            *(fuel3.points + i * 2 + 1) =tr_fuel3[i].y;
+
+            *(fuel4.points + i * 2) =tr_fuel4[i].x;
+            *(fuel4.points + i * 2 + 1) =tr_fuel4[i].y;
+        }
+        
         // for (int i = 0; i < 4; i++){
         //     *(points_tmp_map1 + 2 * i) = tr_circle[i].x;
         //     *(points_tmp_map1 + 2 * i + 1) = tr_circle[i].y;
@@ -81,7 +118,13 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
     esat::DrawSetStrokeColor(color.r, color.g, color.b);
     // esat::DrawSetFillColor(0,0,0);
     esat::DrawPath(&tr_circle[0].x,size);
-    esat::DrawPath(&tr_fuel[0].x, 4);
+    esat::DrawSetStrokeColor(Azul.r, Azul.g, Azul.b);
+    if(!fuel1.obtained)esat::DrawPath(&tr_fuel[0].x, 4);
+    if(!fuel2.obtained)esat::DrawPath(&tr_fuel2[0].x, 4);
+    if(!fuel3.obtained)esat::DrawPath(&tr_fuel3[0].x, 4);
+    if(!fuel4.obtained)esat::DrawPath(&tr_fuel4[0].x, 4);
+    printf("TRfuel1 X->%f Y->%f\n", tr_fuel[0].x, tr_fuel[0].y);
+    printf("TRfuel1 Puntero X->%f Y->%f\n", *(fuel1.points), *(fuel1.points + 1));
 }
 
 void DrawFigure(TMap *m, int size, bool scalate = true){
@@ -238,11 +281,26 @@ void CreateMaps(){
     fuel1.map = nullptr;
     fuel1.map = (esat::Vec3 *)malloc(sizeof(esat::Vec3) * 4);
     fuel1.size = 4;
+
+    fuel1.points = (float*) malloc(sizeof(float)*8);
+    fuel2.points = (float*) malloc(sizeof(float)*8);
+    fuel3.points = (float*) malloc(sizeof(float)*8);
+    fuel4.points = (float*) malloc(sizeof(float)*8);
+
+    fuel1.obtained = false;
+    fuel2.obtained = false;
+    fuel3.obtained = false;
+    fuel4.obtained = false;
+
+    // fuel2.map = nullptr;
+    // fuel2.map = (esat::Vec3 *)malloc(sizeof(esat::Vec3) * 4);
+
     (fuel1.map+0)->x = 20.0f;(fuel1.map+0)->y = 20.0f;(fuel1.map+0)->z = 1.0f;
     (fuel1.map+1)->x = 20.0f;(fuel1.map+1)->y = 40.0f;(fuel1.map+1)->z = 1.0f;
     (fuel1.map+2)->x = 40.0f;(fuel1.map+2)->y = 40.0f;(fuel1.map+2)->z = 1.0f;
     (fuel1.map+3)->x = 40.0f;(fuel1.map+3)->y = 20.0f;(fuel1.map+3)->z = 1.0f;
 
+    NormalizeFuel(fuel1, 4, 40, 40);
 
     (map1.map+0)->x = 149.0f;(map1.map+0)->y = 391.0f;(map1.map+0)->z = 1.0f;
     (map1.map+1)->x = 168.0f;(map1.map+1)->y = 348.0f;(map1.map+1)->z = 1.0f;

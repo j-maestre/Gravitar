@@ -85,8 +85,10 @@ struct TFuelNew{
 
 struct TFuelMat{
   esat::Vec3 *map;
+  float *points;
   float escalar = 30.0f;
   int size;
+  bool obtained;
 };
 
 struct TMap{

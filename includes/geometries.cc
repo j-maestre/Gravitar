@@ -81,7 +81,7 @@ void CheckInputsGeometries(){
     }
 }
 
-void CheckFuelObtain(float *points, TFuelNew *Fuel){
+void CheckFuelObtain(float *points, TFuelMat *Fuel){
     printf("Obtained: %d\n",Fuel->obtained);
     if(*points > player.x-15 && *points< player.x+15 && *(points+1)<player.y+40 && *(points+7)<player.y+40 && *(points+3) > player.y ){
             if(!Fuel->obtained){
@@ -106,10 +106,10 @@ void CheckShield(){
         // esat::DrawSetStrokeColor(255,0,0);
         // esat::DrawLine(player.x-15,player.y+40,player.x+15,player.y+40);
 
-        CheckFuelObtain(pointsFuel1Normalized,Fuel1);
-        CheckFuelObtain(pointsFuel2Normalized,Fuel2);
-        CheckFuelObtain(pointsFuel3Normalized,Fuel3);
-        CheckFuelObtain(pointsFuel4Normalized,Fuel4);
+        CheckFuelObtain(fuel1.points,&fuel1);
+        CheckFuelObtain(fuel2.points,&fuel2);
+        CheckFuelObtain(fuel3.points,&fuel3);
+        CheckFuelObtain(fuel4.points,&fuel4);
 
     }
 }
@@ -323,6 +323,7 @@ void GeometriesActions(){
                 //Llamar a colisiones
                 CheckMapColision(points_tmp_map1,map1.size);
                 CheckShootColision(points_tmp_map1,map1.size);
+                CheckShield();
             }
 
            
