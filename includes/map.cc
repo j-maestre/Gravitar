@@ -1,10 +1,20 @@
-//TODO volve a coger los puntos del mapa1, pero coger a la vez los puntos del fuel y de las torretas
-
 // const int map2Size = 48;
 float xPrueba = 0.0f;
 float YPrueba = 0.0f;
+TFuelMat fuel1;
+
+void NormalizeFuel(TFuelMat mapa,float lenght,float sizeX, float sizeY){
+    for (int i = 0; i < lenght; i++){
+        // (mapa.map + i)->x -= CENTROX;
+        // (mapa.map + i)->y -= CENTROY;
+        (mapa.map + i)->x /= sizeX;
+        (mapa.map + i)->y /= sizeY;
+    }
+    
+}
 
 void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
+    printf("Figure 1\n");
  
     
     if (IsSpecialKeyPressed(esat::kSpecialKey_Up)){
@@ -29,18 +39,33 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
         m->escalar+=5;
     }
     esat::Vec2 tr_circle[91];
+    esat::Vec2 tr_fuel[4];
     for (int i = 0; i < size; i++){
-         // Scalar cada mat3
-         esat::Mat3 matIdentity = esat::Mat3Identity();
+        // Scalar cada mat3
+        esat::Mat3 matIdentity = esat::Mat3Identity();
         //  esat::Vec3 vecAux = {(m.map + i)->x, (m.map + i)->y, (m.map + i)->z};
 
-         matIdentity = esat::Mat3Multiply(esat::Mat3Scale(m->escalar, m->escalar), matIdentity);
-        //  matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY), matIdentity);
-        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(85.0f, 11.0f), matIdentity);
-         esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i) );
-         tr_circle[i] = {tmp.x, tmp.y};
+        matIdentity = esat::Mat3Multiply(esat::Mat3Scale(m->escalar, m->escalar), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY), matIdentity);
+        // matIdentity = esat::Mat3Multiply(esat::Mat3Translate(85.0f, 11.0f), matIdentity);
+        esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i) );
+        tr_circle[i] = {tmp.x, tmp.y};
         
     }
+
+    
+    NormalizeFuel(fuel1,4,40,40);
+    for (int i = 0; i < 4; i++){
+        printf("Antes-> x[%f] y[%f]\n", *(fuel1.map + i));
+        esat::Mat3 matIdentity = esat::Mat3Identity();
+        matIdentity = esat::Mat3Multiply(esat::Mat3Scale(fuel1.escalar, fuel1.escalar), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY), matIdentity);
+        esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(fuel1.map + i));
+        tr_fuel[i] = {tmp.x, tmp.y};
+        printf("Fuel X-> %f Y->%f\n",tmp.x,tmp.y);
+    }
+
+    Createcircle(tr_fuel[0].x, tr_fuel[0].y,5);
 
     //Puntos para el puntero de las colisiones
     if(scalate){
@@ -48,11 +73,15 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
             *(points_tmp_map1 + 2 * i) = tr_circle[i].x;
             *(points_tmp_map1 + 2 * i + 1) = tr_circle[i].y;
         }
+        // for (int i = 0; i < 4; i++){
+        //     *(points_tmp_map1 + 2 * i) = tr_circle[i].x;
+        //     *(points_tmp_map1 + 2 * i + 1) = tr_circle[i].y;
+        // }
     }
     esat::DrawSetStrokeColor(color.r, color.g, color.b);
     // esat::DrawSetFillColor(0,0,0);
     esat::DrawPath(&tr_circle[0].x,size);
-
+    esat::DrawPath(&tr_fuel[0].x, 4);
 }
 
 void DrawFigure(TMap *m, int size, bool scalate = true){
@@ -86,8 +115,8 @@ void DrawFigure(TMap *m, int size, bool scalate = true){
          esat::Mat3 matIdentity = esat::Mat3Identity();
         //  esat::Vec3 vecAux = {(m.map + i)->x, (m.map + i)->y, (m.map + i)->z};
 
-         matIdentity = esat::Mat3Multiply(esat::Mat3Scale(m->escalar, m->escalar), matIdentity);
-        //  matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Scale(m->escalar, m->escalar), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY), matIdentity);
         matIdentity = esat::Mat3Multiply(esat::Mat3Translate(85.0f, 11.0f), matIdentity);
          esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i) );
          tr_circle[i] = {tmp.x, tmp.y};
@@ -137,8 +166,8 @@ void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde){
          esat::Mat3 matIdentity = esat::Mat3Identity();
         //  esat::Vec3 vecAux = {(m.map + i)->x, (m.map + i)->y, (m.map + i)->z};
 
-         matIdentity = esat::Mat3Multiply(esat::Mat3Scale(m->escalar, m->escalar), matIdentity);
-        //  matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Scale(m->escalar, m->escalar), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY), matIdentity);
         matIdentity = esat::Mat3Multiply(esat::Mat3Translate(85.0f, 11.0f), matIdentity);
          esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i) );
          tr_circle[i] = {tmp.x, tmp.y};
@@ -205,7 +234,15 @@ void CreateMaps(){
     map1.map = nullptr;
     map1.map = (esat::Vec3*) malloc(sizeof(esat::Vec3)*91);
     map1.size = 91;
-    //74
+    //Fuel
+    fuel1.map = nullptr;
+    fuel1.map = (esat::Vec3 *)malloc(sizeof(esat::Vec3) * 4);
+    fuel1.size = 4;
+    (fuel1.map+0)->x = 20.0f;(fuel1.map+0)->y = 20.0f;(fuel1.map+0)->z = 1.0f;
+    (fuel1.map+1)->x = 20.0f;(fuel1.map+1)->y = 40.0f;(fuel1.map+1)->z = 1.0f;
+    (fuel1.map+2)->x = 40.0f;(fuel1.map+2)->y = 40.0f;(fuel1.map+2)->z = 1.0f;
+    (fuel1.map+3)->x = 40.0f;(fuel1.map+3)->y = 20.0f;(fuel1.map+3)->z = 1.0f;
+
 
     (map1.map+0)->x = 149.0f;(map1.map+0)->y = 391.0f;(map1.map+0)->z = 1.0f;
     (map1.map+1)->x = 168.0f;(map1.map+1)->y = 348.0f;(map1.map+1)->z = 1.0f;
@@ -454,6 +491,8 @@ void CreateMaps(){
 
 void NormalizeMap(TMap mapa,float lenght,float sizeX, float sizeY){
     for (int i = 0; i < lenght; i++){
+        (mapa.map + i)->x -= CENTROX;
+        (mapa.map + i)->y -= CENTROY;
         (mapa.map + i)->x /= sizeX;
         (mapa.map + i)->y /= sizeY;
     }

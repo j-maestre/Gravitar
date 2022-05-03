@@ -75,6 +75,7 @@ void CheckInputsGeometries(){
         scalateMatFramesCount = 0;
         // map2.escalar = 331.0f;
         InitEnemies();
+        map1.escalar = 231.0f;
         // InitMap(pointsMap1pun,pointsNormalized,pointsMap1Original,38.0f,843.0f,718.0f);
         // ResetFuelPoints(pointsFuel1Map1,pointsFuel1Normalized);
     }
@@ -312,6 +313,7 @@ void GeometriesActions(){
             CheckInputsGeometries();
 
             if(scalateMatFramesCount <= 100){
+                printf("Escalando 1\n");
                 DrawFigure1(&map1,map1.size);
                 scalateMatFramesCount++;
                 if(scalateMatFramesCount>=20)scalating = false;

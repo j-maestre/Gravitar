@@ -83,6 +83,12 @@ struct TFuelNew{
   bool obtained = false;
 };
 
+struct TFuelMat{
+  esat::Vec3 *map;
+  float escalar = 30.0f;
+  int size;
+};
+
 struct TMap{
   esat::Vec3 *map;
   float escalar = 231.0f;
@@ -184,7 +190,7 @@ void Disparo(TDisparo *disparo, float x, float y, xemath::Vector2 vecDirector,TC
       // Disparo libre encontrado
       if (!(disparo + i)->disparando && !encontrado){
         encontrado = true;
-        if(enemy)printf("Disparo enemigo encontrado\n");
+        // if(enemy)printf("Disparo enemigo encontrado\n");
         (disparo + i)->disparando = true;
         (disparo + i)->x = x;
         (disparo + i)->y = y;

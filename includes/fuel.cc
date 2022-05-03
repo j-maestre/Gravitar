@@ -48,9 +48,6 @@ void ResetFuelPoints(float pointsOriginal[4][3], float *points){
     
 }
 
-
-
-
 void FuelActions(){
 
 }

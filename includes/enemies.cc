@@ -10,10 +10,10 @@ void InitEnemies(){
     enemi1.x = 100.0f;
     enemi1.y = 350.0f;
 
-    for (int i = 0; i < 4; i++){
+    // for (int i = 0; i < 4; i++){
 
-        printf("Disparo del enemigo %d->%d\n", i, (enemi1.disparos + i)->disparando);
-    }
+        // printf("Disparo del enemigo %d->%d\n", i, (enemi1.disparos + i)->disparando);
+    // }
     
 }
 
@@ -161,7 +161,7 @@ void MoveEnemy(TEnemy *enemi){
     if(shootFramesCont%(nextShootTime * fps) == 0){
         //Sorteamos cuando saldrá el proximo disparo
         nextShootTime = 1 + rand() % SHOOT_FRECUENCY;
-        printf("Disparo, siguiente en %ds\n",nextShootTime);
+        // printf("Disparo, siguiente en %ds\n",nextShootTime);
         Disparo(enemi1.disparos, enemi1.x, enemi1.y, direccion, Rojo, true);
     }
     Disparo(enemi1.disparos, enemi1.x, enemi1.y, direccion, Rojo, false);
