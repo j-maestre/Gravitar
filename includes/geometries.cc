@@ -314,24 +314,31 @@ void GeometriesActions(){
         case 1: 
             //Pintar mapa1
             CheckInputsGeometries();
-            printf("Scalating-> %d Framescount-> %d\n",scalating, scalateMatFramesCount);
+            // printf("Scalating-> %d Framescount-> %d\n",scalating, scalateMatFramesCount);
             // printf("ValorEscalar-> %f\n", map1.escalar);
-            printf("X mapa-> %f \n", (map1.map)->x);
+            // printf("X mapa-> %f \n", (map1.map)->x);
 
-            if(scalateMatFramesCount <= 100){
+            if(scalateMatFramesCount <= 120){
                 // printf("Escalando 1\n");
                 DrawFigure1(&map1,map1.size);
                 scalateMatFramesCount++;
-                if(scalateMatFramesCount>=100)scalating = false;
+                if(scalateMatFramesCount>=120)scalating = false;
             }else{
-                printf(".\n");
+                // printf(".\n");
                 DrawFigure1(&map1,map1.size,false);
 
                 //Llamar a colisiones
                 CheckMapColision(points_tmp_map1,map1.size);
                 CheckShootColision(points_tmp_map1,map1.size);
                 CheckShield();
-                ShotTurret(turret1);
+
+                //Disparo a la torreta
+                if(turret1.vivo){
+                    ShotTurret(turret1, turret1_points);
+                    if(CheckShootColision(turret1_points,8,true)){
+                        turret1.vivo = false;
+                    }
+                }
             }
 
 

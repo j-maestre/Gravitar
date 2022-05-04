@@ -59,7 +59,8 @@ void CheckMapColision(float *points, int size){
 
 }
 
-void CheckShootColision(float *points, int size){
+bool CheckShootColision(float *points, int size, bool turret = false){
+    bool turretDead = false;
     for (int i = 0; i < size; i++){
         for (int j = 0; j < 4; j++){
             if ((player.disparos + j)->disparando){
@@ -74,6 +75,10 @@ void CheckShootColision(float *points, int size){
                 if (moduloSum < modulo3 + 1){
                     printf("colision mapa");
                     (player.disparos + j)->disparando = false;
+                    if(turret){
+                        player.score+=100;
+                        turretDead = true;
+                    }
                 }
             } // End if
             if(player.nivel == 99){
@@ -81,4 +86,5 @@ void CheckShootColision(float *points, int size){
             }
         }// End j for
     } // End i for
+    return turretDead;
 }

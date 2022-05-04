@@ -7,6 +7,7 @@ TFuelMat fuel3;
 TFuelMat fuel4;
 
 TTurret turret1;
+float *turret1_points = (float*) malloc(sizeof(float)*8);
 float temporal = 0.0f;
 
 void NormalizeFuel(TFuelMat mapa,float lenght,float sizeX, float sizeY){
@@ -71,7 +72,7 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
     for (int i = 0; i < size; i++){
         esat::Mat3 matIdentity = esat::Mat3Identity();
         matIdentity = esat::Mat3Multiply(esat::Mat3Scale(m->escalar, m->escalar), matIdentity);
-        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY+50), matIdentity);
         esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i));
         tr_circle[i] = {tmp.x, tmp.y};
         
@@ -80,7 +81,6 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
     if(esat::IsKeyPressed('P'))temporal+=0.1f;
     if(esat::IsKeyPressed('O'))temporal-=0.1f;
 
-    printf("temp %f\n", temporal);
 
     //Drawing turrets
     //Draw Base
@@ -163,19 +163,26 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
             *(fuel4.points + i * 2 + 1) =tr_fuel4[i].y;
         }
         
-        // for (int i = 0; i < 4; i++){
-        //     *(points_tmp_map1 + 2 * i) = tr_circle[i].x;
-        //     *(points_tmp_map1 + 2 * i + 1) = tr_circle[i].y;
-        // }
+        for (int i = 0; i < 4; i++){
+            //Base
+            *(turret1_points + i * 2) = tr_turret11[i].x;
+            *(turret1_points + i * 2 + 1) = tr_turret11[i].y;
+            //Head
+            *(turret1_points + 4 + i * 2) = tr_turret11[i+4].x;
+            *(turret1_points + 4 + i * 2 + 1) = tr_turret11[i+4].y;
+        }
     }
     
     esat::DrawSetStrokeColor(color.r, color.g, color.b);
     esat::DrawPath(&tr_circle[0].x,size);
 
-    esat::DrawSetStrokeColor(Rojo.r, Rojo.g, Rojo.b);
-    esat::DrawSetFillColor(0, 0, 0);
-    esat::DrawPath(&tr_turret11[0].x, 4);
-    esat::DrawSolidPath(&tr_turret12[0].x, 4);
+    if(turret1.vivo){
+        esat::DrawSetStrokeColor(Rojo.r, Rojo.g, Rojo.b);
+        esat::DrawSetFillColor(0, 0, 0);
+
+        esat::DrawPath(&tr_turret11[0].x, 4);
+        esat::DrawSolidPath(&tr_turret12[0].x, 4);
+    }
 
     esat::DrawSetStrokeColor(Azul.r, Azul.g, Azul.b);
     if(!fuel1.obtained)esat::DrawPath(&tr_fuel[0].x, 4);
@@ -356,6 +363,7 @@ void CreateMaps(){
     //Turrets
     turret1.map = (esat::Vec3*) malloc(sizeof(esat::Vec3)*8);
     turret1.points = (float*) malloc(sizeof(float)*16);
+    turret1.vivo = true;
     turret1.disparos = (TDisparo*) malloc(sizeof(TDisparo)*4);
     (turret1.disparos)->disparando = false;
     (turret1.disparos + 1)->disparando = false;

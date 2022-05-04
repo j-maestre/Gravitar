@@ -148,7 +148,7 @@ void DrawEnemy2(TEnemy *enemi){
 
 void MoveEnemy(TEnemy *enemi){
     // Sacar vector director entre el enemigo y el jugador
-    bool nuevoDisp = false;
+    // bool nuevoDisp = false;
     xemath::Vector2 direccion = {player.x - enemi->x, player.y - enemi->y};
     direccion = xemath::Vec2Normalize(direccion);
 

@@ -13,7 +13,7 @@ const bool debug = true;
 
 //Ancho -> 256*4
 //Alto -> 192*4
-const int ANCHO = 1024, ALTO = 768, CENTROX = 512, CENTROY = 384 ;
+const int ANCHO = 1124, ALTO = 868, CENTROX = 562, CENTROY = 434 ;
 const double dPI = 3.1415926535897;
 unsigned char fps=60;
 double current_time,last_time;
