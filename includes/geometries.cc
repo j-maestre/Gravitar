@@ -209,6 +209,19 @@ void CheckScrollX(float *points, int size, float *points2, int size2,float *poin
     }
 }
 
+void TurretShotController(TTurret *turret, float *points, int index){
+
+    //Disparo a la torreta
+    if(turret->vivo){
+        ShotTurret(*turret, points);
+        if(CheckShootColision(points,4,true)){
+            turret->vivo = false;
+            printf("\n-------- COLISION CON TURRET %d --------\n",index);
+        }
+    }
+ 
+}
+
 void GeometriesActions(){
     frameCont<=1000?frameCont++:frameCont=0;
     TColor color = Blanco;
@@ -332,13 +345,9 @@ void GeometriesActions(){
                 CheckShootColision(points_tmp_map1,map1.size);
                 CheckShield();
 
-                //Disparo a la torreta
-                if(turret1.vivo){
-                    ShotTurret(turret1, turret1_points);
-                    if(CheckShootColision(turret1_points,8,true)){
-                        turret1.vivo = false;
-                    }
-                }
+                TurretShotController(&turret1, turret1_points,1);
+                TurretShotController(&turret2, turret2_points,2);
+                TurretShotController(&turret3, turret3_points,3);
             }
 
 
