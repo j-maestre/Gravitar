@@ -18,7 +18,7 @@ const double dPI = 3.1415926535897;
 unsigned char fps=60;
 double current_time,last_time;
 const float ANGLE_ROTATION = 3;
-const int SHOOT_FRECUENCY = 1;
+const int SHOOT_FRECUENCY = 4;
 bool intro = true, interfaz = true;
 int credits = 0;
 bool scalating = false;
@@ -97,6 +97,8 @@ struct TTurret{
   int size;
   bool vivo;
   TDisparo *disparos;
+  int nextShootTurretTime = 6;
+  int shootTurretFramesCont = 0;
 };
 
 struct TMap{

@@ -47,6 +47,22 @@ void ScrollMap(float *points,int size,float scrollSize){
     }
 }
 
+void ReturnMenu(){
+    player.nivel = 0;
+    scalating = false;
+    scalateMatFramesCount = 0;
+    InitEnemies();
+    player.vecDirector.x = 0.0f;
+    player.vecDirector.y = -15.0f;
+    player.aceleration.x = 0.0f;
+    player.aceleration.y = 0.0f;
+    player.velocity.x = 0.0f;
+    player.velocity.y = 0.0f;
+    player.x = CENTROX;
+    player.y = CENTROY;
+    map1.escalar = 231.0f;
+}
+
 void CheckInputsGeometries(){
 
     if(esat::IsSpecialKeyPressed(esat::kSpecialKey_Up)){
@@ -68,18 +84,20 @@ void CheckInputsGeometries(){
         }
     }
     if(esat::IsSpecialKeyDown(esat::kSpecialKey_Backspace)){
-        player.nivel = 0;
-        scalating = false;
+        ReturnMenu();
+        // player.nivel = 0;
+        // scalating = false;
         // InitMap1Array();
         // InitMaps();
-        scalateMatFramesCount = 0;
+        // scalateMatFramesCount = 0;
         // map2.escalar = 331.0f;
-        InitEnemies();
-        map1.escalar = 231.0f;
+        // InitEnemies();
+        // map1.escalar = 231.0f;
         // InitMap(pointsMap1pun,pointsNormalized,pointsMap1Original,38.0f,843.0f,718.0f);
         // ResetFuelPoints(pointsFuel1Map1,pointsFuel1Normalized);
     }
 }
+
 
 void CheckFuelObtain(float *points, TFuelMat *Fuel){
     // printf("Obtained: %d\n",Fuel->obtained);
@@ -115,6 +133,7 @@ void CheckShield(){
 }
 
 void CheckGalaxyColision(float x, float y, int level, int margin = 50){
+    if(level==1)Createcircle(x,y,10,Verde);
     float modulo;
     xemath::Vector2 nivel;
     nivel = {x - player.x, y-player.y};
@@ -209,15 +228,18 @@ void CheckScrollX(float *points, int size, float *points2, int size2,float *poin
     }
 }
 
-void TurretShotController(TTurret *turret, float *points, int index){
+void TurretShotController(TTurret *turret, float *points, int index = 0){
 
     //Disparo a la torreta
     if(turret->vivo){
-        ShotTurret(*turret, points);
+        ShotTurret(&(*turret), points, index);
+        //*Colision disparo del jugador con la torreta
         if(CheckShootColision(points,4,true)){
             turret->vivo = false;
-            printf("\n-------- COLISION CON TURRET %d --------\n",index);
+            // printf("\n-------- COLISION CON TURRET %d --------\n",index);
         }
+
+        //*Colision disparo torreta con el mapa
     }
  
 }
@@ -232,9 +254,9 @@ void GeometriesActions(){
     switch(player.nivel){
         //MAPA MENU
         case 0:
-                // Pintar las galaxias
-                //  X Y Radio Color ExcentricidadX ExcentricidadY Puntos Extravagancia(cuando hay que invertir la Y) Peculiaridad(cuanto hay que restarle a la Y)
-                Createcircle(250.0f, 150.0f, 40.0f, Rojo, 1.0f, 0.8f, 8);
+            // Pintar las galaxias
+            //  X Y Radio Color ExcentricidadX ExcentricidadY Puntos Extravagancia(cuando hay que invertir la Y) Peculiaridad(cuanto hay que restarle a la Y)
+            Createcircle(250.0f, 150.0f, 40.0f, Rojo, 1.0f, 0.8f, 8);
             CheckGalaxyColision(250.0f,150.0f,2);
 
             //Medio
@@ -314,9 +336,10 @@ void GeometriesActions(){
             Createcircle(600.0f,200.0f,30.0f,Amarillo,1.0f,1.0f,8,2,0.2f);
             CheckGalaxyColision(600.0f,200.0f,6);
 
-
-            Createcircle(900.0f,120.0f,25.0f,Rosa,1.0f,1.0f,32,8,0.75f);
-            CheckGalaxyColision(900.0f,120.0f,1,40);
+            if(turret1.vivo || turret2.vivo || turret3.vivo || turret4.vivo || turret5.vivo || turret6.vivo){
+                Createcircle(900.0f,120.0f,25.0f,Rosa,1.0f,1.0f,32,8,0.75f);
+                CheckGalaxyColision(900.0f,120.0f,1,40);
+            }
 
             //Pintar enemigos
             DrawEnemy1(&enemi1);
@@ -346,8 +369,14 @@ void GeometriesActions(){
                 CheckShield();
 
                 TurretShotController(&turret1, turret1_points,1);
-                TurretShotController(&turret2, turret2_points,2);
-                TurretShotController(&turret3, turret3_points,3);
+                TurretShotController(&turret2, turret2_points);
+                TurretShotController(&turret3, turret3_points);
+                TurretShotController(&turret4, turret4_points);
+                TurretShotController(&turret5, turret5_points);
+                TurretShotController(&turret6, turret6_points);
+            }
+            if(player.y <= 23.050344f){
+                ReturnMenu();
             }
 
 

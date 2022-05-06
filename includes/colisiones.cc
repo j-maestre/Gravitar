@@ -1,5 +1,6 @@
 // int aux = 0;
 //TODO check colision disparo con el borde del mapa cuando he hecho scroll
+//*Colision del jugador con el mapa
 void CheckMapColision(float *points, int size){
     // printf("uep\n");
     for (int i = 0; i < (size-2); i++){
@@ -62,7 +63,7 @@ void CheckMapColision(float *points, int size){
 bool CheckShootColision(float *points, int size, bool turret = false){
     bool turretDead = false;
     for (int i = 0; i < size; i++){
-        Createcircle(*(points + i * 2), *(points + i * 2 + 1),5);
+        // Createcircle(*(points + i * 2), *(points + i * 2 + 1),5);
         for (int j = 0; j < 4; j++){
             if ((player.disparos + j)->disparando){
                 xemath::Vector2 vec1 = {*(points + (i * 2)) - (player.disparos + j)->x, *(points + ((i * 2) + 1)) - (player.disparos + j)->y};
