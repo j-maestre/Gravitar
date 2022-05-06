@@ -82,11 +82,11 @@ void CheckInputsGeometries(){
 }
 
 void CheckFuelObtain(float *points, TFuelMat *Fuel){
-    printf("Obtained: %d\n",Fuel->obtained);
+    // printf("Obtained: %d\n",Fuel->obtained);
     if(*points > player.x-15 && *points< player.x+15 && *(points+1)<player.y+40 && *(points+7)<player.y+40 && *(points+3) > player.y ){
             if(!Fuel->obtained){
                 player.fuel += 3000;
-                printf("COLISION FUEL\n");
+                // printf("COLISION FUEL\n");
                 (Fuel->obtained) = true;
             }
         }
@@ -144,7 +144,7 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
         switch (level){
         case 1:
             if(!map1.normalized){
-                NormalizeMap(map1, 74, 928.0f, 739.0f);
+                NormalizeMap(map1, 91, 928.0f, 739.0f);
                 map1.normalized = true;
             }
             // lenght = 76;    
