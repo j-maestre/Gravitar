@@ -77,27 +77,6 @@ void InterfaceActions(){
 }
 
 void FreePointers(){
-    free(pointsNormalized);
-    free(points4Normalized);
-    free(pointsFuel1Normalized);
-    free(pointsFuel2Normalized);
-    free(pointsFuel3Normalized);
-    free(pointsFuel4Normalized);
-    free(Fuel1);
-    free(Fuel2);
-    free(Fuel3);
-    free(Fuel4);
-    free(pointsMap1pun);
-    free(pointsMap4pun);
-    free(points2Map4Original);
-    free(points2Map4pun);
-    free(points24Normalized);
-    free(points3Map4Original);
-    free(points3Map4pun);
-    free(points34Normalized);
-    free(points4Map4Original);
-    free(points4Map4pun);
-    free(points44Normalized);
     free(map2.map);
     free(points_tmp_map1);
     free(points_tmp_map2);

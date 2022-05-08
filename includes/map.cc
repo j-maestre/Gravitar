@@ -268,17 +268,6 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
         tr_turret82[i-4] = {tmp8.x, tmp8.y};
     }
 
-    // for (int i = 0; i < 4; i++){
-    //     Createcircle(tr_turret21[i].x,tr_turret21[i].y,5);
-    //     Createcircle(tr_turret22[i].x,tr_turret21[i].y,5);
-
-    //     Createcircle(tr_turret11[i].x,tr_turret11[i].y,5,Verde);
-    //     Createcircle(tr_turret12[i].x,tr_turret11[i].y,5,Verde);
-        
-    // }
-
-    // Createcircle(tr_turret71[0].x, tr_turret71[0].y,5);
-    // printf("x->%f y->%f \n", tr_turret71[0].x, tr_turret71[0].y);
 
     //Drawing Fuel
     for (int i = 0; i < 4; i++){
