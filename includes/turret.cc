@@ -319,8 +319,17 @@ void DrawTurretsMap1(bool scalating, esat::Vec2 tr_circle[]){
             }
     }
 }
+
+int temporalINT = 0;
+float temporalFloat = 0.0f;
+
 void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[]){
-    printf("Debug 1\n");
+    if(esat::IsKeyDown('P'))temporalINT++;
+    if(esat::IsKeyPressed('P'))temporalFloat += 0.5f;
+    if(esat::IsKeyDown('O'))temporalINT--;
+    if(esat::IsKeyPressed('O'))temporalFloat -= 0.5f;
+
+    printf("Temporal-> %f\n", temporalFloat);
     // Turret1
     esat::Vec2 tr_turret11[4];
     esat::Vec2 tr_turret12[4];
@@ -352,7 +361,6 @@ void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[]){
     // Turret8
     esat::Vec2 tr_turret81[4];
     esat::Vec2 tr_turret82[4];
-    printf("Debug 2\n");
 
     //Drawing turrets
     //Draw Base
@@ -366,7 +374,6 @@ void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[]){
         esat::Mat3 matIdentity7 = esat::Mat3Identity();
         esat::Mat3 matIdentity8 = esat::Mat3Identity();
 
-        printf("Debug 2.1\n");
 
         matIdentity = esat::Mat3Multiply(esat::Mat3Scale(turret9.escalar, turret9.escalar), matIdentity);
         matIdentity2 = esat::Mat3Multiply(esat::Mat3Scale(turret10.escalar, turret10.escalar), matIdentity2);
@@ -377,9 +384,8 @@ void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[]){
         matIdentity7 = esat::Mat3Multiply(esat::Mat3Scale(turret15.escalar, turret15.escalar), matIdentity7);
         matIdentity8 = esat::Mat3Multiply(esat::Mat3Scale(turret16.escalar, turret16.escalar), matIdentity8);
 
-        printf("Debug 2.2\n");
 
-        matIdentity = esat::Mat3Multiply(esat::Mat3Rotate(5.999997f), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Rotate(3.79), matIdentity);
         matIdentity2 = esat::Mat3Multiply(esat::Mat3Rotate(5.999997f), matIdentity2);
         matIdentity3 = esat::Mat3Multiply(esat::Mat3Rotate(-1.5f), matIdentity3);
         matIdentity4 = esat::Mat3Multiply(esat::Mat3Rotate(1.6f), matIdentity4);
@@ -388,9 +394,7 @@ void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[]){
         matIdentity7 = esat::Mat3Multiply(esat::Mat3Rotate(-1.5f), matIdentity7);
         matIdentity8 = esat::Mat3Multiply(esat::Mat3Rotate(2.79f), matIdentity8);
 
-        printf("Debug 2.3\n");
-
-        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[20].x-158.0f, tr_circle[20].y), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[41].x + 55.0f, tr_circle[41].y + 121.5f), matIdentity);
         matIdentity2 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[18].x - 113.0f, tr_circle[18].y - 50.0f), matIdentity2);
         matIdentity3 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[11].x - 100.0f, tr_circle[11].y + 174.0f), matIdentity3);
         matIdentity4 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[35].x +82.0f, tr_circle[35].y-94.5f), matIdentity4);
@@ -400,7 +404,6 @@ void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[]){
         matIdentity8 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[40].x + 90.0f, tr_circle[40].y + 70.0f), matIdentity8);
         // printf("TemporalINT-> %d\n",temporaliNT);
 
-        printf("Debug 2.4\n");
 
         esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(turret9.map + i));
         esat::Vec3 tmp2 = esat::Mat3TransformVec3(matIdentity2, *(turret10.map + i));
@@ -411,7 +414,6 @@ void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[]){
         esat::Vec3 tmp7 = esat::Mat3TransformVec3(matIdentity7, *(turret15.map + i));
         esat::Vec3 tmp8 = esat::Mat3TransformVec3(matIdentity8, *(turret16.map + i));
 
-        printf("Debug 2.5\n");
 
         tr_turret11[i] = {tmp.x, tmp.y};
         tr_turret21[i] = {tmp2.x, tmp2.y};
@@ -422,9 +424,7 @@ void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[]){
         tr_turret71[i] = {tmp7.x, tmp7.y};
         tr_turret81[i] = {tmp8.x, tmp8.y};
 
-        printf("Debug 2.6\n");
     }
-    printf("Debug 3\n");
 
     //Draw head
     for (int i = 4; i < 8; i++){
@@ -446,7 +446,7 @@ void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[]){
         matIdentity7 = esat::Mat3Multiply(esat::Mat3Scale(turret15.escalar, turret15.escalar), matIdentity7);
         matIdentity8 = esat::Mat3Multiply(esat::Mat3Scale(turret16.escalar, turret16.escalar), matIdentity8);
 
-        matIdentity = esat::Mat3Multiply(esat::Mat3Rotate(5.999997f), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Rotate(3.79), matIdentity);
         matIdentity2 = esat::Mat3Multiply(esat::Mat3Rotate(5.999997f), matIdentity2);
         matIdentity3 = esat::Mat3Multiply(esat::Mat3Rotate(-1.5f), matIdentity3);
         matIdentity4 = esat::Mat3Multiply(esat::Mat3Rotate(1.6f), matIdentity4);
@@ -455,7 +455,7 @@ void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[]){
         matIdentity7 = esat::Mat3Multiply(esat::Mat3Rotate(-1.5f), matIdentity7);
         matIdentity8 = esat::Mat3Multiply(esat::Mat3Rotate(2.79f), matIdentity8);
 
-        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[20].x - 158.0f, tr_circle[20].y), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[41].x + 55.0f, tr_circle[41].y + 121.5f), matIdentity);
         matIdentity2 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[18].x -113.0f, tr_circle[18].y -50.0f), matIdentity2);
         matIdentity3 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[11].x - 100.0f, tr_circle[11].y + 174.0f), matIdentity3);
         matIdentity4 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[35].x + 82.0f, tr_circle[35].y - 94.5f), matIdentity4);
@@ -483,7 +483,6 @@ void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[]){
         tr_turret82[i-4] = {tmp8.x, tmp8.y};
     }
 
-    printf("Debug 4\n");
 
     esat::DrawSetStrokeColor(Rojo.r, Rojo.g, Rojo.b);
     esat::DrawSetFillColor(0, 0, 0);
@@ -493,7 +492,7 @@ void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[]){
         esat::DrawSolidPath(&tr_turret12[0].x, 4);
     }
 
-    if (turret10.vivo)
+    /* if (turret10.vivo)
     {
         esat::DrawPath(&tr_turret21[0].x, 4);
         esat::DrawSolidPath(&tr_turret22[0].x, 4);
@@ -529,9 +528,8 @@ void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[]){
     {
         esat::DrawPath(&tr_turret81[0].x, 4);
         esat::DrawSolidPath(&tr_turret82[0].x, 4);
-    }
+    } */
 
-    printf("Debug 5\n");
 
     if(scalating){
 
@@ -602,5 +600,4 @@ void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[]){
                 *(turret8_points + 4 + i * 2 + 1) = tr_turret82[i+4].y;
             }
     }
-    printf("Debug 6\n");
 }

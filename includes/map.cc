@@ -116,7 +116,6 @@ void DrawFigure2(TMap *m, int size, bool scalate = true, TColor color = Verde){
     for (int i = 0; i < size; i++){
         esat::Mat3 matIdentity = esat::Mat3Identity();
         matIdentity = esat::Mat3Multiply(esat::Mat3Scale(m->escalar+1.50f, m->escalar), matIdentity);
-        // matIdentity = esat::Mat3Multiply(esat::Mat3Scale(1.25f, 1.0f), matIdentity);
         matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY+50), matIdentity);
         esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i));
         tr_circle[i] = {tmp.x, tmp.y};

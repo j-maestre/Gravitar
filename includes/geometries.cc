@@ -356,7 +356,9 @@ void GeometriesActions(){
                 // esat::Mat3 aux = UpdateBaseFigure(map2,false);
                 DrawFigure2(&map2, 49, false);
                 //Llamar a colisiones
-                
+
+                TurretShotController(&turret9, turret1_points, 1);
+
                 CheckMapColision(points_tmp_map2,49);
                 CheckShootColision(points_tmp_map2,49);
                 // printf("free\n");
