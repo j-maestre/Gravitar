@@ -27,8 +27,8 @@ void NormalizeTurret(TTurret mapa,float lenght,float sizeX, float sizeY){
 }
 
 void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
- 
-    
+    esat::Vec2 tr_circle[91]; // Size de map1-> 91
+    //?---------DEBUG---------
     if (IsSpecialKeyPressed(esat::kSpecialKey_Up)){
         YPrueba--;
     }
@@ -45,28 +45,6 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
     if(esat::IsKeyPressed('T'))m->escalar++;
     if(esat::IsKeyPressed('Y'))m->escalar--;
 
-    if(scalate){
-        m->escalar+=5;
-    }
-
-    
-
-
-    esat::Vec2 tr_circle[91]; //Size de map1-> 91
-    
-
-    
-    //Scalating map
-    for (int i = 0; i < size; i++){
-        esat::Mat3 matIdentity = esat::Mat3Identity();
-        matIdentity = esat::Mat3Multiply(esat::Mat3Scale(m->escalar, m->escalar), matIdentity);
-        matIdentity = esat::Mat3Multiply(esat::Mat3Scale(1.25f, 1.0f), matIdentity);
-        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY+50), matIdentity);
-        esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i));
-        tr_circle[i] = {tmp.x, tmp.y};
-        
-    }
-    
     if(esat::IsKeyPressed('L')){
         for (int i = 0; i < size; i++){
         esat::Mat3 matIdentity = esat::Mat3Identity();
@@ -75,7 +53,7 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
         esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i));
         tr_circle[i] = {tmp.x, tmp.y};
         
-    }
+        }
     }
 
     if(esat::IsKeyPressed('P')){
@@ -92,14 +70,25 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
     if(esat::IsKeyDown('O')){
         temporaliNT-=1;
     }
-    // printf("%f\n",temporal);
+
+    //?---------END DEBUG---------
 
 
+
+    if(scalate){
+        m->escalar+=5;
+    }
     
-
-
-    
-
+    //Scalating map
+    for (int i = 0; i < size; i++){
+        esat::Mat3 matIdentity = esat::Mat3Identity();
+        matIdentity = esat::Mat3Multiply(esat::Mat3Scale(m->escalar, m->escalar), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Scale(1.25f, 1.0f), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY+50), matIdentity);
+        esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i));
+        tr_circle[i] = {tmp.x, tmp.y};
+        
+    }
 
     //Puntos para el puntero de las colisiones
     if(scalate){
@@ -107,8 +96,6 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
             *(points_tmp_map1 + 2 * i) = tr_circle[i].x;
             *(points_tmp_map1 + 2 * i + 1) = tr_circle[i].y;
         }
-        
-       
     }
 
     DrawTurretsMap1(scalate,tr_circle);
@@ -116,17 +103,45 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
 
     esat::DrawSetStrokeColor(color.r, color.g, color.b);
     esat::DrawPath(&tr_circle[0].x,size);
-
     
+}
+void DrawFigure2(TMap *m, int size, bool scalate = true, TColor color = Verde){
+    esat::Vec2 tr_circle[49];
 
+    if(scalate){
+        m->escalar+=5;
+    }
+    
+    //Scalating map
+    for (int i = 0; i < size; i++){
+        esat::Mat3 matIdentity = esat::Mat3Identity();
+        matIdentity = esat::Mat3Multiply(esat::Mat3Scale(m->escalar+1.50f, m->escalar), matIdentity);
+        // matIdentity = esat::Mat3Multiply(esat::Mat3Scale(1.25f, 1.0f), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY+50), matIdentity);
+        esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i));
+        tr_circle[i] = {tmp.x, tmp.y};
+        
+    }
+
+    //Puntos para el puntero de las colisiones
+    if(scalate && m->escalar > 400){
+        for (int i = 0; i < size; i++){
+            *(points_tmp_map2 + 2 * i) = tr_circle[i].x;
+            *(points_tmp_map2 + 2 * i + 1) = tr_circle[i].y;
+        }
+    }
+
+
+    DrawTurretsMap2(scalate,tr_circle);
+    // DrawFuelMap2(scalate, tr_circle);
+
+    esat::DrawSetStrokeColor(color.r, color.g, color.b);
+    esat::DrawPath(&tr_circle[0].x,size);
     
 }
 
 
 void DrawFigure(TMap *m, int size, bool scalate = true){
-    // const int sizeConst = size;
-    //  if(scalate)m->escalar += 5.0f;
-    //escalar tiene que llegar a 731
 
     if (IsSpecialKeyPressed(esat::kSpecialKey_Up)){
         YPrueba--;
@@ -266,7 +281,68 @@ TMap map2;
 TMap map3;
 TMap map3Bomb;
 
+void InitTurret(TTurret *turret){
+    turret->map = (esat::Vec3 *)malloc(sizeof(esat::Vec3) * 8);
+    turret->points = (float *)malloc(sizeof(float) * 16);
+    turret->vivo = true;
+    turret->disparos = (TDisparo *)malloc(sizeof(TDisparo) * 4);
+    (turret->disparos)->disparando = false;
+    (turret->disparos + 1)->disparando = false;
+    (turret->disparos + 2)->disparando = false;
+    (turret->disparos + 3)->disparando = false;
+
+    (turret->map + 0)->x = 110.0f;
+    (turret->map + 0)->y = 216.0f;
+    (turret->map + 0)->z = 1.0f;
+    (turret->map + 1)->x = 124.0f;
+    (turret->map + 1)->y = 217.0f;
+    (turret->map + 1)->z = 1.0f;
+    (turret->map + 2)->x = 141.0f;
+    (turret->map + 2)->y = 199.0f;
+    (turret->map + 2)->z = 1.0f;
+    (turret->map + 3)->x = 141.0f;
+    (turret->map + 3)->y = 181.0f;
+    (turret->map + 3)->z = 1.0f;
+    (turret->map + 4)->x = 129.0f;
+    (turret->map + 4)->y = 214.0f;
+    (turret->map + 4)->z = 1.0f;
+    (turret->map + 5)->x = 138.0f;
+    (turret->map + 5)->y = 205.0f;
+    (turret->map + 5)->z = 1.0f;
+    (turret->map + 6)->x = 146.0f;
+    (turret->map + 6)->y = 213.0f;
+    (turret->map + 6)->z = 1.0f;
+    (turret->map + 7)->x = 137.0f;
+    (turret->map + 7)->y = 222.0f;
+    (turret->map + 7)->z = 1.0f;
+
+    NormalizeTurret(*turret, 8, 146.0f, 222.0f);
+}
+
+
 void CreateMaps(){
+
+    // CreateTurrets();
+
+    //Map1
+    InitTurret(&turret1);
+    InitTurret(&turret2);
+    InitTurret(&turret3);
+    InitTurret(&turret4);
+    InitTurret(&turret5);
+    InitTurret(&turret6);
+    InitTurret(&turret7);
+    InitTurret(&turret8);
+    
+    //Map2
+    InitTurret(&turret9);
+    InitTurret(&turret10);
+    InitTurret(&turret11);
+    InitTurret(&turret12);
+    InitTurret(&turret13);
+    InitTurret(&turret14);
+    InitTurret(&turret15);
+    InitTurret(&turret16);
 
     //Map1
     map1.map = nullptr;
@@ -292,160 +368,7 @@ void CreateMaps(){
     map2.normalized = false;
     map3.normalized = false;
 
-    //Turrets
-    turret1.map = (esat::Vec3*) malloc(sizeof(esat::Vec3)*8);
-    turret1.points = (float*) malloc(sizeof(float)*16);
-    turret1.vivo = true;
-    turret1.disparos = (TDisparo*) malloc(sizeof(TDisparo)*4);
-    (turret1.disparos)->disparando = false;
-    (turret1.disparos + 1)->disparando = false;
-    (turret1.disparos + 2)->disparando = false;
-    (turret1.disparos + 3)->disparando = false;
-
-
-    (turret1.map+0)->x = 110.0f;(turret1.map+0)->y = 216.0f;(turret1.map+0)->z = 1.0f;
-    (turret1.map+1)->x = 124.0f;(turret1.map+1)->y = 217.0f;(turret1.map+1)->z = 1.0f;
-    (turret1.map+2)->x = 141.0f;(turret1.map+2)->y = 199.0f;(turret1.map+2)->z = 1.0f;
-    (turret1.map+3)->x = 141.0f;(turret1.map+3)->y = 181.0f;(turret1.map+3)->z = 1.0f;
-    (turret1.map+4)->x = 129.0f;(turret1.map+4)->y = 214.0f;(turret1.map+4)->z = 1.0f;
-    (turret1.map+5)->x = 138.0f;(turret1.map+5)->y = 205.0f;(turret1.map+5)->z = 1.0f;
-    (turret1.map+6)->x = 146.0f;(turret1.map+6)->y = 213.0f;(turret1.map+6)->z = 1.0f;
-    (turret1.map+7)->x = 137.0f;(turret1.map+7)->y = 222.0f;(turret1.map+7)->z = 1.0f;
-
-    NormalizeTurret(turret1, 8, 146.0f, 222.0f);
-
-    turret2.map = (esat::Vec3*) malloc(sizeof(esat::Vec3)*8);
-    turret2.points = (float*) malloc(sizeof(float)*16);
-    turret2.vivo = true;
-    turret2.disparos = (TDisparo*) malloc(sizeof(TDisparo)*4);
-    (turret2.disparos)->disparando = false;
-    (turret2.disparos + 1)->disparando = false;
-    (turret2.disparos + 2)->disparando = false;
-    (turret2.disparos + 3)->disparando = false;
-
-    (turret2.map+0)->x = 110.0f;(turret2.map+0)->y = 216.0f;(turret2.map+0)->z = 1.0f;
-    (turret2.map+1)->x = 124.0f;(turret2.map+1)->y = 217.0f;(turret2.map+1)->z = 1.0f;
-    (turret2.map+2)->x = 141.0f;(turret2.map+2)->y = 199.0f;(turret2.map+2)->z = 1.0f;
-    (turret2.map+3)->x = 141.0f;(turret2.map+3)->y = 181.0f;(turret2.map+3)->z = 1.0f;
-    (turret2.map+4)->x = 129.0f;(turret2.map+4)->y = 214.0f;(turret2.map+4)->z = 1.0f;
-    (turret2.map+5)->x = 138.0f;(turret2.map+5)->y = 205.0f;(turret2.map+5)->z = 1.0f;
-    (turret2.map+6)->x = 146.0f;(turret2.map+6)->y = 213.0f;(turret2.map+6)->z = 1.0f;
-    (turret2.map+7)->x = 137.0f;(turret2.map+7)->y = 222.0f;(turret2.map+7)->z = 1.0f;
-    NormalizeTurret(turret2, 8, 146.0f, 222.0f);
-
-    turret3.map = (esat::Vec3*) malloc(sizeof(esat::Vec3)*8);
-    turret3.points = (float*) malloc(sizeof(float)*16);
-    turret3.vivo = true;
-    turret3.disparos = (TDisparo*) malloc(sizeof(TDisparo)*4);
-    (turret3.disparos)->disparando = false;
-    (turret3.disparos + 1)->disparando = false;
-    (turret3.disparos + 2)->disparando = false;
-    (turret3.disparos + 3)->disparando = false;
-
-    (turret3.map+0)->x = 110.0f;(turret3.map+0)->y = 216.0f;(turret3.map+0)->z = 1.0f;
-    (turret3.map+1)->x = 124.0f;(turret3.map+1)->y = 217.0f;(turret3.map+1)->z = 1.0f;
-    (turret3.map+2)->x = 141.0f;(turret3.map+2)->y = 199.0f;(turret3.map+2)->z = 1.0f;
-    (turret3.map+3)->x = 141.0f;(turret3.map+3)->y = 181.0f;(turret3.map+3)->z = 1.0f;
-    (turret3.map+4)->x = 129.0f;(turret3.map+4)->y = 214.0f;(turret3.map+4)->z = 1.0f;
-    (turret3.map+5)->x = 138.0f;(turret3.map+5)->y = 205.0f;(turret3.map+5)->z = 1.0f;
-    (turret3.map+6)->x = 146.0f;(turret3.map+6)->y = 213.0f;(turret3.map+6)->z = 1.0f;
-    (turret3.map+7)->x = 137.0f;(turret3.map+7)->y = 222.0f;(turret3.map+7)->z = 1.0f;
-    NormalizeTurret(turret3, 8, 146.0f, 222.0f);
-
-    turret4.map = (esat::Vec3*) malloc(sizeof(esat::Vec3)*8);
-    turret4.points = (float*) malloc(sizeof(float)*16);
-    turret4.vivo = true;
-    turret4.disparos = (TDisparo*) malloc(sizeof(TDisparo)*4);
-    (turret4.disparos)->disparando = false;
-    (turret4.disparos + 1)->disparando = false;
-    (turret4.disparos + 2)->disparando = false;
-    (turret4.disparos + 3)->disparando = false;
-
-    (turret4.map+0)->x = 110.0f;(turret4.map+0)->y = 216.0f;(turret4.map+0)->z = 1.0f;
-    (turret4.map+1)->x = 124.0f;(turret4.map+1)->y = 217.0f;(turret4.map+1)->z = 1.0f;
-    (turret4.map+2)->x = 141.0f;(turret4.map+2)->y = 199.0f;(turret4.map+2)->z = 1.0f;
-    (turret4.map+3)->x = 141.0f;(turret4.map+3)->y = 181.0f;(turret4.map+3)->z = 1.0f;
-    (turret4.map+4)->x = 129.0f;(turret4.map+4)->y = 214.0f;(turret4.map+4)->z = 1.0f;
-    (turret4.map+5)->x = 138.0f;(turret4.map+5)->y = 205.0f;(turret4.map+5)->z = 1.0f;
-    (turret4.map+6)->x = 146.0f;(turret4.map+6)->y = 213.0f;(turret4.map+6)->z = 1.0f;
-    (turret4.map+7)->x = 137.0f;(turret4.map+7)->y = 222.0f;(turret4.map+7)->z = 1.0f;
-    NormalizeTurret(turret4, 8, 146.0f, 222.0f);
-
-    turret5.map = (esat::Vec3*) malloc(sizeof(esat::Vec3)*8);
-    turret5.points = (float*) malloc(sizeof(float)*16);
-    turret5.vivo = true;
-    turret5.disparos = (TDisparo*) malloc(sizeof(TDisparo)*4);
-    (turret5.disparos)->disparando = false;
-    (turret5.disparos + 1)->disparando = false;
-    (turret5.disparos + 2)->disparando = false;
-    (turret5.disparos + 3)->disparando = false;
-
-    (turret5.map+0)->x = 110.0f;(turret5.map+0)->y = 216.0f;(turret5.map+0)->z = 1.0f;
-    (turret5.map+1)->x = 124.0f;(turret5.map+1)->y = 217.0f;(turret5.map+1)->z = 1.0f;
-    (turret5.map+2)->x = 141.0f;(turret5.map+2)->y = 199.0f;(turret5.map+2)->z = 1.0f;
-    (turret5.map+3)->x = 141.0f;(turret5.map+3)->y = 181.0f;(turret5.map+3)->z = 1.0f;
-    (turret5.map+4)->x = 129.0f;(turret5.map+4)->y = 214.0f;(turret5.map+4)->z = 1.0f;
-    (turret5.map+5)->x = 138.0f;(turret5.map+5)->y = 205.0f;(turret5.map+5)->z = 1.0f;
-    (turret5.map+6)->x = 146.0f;(turret5.map+6)->y = 213.0f;(turret5.map+6)->z = 1.0f;
-    (turret5.map+7)->x = 137.0f;(turret5.map+7)->y = 222.0f;(turret5.map+7)->z = 1.0f;
-    NormalizeTurret(turret5, 8, 146.0f, 222.0f);
-
-    turret6.map = (esat::Vec3*) malloc(sizeof(esat::Vec3)*8);
-    turret6.points = (float*) malloc(sizeof(float)*16);
-    turret6.vivo = true;
-    turret6.disparos = (TDisparo*) malloc(sizeof(TDisparo)*4);
-    (turret6.disparos)->disparando = false;
-    (turret6.disparos + 1)->disparando = false;
-    (turret6.disparos + 2)->disparando = false;
-    (turret6.disparos + 3)->disparando = false;
-
-    (turret6.map+0)->x = 110.0f;(turret6.map+0)->y = 216.0f;(turret6.map+0)->z = 1.0f;
-    (turret6.map+1)->x = 124.0f;(turret6.map+1)->y = 217.0f;(turret6.map+1)->z = 1.0f;
-    (turret6.map+2)->x = 141.0f;(turret6.map+2)->y = 199.0f;(turret6.map+2)->z = 1.0f;
-    (turret6.map+3)->x = 141.0f;(turret6.map+3)->y = 181.0f;(turret6.map+3)->z = 1.0f;
-    (turret6.map+4)->x = 129.0f;(turret6.map+4)->y = 214.0f;(turret6.map+4)->z = 1.0f;
-    (turret6.map+5)->x = 138.0f;(turret6.map+5)->y = 205.0f;(turret6.map+5)->z = 1.0f;
-    (turret6.map+6)->x = 146.0f;(turret6.map+6)->y = 213.0f;(turret6.map+6)->z = 1.0f;
-    (turret6.map+7)->x = 137.0f;(turret6.map+7)->y = 222.0f;(turret6.map+7)->z = 1.0f;
-    NormalizeTurret(turret6, 8, 146.0f, 222.0f);
-
-    turret7.map = (esat::Vec3*) malloc(sizeof(esat::Vec3)*8);
-    turret7.points = (float*) malloc(sizeof(float)*16);
-    turret7.vivo = true;
-    turret7.disparos = (TDisparo*) malloc(sizeof(TDisparo)*4);
-    (turret7.disparos)->disparando = false;
-    (turret7.disparos + 1)->disparando = false;
-    (turret7.disparos + 2)->disparando = false;
-    (turret7.disparos + 3)->disparando = false;
-
-    (turret7.map+0)->x = 110.0f;(turret7.map+0)->y = 216.0f;(turret7.map+0)->z = 1.0f;
-    (turret7.map+1)->x = 124.0f;(turret7.map+1)->y = 217.0f;(turret7.map+1)->z = 1.0f;
-    (turret7.map+2)->x = 141.0f;(turret7.map+2)->y = 199.0f;(turret7.map+2)->z = 1.0f;
-    (turret7.map+3)->x = 141.0f;(turret7.map+3)->y = 181.0f;(turret7.map+3)->z = 1.0f;
-    (turret7.map+4)->x = 129.0f;(turret7.map+4)->y = 214.0f;(turret7.map+4)->z = 1.0f;
-    (turret7.map+5)->x = 138.0f;(turret7.map+5)->y = 205.0f;(turret7.map+5)->z = 1.0f;
-    (turret7.map+6)->x = 146.0f;(turret7.map+6)->y = 213.0f;(turret7.map+6)->z = 1.0f;
-    (turret7.map+7)->x = 137.0f;(turret7.map+7)->y = 222.0f;(turret7.map+7)->z = 1.0f;
-    NormalizeTurret(turret7, 8, 146.0f, 222.0f);
     
-    turret8.map = (esat::Vec3*) malloc(sizeof(esat::Vec3)*8);
-    turret8.points = (float*) malloc(sizeof(float)*16);
-    turret8.vivo = true;
-    turret8.disparos = (TDisparo*) malloc(sizeof(TDisparo)*4);
-    (turret8.disparos)->disparando = false;
-    (turret8.disparos + 1)->disparando = false;
-    (turret8.disparos + 2)->disparando = false;
-    (turret8.disparos + 3)->disparando = false;
-
-    (turret8.map+0)->x = 110.0f;(turret8.map+0)->y = 216.0f;(turret8.map+0)->z = 1.0f;
-    (turret8.map+1)->x = 124.0f;(turret8.map+1)->y = 217.0f;(turret8.map+1)->z = 1.0f;
-    (turret8.map+2)->x = 141.0f;(turret8.map+2)->y = 199.0f;(turret8.map+2)->z = 1.0f;
-    (turret8.map+3)->x = 141.0f;(turret8.map+3)->y = 181.0f;(turret8.map+3)->z = 1.0f;
-    (turret8.map+4)->x = 129.0f;(turret8.map+4)->y = 214.0f;(turret8.map+4)->z = 1.0f;
-    (turret8.map+5)->x = 138.0f;(turret8.map+5)->y = 205.0f;(turret8.map+5)->z = 1.0f;
-    (turret8.map+6)->x = 146.0f;(turret8.map+6)->y = 213.0f;(turret8.map+6)->z = 1.0f;
-    (turret8.map+7)->x = 137.0f;(turret8.map+7)->y = 222.0f;(turret8.map+7)->z = 1.0f;
-    NormalizeTurret(turret8, 8, 146.0f, 222.0f);
 
     // fuel2.map = nullptr;
     // fuel2.map = (esat::Vec3 *)malloc(sizeof(esat::Vec3) * 4);

@@ -108,9 +108,9 @@ struct TMap{
   bool normalized;
 };
 
-float *points_tmp_map2 = (float *)malloc(sizeof(float) * 48);
-float *points_tmp_map3 = (float *)malloc(sizeof(float) * 74);
 float *points_tmp_map1 = (float *)malloc(sizeof(float) * 91);
+float *points_tmp_map2 = (float *)malloc(sizeof(float) * 49);
+float *points_tmp_map3 = (float *)malloc(sizeof(float) * 74);
 
 //fwd = cos(angel),sin(angle)
 //aceleration = fwd * 0.1f;

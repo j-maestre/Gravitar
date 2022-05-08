@@ -61,6 +61,7 @@ void ReturnMenu(){
     player.x = CENTROX;
     player.y = CENTROY;
     map1.escalar = 231.0f;
+    map2.escalar = 231.0f;
 }
 
 void CheckInputsGeometries(){
@@ -145,7 +146,10 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
     
         break;
         case 2:
-            NormalizeMap(map2,49, 892.0f, 714.0f);
+            if(!map2.normalized){
+                NormalizeMap(map2,49, 892.0f, 714.0f);
+                map2.normalized = true;
+            }
             break;
         case 4:
             // lenght = 102;
@@ -343,18 +347,18 @@ void GeometriesActions(){
         break;
         case 2: //*MATRICES
 
-            if(scalateMatFramesCount <= 100){
+            if(scalateMatFramesCount <= 110){
                 // esat::Mat3 aux = UpdateBaseFigure(map2);
-                DrawFigure(&map2,49);
+                DrawFigure2(&map2, 49);
                 scalateMatFramesCount++;
-                if(scalateMatFramesCount>=20)scalating = false;
+                if(scalateMatFramesCount>=109)scalating = false;
             }else{
                 // esat::Mat3 aux = UpdateBaseFigure(map2,false);
-                DrawFigure(&map2,49,false);
+                DrawFigure2(&map2, 49, false);
                 //Llamar a colisiones
                 
-                CheckMapColision(points_tmp_map2,48);
-                CheckShootColision(points_tmp_map2,48);
+                CheckMapColision(points_tmp_map2,49);
+                CheckShootColision(points_tmp_map2,49);
                 // printf("free\n");
                 // free(points_tmp);
                 
