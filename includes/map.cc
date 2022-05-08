@@ -1,28 +1,9 @@
 // const int map2Size = 48;
 float xPrueba = 0.0f;
 float YPrueba = 0.0f;
-TFuelMat fuel1;
-TFuelMat fuel2;
-TFuelMat fuel3;
-TFuelMat fuel4;
 
-//Map1 turrets
-TTurret turret1;
-TTurret turret2;
-TTurret turret3;
-TTurret turret4;
-TTurret turret5;
-TTurret turret6;
-TTurret turret7;
-TTurret turret8;
-float *turret1_points = (float*) malloc(sizeof(float)*8);
-float *turret2_points = (float*) malloc(sizeof(float)*8);
-float *turret3_points = (float*) malloc(sizeof(float)*8);
-float *turret4_points = (float*) malloc(sizeof(float)*8);
-float *turret5_points = (float*) malloc(sizeof(float)*8);
-float *turret6_points = (float*) malloc(sizeof(float)*8);
-float *turret7_points = (float*) malloc(sizeof(float)*8);
-float *turret8_points = (float*) malloc(sizeof(float)*8);
+
+
 float temporal = 1.0f;
 int temporaliNT = 0;
 
@@ -68,51 +49,13 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
         m->escalar+=5;
     }
 
-    //El escalar de fuel tiene que llegar a 30
-    if(fuel1.escalar<30)fuel1.escalar+=0.3f;
-    if(fuel2.escalar<30)fuel2.escalar+=0.3f;
-    if(fuel3.escalar<30)fuel3.escalar+=0.3f;
-    if(fuel4.escalar<30)fuel4.escalar+=0.3f;
+    
 
 
-    esat::Vec2 tr_circle[91];
-    esat::Vec2 tr_fuel[4];
-    esat::Vec2 tr_fuel2[4];
-    esat::Vec2 tr_fuel3[4];
-    esat::Vec2 tr_fuel4[4];
+    esat::Vec2 tr_circle[91]; //Size de map1-> 91
+    
 
-    //Turret1
-    esat::Vec2 tr_turret11[4];
-    esat::Vec2 tr_turret12[4];
     
-    //Turret2
-    esat::Vec2 tr_turret21[4];
-    esat::Vec2 tr_turret22[4];
-
-    //Turret3
-    esat::Vec2 tr_turret31[4];
-    esat::Vec2 tr_turret32[4];
-    
-    //Turret4
-    esat::Vec2 tr_turret41[4];
-    esat::Vec2 tr_turret42[4];
-    
-    //Turret5
-    esat::Vec2 tr_turret51[4];
-    esat::Vec2 tr_turret52[4];
-    
-    //Turret6
-    esat::Vec2 tr_turret61[4];
-    esat::Vec2 tr_turret62[4];
-    
-    //Turret7
-    esat::Vec2 tr_turret71[4];
-    esat::Vec2 tr_turret72[4];
-    
-    //Turret8
-    esat::Vec2 tr_turret81[4];
-    esat::Vec2 tr_turret82[4];
-
     //Scalating map
     for (int i = 0; i < size; i++){
         esat::Mat3 matIdentity = esat::Mat3Identity();
@@ -152,151 +95,10 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
     // printf("%f\n",temporal);
 
 
-    //Drawing turrets
-    //Draw Base
-    for (int i = 0; i < 4; i++){
-        esat::Mat3 matIdentity = esat::Mat3Identity();
-        esat::Mat3 matIdentity2 = esat::Mat3Identity();
-        esat::Mat3 matIdentity3 = esat::Mat3Identity();
-        esat::Mat3 matIdentity4 = esat::Mat3Identity();
-        esat::Mat3 matIdentity5 = esat::Mat3Identity();
-        esat::Mat3 matIdentity6 = esat::Mat3Identity();
-        esat::Mat3 matIdentity7 = esat::Mat3Identity();
-        esat::Mat3 matIdentity8 = esat::Mat3Identity();
-
-        matIdentity = esat::Mat3Multiply(esat::Mat3Scale(turret1.escalar, turret1.escalar), matIdentity);
-        matIdentity2 = esat::Mat3Multiply(esat::Mat3Scale(turret2.escalar, turret2.escalar), matIdentity2);
-        matIdentity3 = esat::Mat3Multiply(esat::Mat3Scale(turret3.escalar, turret3.escalar), matIdentity3);
-        matIdentity4 = esat::Mat3Multiply(esat::Mat3Scale(turret4.escalar, turret4.escalar), matIdentity4);
-        matIdentity5 = esat::Mat3Multiply(esat::Mat3Scale(turret5.escalar, turret5.escalar), matIdentity5);
-        matIdentity6 = esat::Mat3Multiply(esat::Mat3Scale(turret6.escalar, turret6.escalar), matIdentity6);
-        matIdentity7 = esat::Mat3Multiply(esat::Mat3Scale(turret7.escalar, turret7.escalar), matIdentity7);
-        matIdentity8 = esat::Mat3Multiply(esat::Mat3Scale(turret8.escalar, turret8.escalar), matIdentity8);
-
-        matIdentity = esat::Mat3Multiply(esat::Mat3Rotate(5.999997f), matIdentity);
-        matIdentity2 = esat::Mat3Multiply(esat::Mat3Rotate(5.999997f), matIdentity2);
-        matIdentity3 = esat::Mat3Multiply(esat::Mat3Rotate(-1.5f), matIdentity3);
-        matIdentity4 = esat::Mat3Multiply(esat::Mat3Rotate(1.6f), matIdentity4);
-        matIdentity5 = esat::Mat3Multiply(esat::Mat3Rotate(2.79f), matIdentity5);
-        matIdentity6 = esat::Mat3Multiply(esat::Mat3Rotate(2.79f), matIdentity6);
-        matIdentity7 = esat::Mat3Multiply(esat::Mat3Rotate(-1.5f), matIdentity7);
-        matIdentity8 = esat::Mat3Multiply(esat::Mat3Rotate(2.79f), matIdentity8);
-
-        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[20].x-158.0f, tr_circle[20].y), matIdentity);
-        matIdentity2 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[18].x - 113.0f, tr_circle[18].y - 50.0f), matIdentity2);
-        matIdentity3 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[11].x - 100.0f, tr_circle[11].y + 174.0f), matIdentity3);
-        matIdentity4 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[35].x +82.0f, tr_circle[35].y-94.5f), matIdentity4);
-        matIdentity5 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[42].x + 70.5f, tr_circle[42].y + 96.0f), matIdentity5);
-        matIdentity6 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[44].x + 70.5f, tr_circle[44].y + 96.0f), matIdentity6);
-        matIdentity7 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[52].x - 120.5f, tr_circle[52].y - 68.5f), matIdentity7);
-        matIdentity8 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[59].x + 90.0f, tr_circle[59].y + 70.0f), matIdentity8);
-        // printf("TemporalINT-> %d\n",temporaliNT);
-
-        esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(turret1.map + i));
-        esat::Vec3 tmp2 = esat::Mat3TransformVec3(matIdentity2, *(turret2.map + i));
-        esat::Vec3 tmp3 = esat::Mat3TransformVec3(matIdentity3, *(turret3.map + i));
-        esat::Vec3 tmp4 = esat::Mat3TransformVec3(matIdentity4, *(turret4.map + i));
-        esat::Vec3 tmp5 = esat::Mat3TransformVec3(matIdentity5, *(turret5.map + i));
-        esat::Vec3 tmp6 = esat::Mat3TransformVec3(matIdentity6, *(turret6.map + i));
-        esat::Vec3 tmp7 = esat::Mat3TransformVec3(matIdentity7, *(turret7.map + i));
-        esat::Vec3 tmp8 = esat::Mat3TransformVec3(matIdentity8, *(turret8.map + i));
-
-        tr_turret11[i] = {tmp.x, tmp.y};
-        tr_turret21[i] = {tmp2.x, tmp2.y};
-        tr_turret31[i] = {tmp3.x, tmp3.y};
-        tr_turret41[i] = {tmp4.x, tmp4.y};
-        tr_turret51[i] = {tmp5.x, tmp5.y};
-        tr_turret61[i] = {tmp6.x, tmp6.y};
-        tr_turret71[i] = {tmp7.x, tmp7.y};
-        tr_turret81[i] = {tmp8.x, tmp8.y};
-    }
-
-    //Draw head
-    for (int i = 4; i < 8; i++){
-        esat::Mat3 matIdentity = esat::Mat3Identity();
-        esat::Mat3 matIdentity2 = esat::Mat3Identity();
-        esat::Mat3 matIdentity3 = esat::Mat3Identity();
-        esat::Mat3 matIdentity4 = esat::Mat3Identity();
-        esat::Mat3 matIdentity5 = esat::Mat3Identity();
-        esat::Mat3 matIdentity6 = esat::Mat3Identity();
-        esat::Mat3 matIdentity7 = esat::Mat3Identity();
-        esat::Mat3 matIdentity8 = esat::Mat3Identity();
-
-        matIdentity = esat::Mat3Multiply(esat::Mat3Scale(turret1.escalar, turret1.escalar), matIdentity);
-        matIdentity2 = esat::Mat3Multiply(esat::Mat3Scale(turret2.escalar, turret2.escalar), matIdentity2);
-        matIdentity3 = esat::Mat3Multiply(esat::Mat3Scale(turret3.escalar, turret3.escalar), matIdentity3);
-        matIdentity4 = esat::Mat3Multiply(esat::Mat3Scale(turret4.escalar, turret4.escalar), matIdentity4);
-        matIdentity5 = esat::Mat3Multiply(esat::Mat3Scale(turret5.escalar, turret5.escalar), matIdentity5);
-        matIdentity6 = esat::Mat3Multiply(esat::Mat3Scale(turret6.escalar, turret6.escalar), matIdentity6);
-        matIdentity7 = esat::Mat3Multiply(esat::Mat3Scale(turret7.escalar, turret7.escalar), matIdentity7);
-        matIdentity8 = esat::Mat3Multiply(esat::Mat3Scale(turret8.escalar, turret8.escalar), matIdentity8);
-
-        matIdentity = esat::Mat3Multiply(esat::Mat3Rotate(5.999997f), matIdentity);
-        matIdentity2 = esat::Mat3Multiply(esat::Mat3Rotate(5.999997f), matIdentity2);
-        matIdentity3 = esat::Mat3Multiply(esat::Mat3Rotate(-1.5f), matIdentity3);
-        matIdentity4 = esat::Mat3Multiply(esat::Mat3Rotate(1.6f), matIdentity4);
-        matIdentity5 = esat::Mat3Multiply(esat::Mat3Rotate(2.79f), matIdentity5);
-        matIdentity6 = esat::Mat3Multiply(esat::Mat3Rotate(2.79f), matIdentity6);
-        matIdentity7 = esat::Mat3Multiply(esat::Mat3Rotate(-1.5f), matIdentity7);
-        matIdentity8 = esat::Mat3Multiply(esat::Mat3Rotate(2.79f), matIdentity8);
-
-        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[20].x - 158.0f, tr_circle[20].y), matIdentity);
-        matIdentity2 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[18].x -113.0f, tr_circle[18].y -50.0f), matIdentity2);
-        matIdentity3 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[11].x - 100.0f, tr_circle[11].y + 174.0f), matIdentity3);
-        matIdentity4 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[35].x + 82.0f, tr_circle[35].y - 94.5f), matIdentity4);
-        matIdentity5 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[42].x + 70.5f, tr_circle[42].y + 96.0f), matIdentity5);
-        matIdentity6 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[44].x + 70.5f, tr_circle[44].y + 96.0f), matIdentity6);
-        matIdentity7 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[52].x - 120.5f, tr_circle[52].y - 68.5f), matIdentity7);
-        matIdentity8 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[59].x + 90.0f, tr_circle[59].y + 70.0f), matIdentity8);
-
-        esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(turret1.map + i));
-        esat::Vec3 tmp2 = esat::Mat3TransformVec3(matIdentity2, *(turret1.map + i));
-        esat::Vec3 tmp3 = esat::Mat3TransformVec3(matIdentity3, *(turret1.map + i));
-        esat::Vec3 tmp4 = esat::Mat3TransformVec3(matIdentity4, *(turret1.map + i));
-        esat::Vec3 tmp5 = esat::Mat3TransformVec3(matIdentity5, *(turret1.map + i));
-        esat::Vec3 tmp6 = esat::Mat3TransformVec3(matIdentity6, *(turret1.map + i));
-        esat::Vec3 tmp7 = esat::Mat3TransformVec3(matIdentity7, *(turret1.map + i));
-        esat::Vec3 tmp8 = esat::Mat3TransformVec3(matIdentity8, *(turret1.map + i));
-
-        tr_turret12[i-4] = {tmp.x, tmp.y};
-        tr_turret22[i-4] = {tmp2.x, tmp2.y};
-        tr_turret32[i-4] = {tmp3.x, tmp3.y};
-        tr_turret42[i-4] = {tmp4.x, tmp4.y};
-        tr_turret52[i-4] = {tmp5.x, tmp5.y};
-        tr_turret62[i-4] = {tmp6.x, tmp6.y};
-        tr_turret72[i-4] = {tmp7.x, tmp7.y};
-        tr_turret82[i-4] = {tmp8.x, tmp8.y};
-    }
+    
 
 
-    //Drawing Fuel
-    for (int i = 0; i < 4; i++){
-        // printf("Antes-> x[%f] y[%f]\n", (fuel1.map + i)->x, (fuel1.map + i)->y);
-        esat::Mat3 matIdentity = esat::Mat3Identity();
-        esat::Mat3 matIdentity2 = esat::Mat3Identity();
-        esat::Mat3 matIdentity3 = esat::Mat3Identity();
-        esat::Mat3 matIdentity4 = esat::Mat3Identity();
-
-        matIdentity = esat::Mat3Multiply(esat::Mat3Scale(fuel1.escalar, fuel1.escalar), matIdentity);
-        matIdentity2 = esat::Mat3Multiply(esat::Mat3Scale(fuel1.escalar, fuel1.escalar), matIdentity2);
-        matIdentity3 = esat::Mat3Multiply(esat::Mat3Scale(fuel1.escalar, fuel1.escalar), matIdentity3);
-        matIdentity4 = esat::Mat3Multiply(esat::Mat3Scale(fuel1.escalar, fuel1.escalar), matIdentity4);
-
-        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[24].x +5, tr_circle[24].y-12), matIdentity);
-        matIdentity2 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[30].x +5, tr_circle[30].y-12), matIdentity2);
-        matIdentity3 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[50].x -60, tr_circle[50].y-12), matIdentity3);
-        matIdentity4 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[57].x -10, tr_circle[57].y-12), matIdentity4);
-
-        esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(fuel1.map + i));
-        esat::Vec3 tmp2 = esat::Mat3TransformVec3(matIdentity2, *(fuel1.map + i));
-        esat::Vec3 tmp3 = esat::Mat3TransformVec3(matIdentity3, *(fuel1.map + i));
-        esat::Vec3 tmp4 = esat::Mat3TransformVec3(matIdentity4, *(fuel1.map + i));
-        tr_fuel[i] = {tmp.x, tmp.y};
-        tr_fuel2[i] = {tmp2.x, tmp2.y};
-        tr_fuel3[i] = {tmp3.x, tmp3.y};
-        tr_fuel4[i] = {tmp4.x, tmp4.y};
-        // printf("Fuel X-> %f Y->%f\n",tmp.x,tmp.y);
-    }
+    
 
 
     //Puntos para el puntero de las colisiones
@@ -305,134 +107,21 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
             *(points_tmp_map1 + 2 * i) = tr_circle[i].x;
             *(points_tmp_map1 + 2 * i + 1) = tr_circle[i].y;
         }
-        for (int i = 0; i < 4; i++){
-            *(fuel1.points + i * 2) =tr_fuel[i].x;
-            *(fuel1.points + i * 2 + 1) =tr_fuel[i].y;
-
-            *(fuel2.points + i * 2) =tr_fuel2[i].x;
-            *(fuel2.points + i * 2 + 1) =tr_fuel2[i].y;
-
-            *(fuel3.points + i * 2) =tr_fuel3[i].x;
-            *(fuel3.points + i * 2 + 1) =tr_fuel3[i].y;
-
-            *(fuel4.points + i * 2) =tr_fuel4[i].x;
-            *(fuel4.points + i * 2 + 1) =tr_fuel4[i].y;
-        }
         
-        for (int i = 0; i < 4; i++){
-            //Turret1
-            //Base
-            *(turret1_points + i * 2) = tr_turret11[i].x;
-            *(turret1_points + i * 2 + 1) = tr_turret11[i].y;
-            //Head
-            *(turret1_points + 4 + i * 2) = tr_turret12[i+4].x;
-            *(turret1_points + 4 + i * 2 + 1) = tr_turret12[i+4].y;
-
-            //Turret2
-            //Base
-            *(turret2_points + i * 2) = tr_turret21[i].x;
-            *(turret2_points + i * 2 + 1) = tr_turret21[i].y;
-            //Head
-            *(turret2_points + 4 + i * 2) = tr_turret22[i+4].x;
-            *(turret2_points + 4 + i * 2 + 1) = tr_turret22[i+4].y;
-
-            //Turret3
-            // //Base
-            *(turret3_points + i * 2) = tr_turret31[i].x;
-            *(turret3_points + i * 2 + 1) = tr_turret31[i].y;
-            // //Head
-            *(turret3_points + 4 + i * 2) = tr_turret32[i+4].x;
-            *(turret3_points + 4 + i * 2 + 1) = tr_turret32[i+4].y;
-
-            //Turret4
-            // //Base
-            *(turret4_points + i * 2) = tr_turret41[i].x;
-            *(turret4_points + i * 2 + 1) = tr_turret41[i].y;
-            // //Head
-            *(turret4_points + 4 + i * 2) = tr_turret42[i+4].x;
-            *(turret4_points + 4 + i * 2 + 1) = tr_turret42[i+4].y;
-            
-            //Turret5
-            // //Base
-            *(turret5_points + i * 2) = tr_turret51[i].x;
-            *(turret5_points + i * 2 + 1) = tr_turret51[i].y;
-            // //Head
-            *(turret5_points + 4 + i * 2) = tr_turret52[i+4].x;
-            *(turret5_points + 4 + i * 2 + 1) = tr_turret52[i+4].y;
-
-            //Turret6
-            // //Base
-            *(turret6_points + i * 2) = tr_turret61[i].x;
-            *(turret6_points + i * 2 + 1) = tr_turret61[i].y;
-            // //Head
-            *(turret6_points + 4 + i * 2) = tr_turret62[i+4].x;
-            *(turret6_points + 4 + i * 2 + 1) = tr_turret62[i+4].y;
-           
-            //Turret7
-            //Base
-            *(turret7_points + i * 2) = tr_turret71[i].x;
-            *(turret7_points + i * 2 + 1) = tr_turret71[i].y;
-            //Head
-            *(turret7_points + 4 + i * 2) = tr_turret72[i+4].x;
-            *(turret7_points + 4 + i * 2 + 1) = tr_turret72[i+4].y;
-
-            //Turret8
-            //Base
-            *(turret8_points + i * 2) = tr_turret81[i].x;
-            *(turret8_points + i * 2 + 1) = tr_turret81[i].y;
-            //Head
-            *(turret8_points + 4 + i * 2) = tr_turret82[i+4].x;
-            *(turret8_points + 4 + i * 2 + 1) = tr_turret82[i+4].y;
-        }
+       
     }
-    
+
+    DrawTurretsMap1(scalate,tr_circle);
+    DrawFuelMap1(scalate, tr_circle);
+
     esat::DrawSetStrokeColor(color.r, color.g, color.b);
     esat::DrawPath(&tr_circle[0].x,size);
 
-    esat::DrawSetStrokeColor(Rojo.r, Rojo.g, Rojo.b);
-    esat::DrawSetFillColor(0, 0, 0);
-    if(turret1.vivo){
-        esat::DrawPath(&tr_turret11[0].x, 4);
-        esat::DrawSolidPath(&tr_turret12[0].x, 4);
-    }
-
-    if(turret2.vivo){
-        esat::DrawPath(&tr_turret21[0].x, 4);
-        esat::DrawSolidPath(&tr_turret22[0].x, 4);
-    }
-    if(turret3.vivo){
-        esat::DrawPath(&tr_turret31[0].x, 4);
-        esat::DrawSolidPath(&tr_turret32[0].x, 4);
-    }
-    if(turret4.vivo){
-        esat::DrawPath(&tr_turret41[0].x, 4);
-        esat::DrawSolidPath(&tr_turret42[0].x, 4);
-    }
-    if(turret5.vivo){
-        esat::DrawPath(&tr_turret51[0].x, 4);
-        esat::DrawSolidPath(&tr_turret52[0].x, 4);
-    }
-    if(turret6.vivo){
-        esat::DrawPath(&tr_turret61[0].x, 4);
-        esat::DrawSolidPath(&tr_turret62[0].x, 4);
-    }
     
-    if(turret7.vivo){
-        esat::DrawPath(&tr_turret71[0].x, 4);
-        esat::DrawSolidPath(&tr_turret72[0].x, 4);
-    }
 
-    if(turret8.vivo){
-        esat::DrawPath(&tr_turret81[0].x, 4);
-        esat::DrawSolidPath(&tr_turret82[0].x, 4);
-    }
-
-    esat::DrawSetStrokeColor(Azul.r, Azul.g, Azul.b);
-    if(!fuel1.obtained)esat::DrawPath(&tr_fuel[0].x, 4);
-    if(!fuel2.obtained)esat::DrawPath(&tr_fuel2[0].x, 4);
-    if(!fuel3.obtained)esat::DrawPath(&tr_fuel3[0].x, 4);
-    if(!fuel4.obtained)esat::DrawPath(&tr_fuel4[0].x, 4);
+    
 }
+
 
 void DrawFigure(TMap *m, int size, bool scalate = true){
     // const int sizeConst = size;
