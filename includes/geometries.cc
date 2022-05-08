@@ -166,6 +166,8 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
                 NormalizeMap(map1, 91, 928.0f, 739.0f);
                 map1.normalized = true;
             }
+            player.y = 112.8f;
+            player.x = 514.8f;
             // lenght = 76;    
             // original = pointsMap1Original;
             // nuevo = pointsMap1pun;
@@ -336,7 +338,7 @@ void GeometriesActions(){
             Createcircle(600.0f,200.0f,30.0f,Amarillo,1.0f,1.0f,8,2,0.2f);
             CheckGalaxyColision(600.0f,200.0f,6);
 
-            if(turret1.vivo || turret2.vivo || turret3.vivo || turret4.vivo || turret5.vivo || turret6.vivo){
+            if(turret1.vivo || turret2.vivo || turret3.vivo || turret4.vivo || turret5.vivo || turret6.vivo || turret7.vivo || turret8.vivo){
                 Createcircle(900.0f,120.0f,25.0f,Rosa,1.0f,1.0f,32,8,0.75f);
                 CheckGalaxyColision(900.0f,120.0f,1,40);
             }
@@ -353,6 +355,7 @@ void GeometriesActions(){
             // printf("Scalating-> %d Framescount-> %d\n",scalating, scalateMatFramesCount);
             // printf("ValorEscalar-> %f\n", map1.escalar);
             // printf("X mapa-> %f \n", (map1.map)->x);
+
 
             if(scalateMatFramesCount <= 120){
                 // printf("Escalando 1\n");
@@ -375,6 +378,7 @@ void GeometriesActions(){
                 TurretShotController(&turret5, turret5_points);
                 TurretShotController(&turret6, turret6_points);
                 TurretShotController(&turret7, turret7_points);
+                TurretShotController(&turret8, turret8_points);
             }
             if(player.y <= 23.050344f){
                 ReturnMenu();

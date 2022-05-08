@@ -11,11 +11,11 @@ void CheckMapColision(float *points, int size){
         //     aux++;
         //     if(aux>36)aux=0;
         // }
-        // esat::DrawLine(player.x,player.y, *(pointsNormalized + (i * 2)), *(pointsNormalized + ((i * 2) + 1)));
-        // esat::DrawLine(player.x,player.y,*(pointsNormalized + ((i * 2) + 2)),*(pointsNormalized + ((i * 2) + 3)));
+        // esat::DrawLine(player.x, player.y, *(points + (i * 2)), *(points + ((i * 2) + 1)));
+        // esat::DrawLine(player.x, player.y, *(points + ((i * 2) + 2)), *(points + ((i * 2) + 3)));
         // esat::DrawSetStrokeColor(Rojo.r,Rojo.g,Rojo.b);
-        // esat::DrawLine(*(pointsNormalized + i * 2),*(pointsNormalized + ((i * 2) + 1)),*(pointsNormalized + ((i * 2) + 2)),*(pointsNormalized + ((i * 2) + 3)));
-        
+        // esat::DrawLine(*(points + i * 2), *(points + ((i * 2) + 1)), *(points + ((i * 2) + 2)), *(points + ((i * 2) + 3)));
+
         //Vectores con player x/y
         xemath::Vector2 vec1 = {*(points + (i * 2))-player.x,*(points + ((i * 2) + 1))-player.y};
         xemath::Vector2 vec2 = {*(points + ((i * 2) + 2))-player.x,*(points + ((i * 2) + 3))-player.y};
@@ -63,8 +63,9 @@ void CheckMapColision(float *points, int size){
 bool CheckShootColision(float *points, int size, bool turret = false){
     bool turretDead = false;
     for (int i = 0; i < size; i++){
-        // Createcircle(*(points + i * 2), *(points + i * 2 + 1),5);
+        // Createcircle(*(points + i * 2), *(points + i * 2 + 1),5,Rosa);
         for (int j = 0; j < 4; j++){
+            // Createcircle(*((player.disparos + j * 2)->x), *((player.disparos + j * 2 + 1)->y),5,Verde);
             if ((player.disparos + j)->disparando){
                 xemath::Vector2 vec1 = {*(points + (i * 2)) - (player.disparos + j)->x, *(points + ((i * 2) + 1)) - (player.disparos + j)->y};
                 xemath::Vector2 vec2 = {*(points + ((i * 2) + 2)) - (player.disparos + j)->x, *(points + ((i * 2) + 3)) - (player.disparos + j)->y};
@@ -73,10 +74,16 @@ bool CheckShootColision(float *points, int size, bool turret = false){
                 float modulo2 = xemath::Vec2Modulo(vec2);
                 float modulo3 = xemath::Vec2Modulo(vecMapa);
                 float moduloSum = modulo1 + modulo2;
+                
 
                 if (moduloSum < modulo3 + 1){
-                    // printf("Colision disparo\n");
-                    (player.disparos + j)->disparando = false;
+                    printf("Colision mapa disparo en X->%f Y->%f\n", (player.disparos + j)->x, (player.disparos + j)->y);
+                    if((player.disparos + j)->x > 408.0f && (player.disparos + j)->x < 481.0f){
+                        //Colision con un bug
+                        printf("------BUG-------\n");
+                    }else{
+                        (player.disparos + j)->disparando = false;
+                    }
                     if(turret){
                         printf("Colision con torreta\n");
                         player.score+=100;

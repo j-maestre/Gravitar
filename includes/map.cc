@@ -23,7 +23,7 @@ float *turret5_points = (float*) malloc(sizeof(float)*8);
 float *turret6_points = (float*) malloc(sizeof(float)*8);
 float *turret7_points = (float*) malloc(sizeof(float)*8);
 float *turret8_points = (float*) malloc(sizeof(float)*8);
-float temporal = 0.0f;
+float temporal = 1.0f;
 int temporaliNT = 0;
 
 void NormalizeFuel(TFuelMat mapa,float lenght,float sizeX, float sizeY){
@@ -117,17 +117,31 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
     for (int i = 0; i < size; i++){
         esat::Mat3 matIdentity = esat::Mat3Identity();
         matIdentity = esat::Mat3Multiply(esat::Mat3Scale(m->escalar, m->escalar), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Scale(1.25f, 1.0f), matIdentity);
         matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY+50), matIdentity);
         esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i));
         tr_circle[i] = {tmp.x, tmp.y};
         
     }
+    
+    if(esat::IsKeyPressed('L')){
+        for (int i = 0; i < size; i++){
+        esat::Mat3 matIdentity = esat::Mat3Identity();
+        matIdentity = esat::Mat3Multiply(esat::Mat3Scale(1.1f, 1.0f), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY+50), matIdentity);
+        esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i));
+        tr_circle[i] = {tmp.x, tmp.y};
+        
+    }
+    }
 
     if(esat::IsKeyPressed('P')){
-        temporal+=0.5f;
+        temporal+=0.01f;
+        printf("%f\n", temporal);
     }
     if(esat::IsKeyPressed('O')){
-        temporal-=0.5f;
+        temporal-=0.01f;
+        printf("%f\n",temporal);
     }
     if(esat::IsKeyDown('P')){
         temporaliNT+=1;
@@ -135,7 +149,7 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
     if(esat::IsKeyDown('O')){
         temporaliNT-=1;
     }
-    printf("%f\n",temporal);
+    // printf("%f\n",temporal);
 
 
     //Drawing turrets
@@ -168,14 +182,14 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
         matIdentity7 = esat::Mat3Multiply(esat::Mat3Rotate(-1.5f), matIdentity7);
         matIdentity8 = esat::Mat3Multiply(esat::Mat3Rotate(2.79f), matIdentity8);
 
-        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[20].x-147.0f, tr_circle[20].y), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[20].x-158.0f, tr_circle[20].y), matIdentity);
         matIdentity2 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[18].x - 113.0f, tr_circle[18].y - 50.0f), matIdentity2);
         matIdentity3 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[11].x - 100.0f, tr_circle[11].y + 174.0f), matIdentity3);
         matIdentity4 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[35].x +82.0f, tr_circle[35].y-94.5f), matIdentity4);
-        matIdentity5 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[42].x + 79.5f, tr_circle[42].y + 96.0f), matIdentity5);
-        matIdentity6 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[44].x + 79.5f, tr_circle[44].y + 96.0f), matIdentity6);
-        matIdentity7 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[52].x - 129.5f, tr_circle[52].y - 68.5f), matIdentity7);
-        matIdentity8 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[59].x + 100.0f, tr_circle[59].y + 70.0f), matIdentity8);
+        matIdentity5 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[42].x + 70.5f, tr_circle[42].y + 96.0f), matIdentity5);
+        matIdentity6 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[44].x + 70.5f, tr_circle[44].y + 96.0f), matIdentity6);
+        matIdentity7 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[52].x - 120.5f, tr_circle[52].y - 68.5f), matIdentity7);
+        matIdentity8 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[59].x + 90.0f, tr_circle[59].y + 70.0f), matIdentity8);
         // printf("TemporalINT-> %d\n",temporaliNT);
 
         esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(turret1.map + i));
@@ -226,14 +240,14 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
         matIdentity7 = esat::Mat3Multiply(esat::Mat3Rotate(-1.5f), matIdentity7);
         matIdentity8 = esat::Mat3Multiply(esat::Mat3Rotate(2.79f), matIdentity8);
 
-        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[20].x -147.0f, tr_circle[20].y), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[20].x - 158.0f, tr_circle[20].y), matIdentity);
         matIdentity2 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[18].x -113.0f, tr_circle[18].y -50.0f), matIdentity2);
         matIdentity3 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[11].x - 100.0f, tr_circle[11].y + 174.0f), matIdentity3);
         matIdentity4 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[35].x + 82.0f, tr_circle[35].y - 94.5f), matIdentity4);
-        matIdentity5 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[42].x + 79.5f, tr_circle[42].y + 96.0f), matIdentity5);
-        matIdentity6 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[44].x + 79.5f, tr_circle[44].y + 96.0f), matIdentity6);
-        matIdentity7 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[52].x - 129.5f, tr_circle[52].y - 68.5f), matIdentity7);
-        matIdentity8 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[59].x + 100.0f, tr_circle[59].y + 70.0f), matIdentity8);
+        matIdentity5 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[42].x + 70.5f, tr_circle[42].y + 96.0f), matIdentity5);
+        matIdentity6 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[44].x + 70.5f, tr_circle[44].y + 96.0f), matIdentity6);
+        matIdentity7 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[52].x - 120.5f, tr_circle[52].y - 68.5f), matIdentity7);
+        matIdentity8 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[59].x + 90.0f, tr_circle[59].y + 70.0f), matIdentity8);
 
         esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(turret1.map + i));
         esat::Vec3 tmp2 = esat::Mat3TransformVec3(matIdentity2, *(turret1.map + i));
@@ -609,6 +623,7 @@ void CreateMaps(){
     (turret1.disparos + 1)->disparando = false;
     (turret1.disparos + 2)->disparando = false;
     (turret1.disparos + 3)->disparando = false;
+
 
     (turret1.map+0)->x = 110.0f;(turret1.map+0)->y = 216.0f;(turret1.map+0)->z = 1.0f;
     (turret1.map+1)->x = 124.0f;(turret1.map+1)->y = 217.0f;(turret1.map+1)->z = 1.0f;
