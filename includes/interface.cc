@@ -108,5 +108,31 @@ void FreePointers(){
     free(fuel2.points);
     free(fuel3.points);
     free(fuel4.points);
+
+    free(turret1_points);
+    free(turret2_points);
+    free(turret3_points);
+    free(turret4_points);
+    free(turret5_points);
+    free(turret6_points);
+    free(turret7_points);
+    free(turret8_points);
+
+    free(turret1.disparos);
+    free(turret2.disparos);
+    free(turret3.disparos);
+    free(turret4.disparos);
+    free(turret5.disparos);
+    free(turret6.disparos);
+    free(turret7.disparos);
+    free(turret8.disparos);
+    free(turret1.disparos);
+    free(turret2.points);
+    free(turret3.points);
+    free(turret4.points);
+    free(turret5.points);
+    free(turret6.points);
+    free(turret7.points);
+    free(turret8.points);
     // free(Fuel1New);
 }

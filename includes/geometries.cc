@@ -374,6 +374,7 @@ void GeometriesActions(){
                 TurretShotController(&turret4, turret4_points);
                 TurretShotController(&turret5, turret5_points);
                 TurretShotController(&turret6, turret6_points);
+                TurretShotController(&turret7, turret7_points);
             }
             if(player.y <= 23.050344f){
                 ReturnMenu();
