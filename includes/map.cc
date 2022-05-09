@@ -111,6 +111,8 @@ void DrawFigure2(TMap *m, int size, bool scalate = true, TColor color = Verde){
     if(scalate){
         m->escalar+=5;
     }
+
+    printf("SIZE??? %d\n",size);
     
     //Scalating map
     for (int i = 0; i < size; i++){
@@ -132,7 +134,7 @@ void DrawFigure2(TMap *m, int size, bool scalate = true, TColor color = Verde){
 
 
     DrawTurretsMap2(scalate,tr_circle);
-    // DrawFuelMap2(scalate, tr_circle);
+    DrawFuelMap2(scalate, tr_circle);
 
     esat::DrawSetStrokeColor(color.r, color.g, color.b);
     esat::DrawPath(&tr_circle[0].x,size);
@@ -232,6 +234,7 @@ void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde){
             *(points_tmp_map2 + 2 * i + 1) = tr_circle[i].y;
         }
     }
+    
     esat::DrawSetStrokeColor(color.r, color.g, color.b);
     // esat::DrawSetFillColor(0,0,0);
     esat::DrawPath(&tr_circle[0].x,size);
@@ -320,8 +323,6 @@ void InitTurret(TTurret *turret){
 
 
 void CreateMaps(){
-
-    // CreateTurrets();
 
     //Map1
     InitTurret(&turret1);
@@ -473,6 +474,17 @@ void CreateMaps(){
     (map1.map+90)->x = 927.0f;(map1.map+90)->y = 384.0f;(map1.map+90)->z = 1.0f;
 
     //Map2
+
+    // Map2 fuels
+    fuel5.points = (float *)malloc(sizeof(float) * 8);
+    fuel6.points = (float *)malloc(sizeof(float) * 8);
+    fuel7.points = (float *)malloc(sizeof(float) * 8);
+    fuel8.points = (float *)malloc(sizeof(float) * 8);
+
+    fuel5.obtained = false;
+    fuel6.obtained = false;
+    fuel7.obtained = false;
+    fuel8.obtained = false;
 
     map2.map = nullptr;
     map2.map = (esat::Vec3*) malloc(sizeof(esat::Vec3)*49);

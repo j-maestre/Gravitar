@@ -79,7 +79,8 @@ void CheckInputsGeometries(){
 
 void CheckFuelObtain(float *points, TFuelMat *Fuel){
     // printf("Obtained: %d\n",Fuel->obtained);
-    if(*points > player.x-15 && *points< player.x+15 && *(points+1)<player.y+40 && *(points+7)<player.y+40 && *(points+3) > player.y ){
+    if(*points > player.x-15 && *points< player.x+15 &&
+     *(points+1)<player.y+40 && *(points+7)<player.y+40 && *(points+3) > player.y ){
             if(!Fuel->obtained){
                 player.fuel += 3000;
                 // printf("COLISION FUEL\n");
@@ -88,7 +89,7 @@ void CheckFuelObtain(float *points, TFuelMat *Fuel){
         }
 }
 
-void CheckShield(){
+void CheckShield(TFuelMat *fuel1,TFuelMat *fuel2,TFuelMat *fuel3,TFuelMat *fuel4){
     if(esat::IsKeyPressed('S')){
         //Activate fuel
         player.fuel--;
@@ -102,11 +103,16 @@ void CheckShield(){
         // esat::DrawSetStrokeColor(255,0,0);
         // esat::DrawLine(player.x-15,player.y+40,player.x+15,player.y+40);
 
-        CheckFuelObtain(fuel1.points,&fuel1);
-        CheckFuelObtain(fuel2.points,&fuel2);
-        CheckFuelObtain(fuel3.points,&fuel3);
-        CheckFuelObtain(fuel4.points,&fuel4);
+        // float *pointsAux = (float*) malloc(sizeof(float)*8);
 
+        float *pointsAux = fuel1->points;
+        CheckFuelObtain(pointsAux,fuel1);
+        pointsAux = fuel2->points;
+        CheckFuelObtain(pointsAux,fuel2);
+        pointsAux = fuel3->points;
+        CheckFuelObtain(pointsAux,fuel3);
+        pointsAux = fuel4->points;
+        CheckFuelObtain(pointsAux, fuel4);
     }
 }
 
@@ -336,7 +342,7 @@ void GeometriesActions(){
                 //Llamar a colisiones
                 CheckMapColision(points_tmp_map1,map1.size);
                 CheckShootColision(points_tmp_map1,map1.size);
-                CheckShield();
+                CheckShield(&fuel1,&fuel2,&fuel3,&fuel4);
 
                 TurretShotController(&turret1, turret1_points,1);
                 TurretShotController(&turret2, turret2_points);
@@ -376,6 +382,8 @@ void GeometriesActions(){
 
                 CheckMapColision(points_tmp_map2,48);
                 CheckShootColision(points_tmp_map2,48);
+
+                CheckShield(&fuel5, &fuel6, &fuel7, &fuel8);
 
                 if(player.y <= 23.050344f)ReturnMenu();
         

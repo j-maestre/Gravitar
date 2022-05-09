@@ -126,7 +126,7 @@ void MovePlayer(){
   }
 
   if(esat::IsKeyPressed('W')){
-    player.fuel--;
+    player.fuel-=2;
     
     player.velocity.x = xemath::Vec2Normalize(player.vecDirector).x * player.velocidad;
     player.velocity.y = xemath::Vec2Normalize(player.vecDirector).y * player.velocidad;
