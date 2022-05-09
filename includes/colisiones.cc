@@ -60,7 +60,7 @@ void CheckMapColision(float *points, int size){
 
 }
 
-bool CheckShootColision(float *points, int size, bool turret = false){
+bool CheckShootColision(float *points, int size, bool turret = false,bool bomb = false){
     bool turretDead = false;
     for (int i = 0; i < size; i++){
         // Createcircle(*(points + i * 2), *(points + i * 2 + 1),5,Rosa);
@@ -88,6 +88,10 @@ bool CheckShootColision(float *points, int size, bool turret = false){
                         printf("Colision con torreta\n");
                         player.score+=100;
                         turretDead = true;
+                    }
+                    if(bomb){
+                        printf("COLISION BOMBA\n");
+                        bombShooted = true;
                     }
                 }
             } // End if

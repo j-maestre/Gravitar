@@ -6,27 +6,19 @@ int scalateHorizontalFramesCount = 0;
 float *scalateXaux = (float*) malloc(sizeof(float));
 int scalateMatFramesCount = 0;
 
+int bombExplosionFramesCount = 1;
+bool bombColorChanger = false;
+
 bool map1Complete = false;
 bool map2Complete = false;
+bool map5Complete = false;
 
-//TODO Ver porque coño no vuelve a escalar al volver a entrar a un mapa
-
-void ScalateMap(float *map,float *pointsNormalized, int size,bool zoom = true){
-    // printf("Scalating X[%f] Y[%f]\n",*pointsNormalized,*(pointsNormalized+1));
-    for (int i = 0; i <size; i++){
-        //Si hay zoom , multiplicamos el valor normalizado por el valor scalate para ir haciendolo más grande
-        //Si no hay zoom, dividimos
-        //TE HAS QUEDADO AQUI
-        //Hay que dejar map como está, que son los puntos normalizados, y lo que tenemos que ampliar es pointsNormalized
-        zoom?*(map +(i*2))*=valorScalate:*(map +(i*2))/= valorScalate;
-        zoom?*(map +(i*2 +1))*=valorScalate:*(map +(i*2))/= valorScalate;
-        *(pointsNormalized+(i*2)) = *(map +(i*2)) + 150;
-        *(pointsNormalized+(i*2 + 1)) = *(map +(i*2 +1));
-
-        //zoom?*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1)) * valorScalate:*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1))/valorScalate;
-
-        // zoom?*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1)) * valorScalate:*(pointsNormalized+(i*2 + 1)) = *(pointsNormalized+(i*2 + 1))/valorScalate;
-            
+void DrawHacks(){
+    if(debug){
+        esat::DrawSetStrokeColor(Amarillo.r,Amarillo.g,Amarillo.b);
+        esat::DrawText(10.0f,ALTO-100.0f,"GOD MODE");
+    }else{
+        printf("na de na");
     }
 }
 
@@ -65,6 +57,12 @@ void ReturnMenu(){
     player.y = CENTROY;
     map1.escalar = 231.0f;
     map2.escalar = 231.0f;
+    map3.escalar = 231.0f;
+
+    map3Bomb.escalar = 231.0f;
+    player.timeLeft = 23;
+    bombFpsCounter = 0;
+    bombShooted = false;
 }
 
 void CheckInputsGeometries(){
@@ -73,6 +71,42 @@ void CheckInputsGeometries(){
 
     if(esat::IsSpecialKeyDown(esat::kSpecialKey_Backspace)){
         ReturnMenu();
+    }
+
+    if (esat::IsSpecialKeyDown(esat::kSpecialKey_F1)){
+        printf("\n---------\n---------\n---------\nGod Mode Activated\n---------\n---------\n---------\n");
+        debug = !debug;
+
+    }
+    if (esat::IsSpecialKeyDown(esat::kSpecialKey_F2)){
+        printf("---------\n---------\n---------\nKill All Turrets\n---------\n---------\n---------\n");
+        switch (player.nivel){
+        case 1:
+            turret1.vivo = false;
+            turret2.vivo = false;
+            turret3.vivo = false;
+            turret4.vivo = false;
+            turret5.vivo = false;
+            turret6.vivo = false;
+            turret7.vivo = false;
+            turret8.vivo = false;
+            break;
+        case 2:
+            turret9.vivo = false;
+            turret10.vivo = false;
+            turret11.vivo = false;
+            turret12.vivo = false;
+            turret13.vivo = false;
+            turret14.vivo = false;
+            turret15.vivo = false;
+            turret16.vivo = false;
+
+            
+        break;
+        default:
+            break;
+        }
+        debug = !debug;
     }
 }
 
@@ -159,6 +193,8 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
                 NormalizeMap(map2,49, 892.0f, 714.0f);
                 map2.normalized = true;
             }
+            player.y = 112.8f;
+            player.x = 480.8f;
             break;
         case 4:
             // lenght = 102;
@@ -167,8 +203,12 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
             // pointsMap4pun = pointsMap4Original;
             break;
         case 5:
-            NormalizeMap(map3,74, 931.0f, 724.0f);
-            NormalizeMap(map3Bomb,map3Bomb.size, 699.0f, 489.0f);
+            if(!map3.normalized){
+                printf("Normalizando map3\n");
+                NormalizeMap(map3,74, 931.0f, 724.0f);
+                NormalizeMap(map3Bomb,map3Bomb.size, 699.0f, 489.0f);
+                map3.normalized = true;
+            }
             break;
         default:
             break;
@@ -221,7 +261,18 @@ void TurretShotController(TTurret *turret, float *points, int index = 0){
  
 }
 
+void CheckGoBack(bool bomb = false){
+    if(player.y <= 23.050344f){
+        if(bomb){
+            map5Complete = true;
+        }
+        ReturnMenu();
+    }
+}
+
 void GeometriesActions(){
+    CheckInputsGeometries();
+    DrawHacks();
     frameCont<=1000?frameCont++:frameCont=0;
     TColor color = Blanco;
     int xIzInf;
@@ -309,9 +360,10 @@ void GeometriesActions(){
             esat::DrawLine(xIzInf,yIzInf,xIzInf2,yIzInf2);
             // Createcircle(150.0f,700.0f,20.0f,Verde,1.5f,0.2f,8);
 
-
-            Createcircle(100.0f,350.0f,40.0f,Rojo,1.0f,1.0f,32,8,0.8f);
-            CheckGalaxyColision(100.0f,350.0f,5);
+            if(!map5Complete){
+                Createcircle(100.0f,350.0f,40.0f,Rojo,1.0f,1.0f,32,8,0.8f);
+                CheckGalaxyColision(100.0f,350.0f,5);
+            }
 
             Createcircle(600.0f,200.0f,30.0f,Amarillo,1.0f,1.0f,8,2,0.2f);
             CheckGalaxyColision(600.0f,200.0f,6);
@@ -328,6 +380,7 @@ void GeometriesActions(){
             MoveEnemy(&enemi1);
 
             break;
+            CheckInputsGeometries();
         //*MATRICES
         case 1: 
             //Pintar mapa1
@@ -340,8 +393,8 @@ void GeometriesActions(){
             }else{
                 DrawFigure1(&map1,map1.size,false);
                 //Llamar a colisiones
-                CheckMapColision(points_tmp_map1,map1.size);
-                CheckShootColision(points_tmp_map1,map1.size);
+                CheckMapColision(points_tmp_map1,map1.size-1);
+                CheckShootColision(points_tmp_map1,map1.size-1);
                 CheckShield(&fuel1,&fuel2,&fuel3,&fuel4);
 
                 TurretShotController(&turret1, turret1_points,1);
@@ -353,12 +406,9 @@ void GeometriesActions(){
                 TurretShotController(&turret7, turret7_points);
                 TurretShotController(&turret8, turret8_points);
             }
-            if(player.y <= 23.050344f){
-                ReturnMenu();
-            }
+            CheckGoBack();
 
-
-        break;
+            break;
         case 2: //*MATRICES
 
             if(scalateMatFramesCount <= 110){
@@ -385,7 +435,7 @@ void GeometriesActions(){
 
                 CheckShield(&fuel5, &fuel6, &fuel7, &fuel8);
 
-                if(player.y <= 23.050344f)ReturnMenu();
+                CheckGoBack();
         
              
                 
@@ -401,30 +451,53 @@ void GeometriesActions(){
         case 5: //*MATRICES
             if(scalateMatFramesCount <= 100){
                 DrawFigure3(&map3,map3.size);
-                DrawFigure3(&map3Bomb, map3Bomb.size, true, Morado);
+                DrawFigure3(&map3Bomb, map3Bomb.size, true, Morado,true);
                 scalateMatFramesCount++;
                 if(scalateMatFramesCount>=20)scalating = false;
             }else{
-                DrawFigure3(&map3,74,false);
-                DrawFigure3(&map3Bomb, map3Bomb.size, false, Morado);
+                DrawFigure3(&map3,map3.size,false);
+
+                //Animacion de la bomba
+                TColor color = Morado;
+                if(bombShooted){
+                    bombExplosionFramesCount++;
+                    if(bombExplosionFramesCount%(fps/2) == 0){
+                        bombColorChanger = !bombColorChanger;
+                    }
+                    bombColorChanger?color = Rojo:color = Azul;
+                    
+                }
+
+                if(bombExplosionFramesCount%(fps*TIME_TO_EXPLOSION) == 0){
+                    //La bomba ha explotado
+                    player.timeLeft = 0;
+                } 
+                DrawFigure3(&map3Bomb, map3Bomb.size, false, color,true);
+
+                // CheckShootBomb();
 
                 DrawTimeLeft();
                 if(player.timeLeft<0){
                     //Explota la bomba
                     player.vidas--;
-                    player.nivel = 0;
+                    ReturnMenu();
                 }
 
                 //Llamar a colisiones
                 CheckMapColision(points_tmp_map3,74);
                 CheckShootColision(points_tmp_map3,74);
+
+                //Colision con la bomba
+                CheckShootColision(points_tmp_map2_bomb,map3Bomb.size-1,false,true);
+                //Size de bomb 11
+
+                CheckGoBack(true);
             }
             CheckInputsGeometries();
 
             break;
 
         default:
-            CheckInputsGeometries();
         break;
     }
 }

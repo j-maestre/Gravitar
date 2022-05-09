@@ -7,7 +7,7 @@ float YPrueba = 0.0f;
 float temporal = 1.0f;
 int temporaliNT = 0;
 
-void NormalizeFuel(TFuelMat mapa,float lenght,float sizeX, float sizeY){
+void NormalizeFuel(TFuelMat mapa,float lenght,float sizeX = 1.0f, float sizeY = 1.0f){
     for (int i = 0; i < lenght; i++){
         // (mapa.map + i)->x -= CENTROX;
         // (mapa.map + i)->y -= CENTROY;
@@ -16,7 +16,7 @@ void NormalizeFuel(TFuelMat mapa,float lenght,float sizeX, float sizeY){
     }
     
 }
-void NormalizeTurret(TTurret mapa,float lenght,float sizeX, float sizeY){
+void NormalizeTurret(TTurret mapa,float lenght,float sizeX = 1.0f, float sizeY = 1.0f){
     for (int i = 0; i < lenght; i++){
         // (mapa.map + i)->x -= CENTROX;
         // (mapa.map + i)->y -= CENTROY;
@@ -112,7 +112,6 @@ void DrawFigure2(TMap *m, int size, bool scalate = true, TColor color = Verde){
         m->escalar+=5;
     }
 
-    printf("SIZE??? %d\n",size);
     
     //Scalating map
     for (int i = 0; i < size; i++){
@@ -188,16 +187,19 @@ void DrawFigure(TMap *m, int size, bool scalate = true){
     esat::DrawPath(&tr_circle[0].x,size);
 }
 
-void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde){
+//Draw Bomba
+void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde, bool bomba = false){
     // const int sizeConst = size;
     //  if(scalate)m->escalar += 5.0f;
     //escalar tiene que llegar a 731
     
     if (IsSpecialKeyPressed(esat::kSpecialKey_Up)){
         YPrueba--;
+        temporal += 0.5f;
     }
     if (IsSpecialKeyPressed(esat::kSpecialKey_Down)){
         YPrueba++;
+        temporal -= 0.5f;
     }
     if (IsSpecialKeyPressed(esat::kSpecialKey_Right)){
         xPrueba++;
@@ -205,7 +207,9 @@ void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde){
     if (IsSpecialKeyPressed(esat::kSpecialKey_Left)){
         xPrueba--;
     }
-    
+
+    // printf("temp %f\n",temporal);
+
     // printf(" X-> %f Y-> %f\n", xPrueba,YPrueba);
     if(esat::IsKeyPressed('T'))m->escalar++;
 
@@ -213,6 +217,8 @@ void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde){
     if(scalate){
         m->escalar+=5;
     }
+
+    //Utilizo la misma variable para el mapa y la bomba, pero como el for se hace hasta el maximo, pues no problem
     esat::Vec2 tr_circle[74];
     for (int i = 0; i < size; i++){
          // Scalar cada mat3
@@ -221,9 +227,9 @@ void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde){
 
         matIdentity = esat::Mat3Multiply(esat::Mat3Scale(m->escalar, m->escalar), matIdentity);
         matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY), matIdentity);
-        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(85.0f, 11.0f), matIdentity);
-         esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i) );
-         tr_circle[i] = {tmp.x, tmp.y};
+        if(bomba)matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX-402.0f, CENTROY - 214.0f), matIdentity);
+        esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i) );
+        tr_circle[i] = {tmp.x, tmp.y};
         
     }
 
@@ -232,6 +238,12 @@ void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde){
         for (int i = 0; i < 74; i++){
             *(points_tmp_map2 + 2 * i) = tr_circle[i].x;
             *(points_tmp_map2 + 2 * i + 1) = tr_circle[i].y;
+        }
+        if(bomba){
+            for(int i = 0; i < size; i++){
+                *(points_tmp_map2_bomb + 2 * i) = tr_circle[i].x;
+                *(points_tmp_map2_bomb + 2 * i + 1) = tr_circle[i].y;
+            }
         }
     }
     

@@ -1,7 +1,3 @@
-TPlayer player;
-TPlayer player1;
-
-
 
 // player.velocidad = xemath::Vec2Normalize(player.vecDirector);
 
@@ -126,8 +122,8 @@ void MovePlayer(){
   }
 
   if(esat::IsKeyPressed('W')){
-    player.fuel-=2;
-    
+    player.fuel -= FUEL_CONSUME;
+
     player.velocity.x = xemath::Vec2Normalize(player.vecDirector).x * player.velocidad;
     player.velocity.y = xemath::Vec2Normalize(player.vecDirector).y * player.velocidad;
     player.aceleration = xemath::SumVec2(player.aceleration,player.velocity);

@@ -329,7 +329,7 @@ void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[]){
     if(esat::IsKeyDown('O'))temporalINT--;
     if(esat::IsKeyPressed('O'))temporalFloat -= 0.5f;
 
-    printf("Temporal-> %f\n", temporalFloat);
+    // printf("Temporal-> %f\n", temporalFloat);
     // Turret1
     esat::Vec2 tr_turret11[4];
     esat::Vec2 tr_turret12[4];
@@ -402,7 +402,7 @@ void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[]){
         matIdentity6 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[6].x + 122.5f, tr_circle[6].y + - 42.5f), matIdentity6);
         matIdentity7 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[27].x - 97.5f, tr_circle[27].y - 75.0f), matIdentity7);
         matIdentity8 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[32].x - 13.0f, tr_circle[32].y + 124.0f), matIdentity8);
-        printf("TemporalINT-> %d\n",temporalINT);
+        // printf("TemporalINT-> %d\n",temporalINT);
 
 
         esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(turret9.map + i));

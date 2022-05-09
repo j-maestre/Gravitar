@@ -9,7 +9,7 @@
 #include <time.h>
 #include "xemath.cc"
 
-const bool debug = true;
+bool debug = true;
 
 //Ancho -> 256*4
 //Alto -> 192*4
@@ -19,10 +19,14 @@ unsigned char fps=60;
 double current_time,last_time;
 const float ANGLE_ROTATION = 3;
 const int SHOOT_FRECUENCY = 4;
+const int FUEL_CONSUME = 4;
+const int TIME_TO_EXPLOSION = 10;
+const float ENEMY_HITBOX_SIZE = 30.0f;
 bool intro = true, interfaz = true;
 int credits = 0;
 bool scalating = false;
 bool scrollHorizontal = false;
+bool bombShooted = false;
 
 //Para escalar los puntos, cogemos los puntos de un mapa cualquiera, los normalizamos para pasarlos entre 0-1 y luego lo multiplicamos 
 //Por el ancho y alto de nuestra pantalla para escalar cualquier mapa a nuestra pantalla
@@ -110,6 +114,7 @@ struct TMap{
 
 float *points_tmp_map1 = (float *)malloc(sizeof(float) * 91);
 float *points_tmp_map2 = (float *)malloc(sizeof(float) * 49);
+float *points_tmp_map2_bomb = (float *)malloc(sizeof(float) * 49);
 float *points_tmp_map3 = (float *)malloc(sizeof(float) * 74);
 
 //fwd = cos(angel),sin(angle)
@@ -136,8 +141,18 @@ TColor Morado = {255,0,243};
 TColor MoradoOscuro = {192,0,255};
 TColor Rosa = {255,0,154};
 
-void Createcircle(float x, float y, float radio, TColor color = Rosa,float excentricidadX = 1.0f,float excentricidadY = 1.0f, int points = 360, int extravagancia = -1, float peculiaridad = -1.0f){
+TPlayer player;
+TPlayer player1;
 
+TEnemy enemi1;
+
+//TODO ver que pasa con el pintado de las balas que se cargan el pintado del texto
+//TODO arreglar la colision con el disparo del jugador y el enemigo
+
+void Createcircle(float x, float y, float radio, TColor color = Rosa,float excentricidadX = 1.0f,float excentricidadY = 1.0f, int points = 360, int extravagancia = -1, float peculiaridad = -1.0f){
+    
+    if(points==0)printf("--------------------------\n--------------------------\n--------------------------\n--------------------------\n--------------------------\n--------------------------\nDebug %d--------------------------\n--------------------------\n--------------------------\n--------------------------\n--------------------------\n--------------------------\n\n", points);
+    
     //Iniciar circulo
     float *circulo = (float*) malloc(sizeof(float)*(points * 2));
     float angle = (dPI*2) / (float) points;
@@ -174,6 +189,26 @@ void Createcircle(float x, float y, float radio, TColor color = Rosa,float excen
     free(circleToDraw);
 }
 
+void CheckColisionPlayerEnemy(TDisparo * disparo, bool enemy){
+  //Colision del disparo del jugador contra el enemigo
+  if(!enemy){
+    if((disparo)->disparando && enemi1.vivo){
+      // xemath::Vector2 distancia = {enemi1.x - (disparo)->x, enemi1.y - (disparo)->y};
+      xemath::Vector2 distancia = {enemi1.x - (float) esat::MousePositionX(), enemi1.y - (float)esat::MousePositionY()};
+      float modulo = xemath::Vec2Modulo(distancia);
+
+
+      if (modulo <= ENEMY_HITBOX_SIZE){
+        // enemi1.vivo = false;
+        printf("AL CARRER en %f\n",modulo);
+        player.score += 100;
+      }else{
+        printf("Distancia-> %f EnemyX->%f EnemyY->%f\n",modulo,enemi1.x,enemi1.y);
+      }
+      }
+  }
+}
+
 void DrawShoot(TDisparo *disparo, TColor color){
   // Pintar disparos
     if ((disparo)->disparando){
@@ -188,7 +223,6 @@ void DrawShoot(TDisparo *disparo, TColor color){
         (disparo)->disparando = false;
       }
 
-      // Check colisiones con enemigos / estructuras
     }
   
 }
@@ -224,7 +258,10 @@ void Disparo(TDisparo *disparo, float x, float y, xemath::Vector2 vecDirector,TC
 
   for (int i = 0; i < 4; i++){
     DrawShoot((disparo + i), color);
+    CheckColisionPlayerEnemy((disparo + i),enemy);
   }
+
+
   
 
   }
@@ -278,7 +315,6 @@ void DebugPointer(float *ptr, int sizePtr){
   
 }
 
-TEnemy enemi1;
 
 #include "player.cc"
 #include "colisiones.cc"
