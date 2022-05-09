@@ -385,24 +385,24 @@ void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[]){
         matIdentity8 = esat::Mat3Multiply(esat::Mat3Scale(turret16.escalar, turret16.escalar), matIdentity8);
 
 
-        matIdentity = esat::Mat3Multiply(esat::Mat3Rotate(3.79), matIdentity);
-        matIdentity2 = esat::Mat3Multiply(esat::Mat3Rotate(5.999997f), matIdentity2);
-        matIdentity3 = esat::Mat3Multiply(esat::Mat3Rotate(-1.5f), matIdentity3);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Rotate(1.6), matIdentity);
+        matIdentity2 = esat::Mat3Multiply(esat::Mat3Rotate(2.79f), matIdentity2);
+        matIdentity3 = esat::Mat3Multiply(esat::Mat3Rotate(5.999f), matIdentity3);
         matIdentity4 = esat::Mat3Multiply(esat::Mat3Rotate(1.6f), matIdentity4);
-        matIdentity5 = esat::Mat3Multiply(esat::Mat3Rotate(2.79f), matIdentity5);
-        matIdentity6 = esat::Mat3Multiply(esat::Mat3Rotate(2.79f), matIdentity6);
-        matIdentity7 = esat::Mat3Multiply(esat::Mat3Rotate(-1.5f), matIdentity7);
-        matIdentity8 = esat::Mat3Multiply(esat::Mat3Rotate(2.79f), matIdentity8);
+        matIdentity5 = esat::Mat3Multiply(esat::Mat3Rotate(5.999f), matIdentity5);
+        matIdentity6 = esat::Mat3Multiply(esat::Mat3Rotate(1.6f), matIdentity6);
+        matIdentity7 = esat::Mat3Multiply(esat::Mat3Rotate(5.999f), matIdentity7);
+        matIdentity8 = esat::Mat3Multiply(esat::Mat3Rotate(41.5f), matIdentity8);
 
-        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[41].x + 55.0f, tr_circle[41].y + 121.5f), matIdentity);
-        matIdentity2 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[18].x - 113.0f, tr_circle[18].y - 50.0f), matIdentity2);
-        matIdentity3 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[11].x - 100.0f, tr_circle[11].y + 174.0f), matIdentity3);
-        matIdentity4 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[35].x +82.0f, tr_circle[35].y-94.5f), matIdentity4);
-        matIdentity5 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[42].x + 70.5f, tr_circle[42].y + 96.0f), matIdentity5);
-        matIdentity6 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[44].x + 70.5f, tr_circle[44].y + 96.0f), matIdentity6);
-        matIdentity7 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[40].x - 120.5f, tr_circle[40].y - 68.5f), matIdentity7);
-        matIdentity8 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[40].x + 90.0f, tr_circle[40].y + 70.0f), matIdentity8);
-        // printf("TemporalINT-> %d\n",temporaliNT);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[41].x + 190.0f, tr_circle[41].y - 166.0f), matIdentity);
+        matIdentity2 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[47].x + 134.0f, tr_circle[47].y + 23.0f), matIdentity2);
+        matIdentity3 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[11].x - 81.0f, tr_circle[11].y - 97.5f), matIdentity3);
+        matIdentity4 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[14].x + 76.0f, tr_circle[14].y - 102.5f), matIdentity4);
+        matIdentity5 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[18].x - 123.0f, tr_circle[18].y - 37.0f), matIdentity5);
+        matIdentity6 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[6].x + 122.5f, tr_circle[6].y + - 42.5f), matIdentity6);
+        matIdentity7 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[27].x - 97.5f, tr_circle[27].y - 75.0f), matIdentity7);
+        matIdentity8 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[32].x - 13.0f, tr_circle[32].y + 124.0f), matIdentity8);
+        printf("TemporalINT-> %d\n",temporalINT);
 
 
         esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(turret9.map + i));
@@ -446,23 +446,23 @@ void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[]){
         matIdentity7 = esat::Mat3Multiply(esat::Mat3Scale(turret15.escalar, turret15.escalar), matIdentity7);
         matIdentity8 = esat::Mat3Multiply(esat::Mat3Scale(turret16.escalar, turret16.escalar), matIdentity8);
 
-        matIdentity = esat::Mat3Multiply(esat::Mat3Rotate(3.79), matIdentity);
-        matIdentity2 = esat::Mat3Multiply(esat::Mat3Rotate(5.999997f), matIdentity2);
-        matIdentity3 = esat::Mat3Multiply(esat::Mat3Rotate(-1.5f), matIdentity3);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Rotate(1.6f), matIdentity);
+        matIdentity2 = esat::Mat3Multiply(esat::Mat3Rotate(2.79f), matIdentity2);
+        matIdentity3 = esat::Mat3Multiply(esat::Mat3Rotate(5.999f), matIdentity3);
         matIdentity4 = esat::Mat3Multiply(esat::Mat3Rotate(1.6f), matIdentity4);
-        matIdentity5 = esat::Mat3Multiply(esat::Mat3Rotate(2.79f), matIdentity5);
-        matIdentity6 = esat::Mat3Multiply(esat::Mat3Rotate(2.79f), matIdentity6);
-        matIdentity7 = esat::Mat3Multiply(esat::Mat3Rotate(-1.5f), matIdentity7);
-        matIdentity8 = esat::Mat3Multiply(esat::Mat3Rotate(2.79f), matIdentity8);
+        matIdentity5 = esat::Mat3Multiply(esat::Mat3Rotate(5.999f), matIdentity5);
+        matIdentity6 = esat::Mat3Multiply(esat::Mat3Rotate(1.6f), matIdentity6);
+        matIdentity7 = esat::Mat3Multiply(esat::Mat3Rotate(5.999f), matIdentity7);
+        matIdentity8 = esat::Mat3Multiply(esat::Mat3Rotate(41.5f), matIdentity8);
 
-        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[41].x + 55.0f, tr_circle[41].y + 121.5f), matIdentity);
-        matIdentity2 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[18].x -113.0f, tr_circle[18].y -50.0f), matIdentity2);
-        matIdentity3 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[11].x - 100.0f, tr_circle[11].y + 174.0f), matIdentity3);
-        matIdentity4 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[35].x + 82.0f, tr_circle[35].y - 94.5f), matIdentity4);
-        matIdentity5 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[42].x + 70.5f, tr_circle[42].y + 96.0f), matIdentity5);
-        matIdentity6 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[44].x + 70.5f, tr_circle[44].y + 96.0f), matIdentity6);
-        matIdentity7 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[40].x - 120.5f, tr_circle[40].y - 68.5f), matIdentity7);
-        matIdentity8 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[40].x + 90.0f, tr_circle[40].y + 70.0f), matIdentity8);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[41].x + 190.0f, tr_circle[41].y - 166.0f), matIdentity);
+        matIdentity2 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[47].x + 134.0f, tr_circle[47].y + 23.0f), matIdentity2);
+        matIdentity3 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[11].x - 81.0f, tr_circle[11].y - 97.5f), matIdentity3);
+        matIdentity4 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[14].x + 76.0f, tr_circle[14].y - 102.5f), matIdentity4);
+        matIdentity5 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[18].x - 123.0f, tr_circle[18].y - 37.0f), matIdentity5);
+        matIdentity6 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[6].x + 122.5f, tr_circle[6].y + -42.5f), matIdentity6);
+        matIdentity7 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[27].x - 97.5f, tr_circle[27].y - 75.0f), matIdentity7);
+        matIdentity8 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[32].x + 13.0f, tr_circle[32].y + 124.0f), matIdentity8);
 
         esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(turret1.map + i));
         esat::Vec3 tmp2 = esat::Mat3TransformVec3(matIdentity2, *(turret1.map + i));
@@ -492,43 +492,36 @@ void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[]){
         esat::DrawSolidPath(&tr_turret12[0].x, 4);
     }
 
-    /* if (turret10.vivo)
-    {
+    if (turret10.vivo){
         esat::DrawPath(&tr_turret21[0].x, 4);
         esat::DrawSolidPath(&tr_turret22[0].x, 4);
     }
-    if (turret11.vivo)
-    {
+    if (turret11.vivo){
         esat::DrawPath(&tr_turret31[0].x, 4);
         esat::DrawSolidPath(&tr_turret32[0].x, 4);
     }
-    if (turret12.vivo)
-    {
+    if (turret12.vivo){
         esat::DrawPath(&tr_turret41[0].x, 4);
         esat::DrawSolidPath(&tr_turret42[0].x, 4);
     }
-    if (turret13.vivo)
-    {
+    if (turret13.vivo){
         esat::DrawPath(&tr_turret51[0].x, 4);
         esat::DrawSolidPath(&tr_turret52[0].x, 4);
     }
-    if (turret14.vivo)
-    {
+    if (turret14.vivo){
         esat::DrawPath(&tr_turret61[0].x, 4);
         esat::DrawSolidPath(&tr_turret62[0].x, 4);
     }
 
-    if (turret15.vivo)
-    {
+    if (turret15.vivo){
         esat::DrawPath(&tr_turret71[0].x, 4);
         esat::DrawSolidPath(&tr_turret72[0].x, 4);
     }
 
-    if (turret16.vivo)
-    {
+    if (turret16.vivo){
         esat::DrawPath(&tr_turret81[0].x, 4);
         esat::DrawSolidPath(&tr_turret82[0].x, 4);
-    } */
+    }
 
 
     if(scalating){

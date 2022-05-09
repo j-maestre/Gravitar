@@ -6,6 +6,9 @@ int scalateHorizontalFramesCount = 0;
 float *scalateXaux = (float*) malloc(sizeof(float));
 int scalateMatFramesCount = 0;
 
+bool map1Complete = false;
+bool map2Complete = false;
+
 //TODO Ver porque coño no vuelve a escalar al volver a entrar a un mapa
 
 void ScalateMap(float *map,float *pointsNormalized, int size,bool zoom = true){
@@ -224,9 +227,12 @@ void GeometriesActions(){
         case 0:
             // Pintar las galaxias
             //  X Y Radio Color ExcentricidadX ExcentricidadY Puntos Extravagancia(cuando hay que invertir la Y) Peculiaridad(cuanto hay que restarle a la Y)
-            Createcircle(250.0f, 150.0f, 40.0f, Rojo, 1.0f, 0.8f, 8);
-            CheckGalaxyColision(250.0f,150.0f,2);
-
+            if(turret9.vivo || turret10.vivo || turret11.vivo || turret12.vivo || turret13.vivo || turret14.vivo || turret15.vivo || turret16.vivo){
+                Createcircle(250.0f, 150.0f, 40.0f, Rojo, 1.0f, 0.8f, 8);
+                CheckGalaxyColision(250.0f,150.0f,2);
+            }else{
+                map2Complete = true;
+            }
             //Medio
             if(frameCont % 15 == 0){
                 animatorSelectorMedio==7?animatorSelectorMedio=0:animatorSelectorMedio++;
@@ -307,6 +313,8 @@ void GeometriesActions(){
             if(turret1.vivo || turret2.vivo || turret3.vivo || turret4.vivo || turret5.vivo || turret6.vivo || turret7.vivo || turret8.vivo){
                 Createcircle(900.0f,120.0f,25.0f,Rosa,1.0f,1.0f,32,8,0.75f);
                 CheckGalaxyColision(900.0f,120.0f,1,40);
+            }else{
+                map1Complete = true;
             }
 
             //Pintar enemigos
@@ -358,11 +366,20 @@ void GeometriesActions(){
                 //Llamar a colisiones
 
                 TurretShotController(&turret9, turret1_points, 1);
+                TurretShotController(&turret10, turret2_points, 1);
+                TurretShotController(&turret11, turret3_points, 1);
+                TurretShotController(&turret12, turret4_points, 1);
+                TurretShotController(&turret13, turret5_points, 1);
+                TurretShotController(&turret14, turret6_points, 1);
+                TurretShotController(&turret15, turret7_points, 1);
+                TurretShotController(&turret16, turret8_points, 1);
 
-                CheckMapColision(points_tmp_map2,49);
-                CheckShootColision(points_tmp_map2,49);
-                // printf("free\n");
-                // free(points_tmp);
+                CheckMapColision(points_tmp_map2,48);
+                CheckShootColision(points_tmp_map2,48);
+
+                if(player.y <= 23.050344f)ReturnMenu();
+        
+             
                 
             }
             CheckInputsGeometries();
