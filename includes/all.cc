@@ -115,10 +115,11 @@ struct TMap{
   bool normalized;
 };
 
-float *points_tmp_map1 = (float *)malloc(sizeof(float) * 91);
-float *points_tmp_map2 = (float *)malloc(sizeof(float) * 49);
-float *points_tmp_map2_bomb = (float *)malloc(sizeof(float) * 49);
-float *points_tmp_map3 = (float *)malloc(sizeof(float) * 74);
+float *points_tmp_map1 = (float *) calloc(0,sizeof(float) * 91);
+float *points_tmp_map2 = (float *) calloc(0,sizeof(float) * 49);
+float *points_tmp_map2_bomb = (float *) calloc(0,sizeof(float) * 49);
+float *points_tmp_map3 = (float *) calloc(0,sizeof(float) * 74);
+float *points_tmp_map4 = (float *) calloc(0,sizeof(float) * 74);
 
 //fwd = cos(angel),sin(angle)
 //aceleration = fwd * 0.1f;
@@ -192,12 +193,12 @@ void Createcircle(float x, float y, float radio, TColor color = Rosa,float excen
     free(circleToDraw);
 }
 
-void CheckColisionPlayerEnemy(TDisparo * disparo, bool enemy){
+void CheckColisionPlayerEnemy(TDisparo *disparo, bool enemy){
   //Colision del disparo del jugador contra el enemigo
   if(!enemy){
-    if((disparo)->disparando && enemi1.vivo){
-      // xemath::Vector2 distancia = {enemi1.x - (disparo)->x, enemi1.y - (disparo)->y};
-      xemath::Vector2 distancia = {enemi1.x - (float) esat::MousePositionX(), enemi1.y - (float)esat::MousePositionY()};
+    if(enemi1.vivo && enemi1.canMove){
+      xemath::Vector2 distancia = {enemi1.x - (disparo)->x, enemi1.y - (disparo)->y};
+      //xemath::Vector2 distancia = {enemi1.x - (float) esat::MousePositionX(), enemi1.y - (float)esat::MousePositionY()};
       float modulo = xemath::Vec2Modulo(distancia);
 
 
@@ -208,8 +209,9 @@ void CheckColisionPlayerEnemy(TDisparo * disparo, bool enemy){
       }else{
         // printf("Distancia-> %f EnemyX->%f EnemyY->%f\n",modulo,enemi1.x,enemi1.y);
       }
-      }
+    }
   }
+
 }
 
 void DrawShoot(TDisparo *disparo, TColor color){
@@ -221,10 +223,11 @@ void DrawShoot(TDisparo *disparo, TColor color){
       // printf("Dibujar disparo en X->%f Y->%f\n", (disparo)->x, (disparo)->y);
       Createcircle((disparo)->x, (disparo)->y, 2, color, 1, 1, 8);
 
-      if ((disparo)->x <= 0 || (disparo)->x >= ANCHO || (disparo)->y <= 0 || (disparo)->y >= ALTO){
-        // El disparo ha llegado al borde
-        (disparo)->disparando = false;
-      }
+      // if ((disparo)->x <= 0 || (disparo)->x >= ANCHO || (disparo)->y <= 0 || (disparo)->y >= ALTO){
+      //   // El disparo ha llegado al borde
+      //   printf("\n-----\nLimite\n-----\n-----\n");
+      //   (disparo)->disparando = false;
+      // }
 
     }
   
@@ -256,12 +259,30 @@ void Disparo(TDisparo *disparo, float x, float y, xemath::Vector2 vecDirector,TC
       }
 
 
+
     }
   }
 
   for (int i = 0; i < 4; i++){
     DrawShoot((disparo + i), color);
-    CheckColisionPlayerEnemy((disparo + i),enemy);
+
+    if((disparo+i)->disparando){
+
+    if ((disparo+i)->x <= 0 || (disparo+i)->x >= ANCHO || (disparo+i)->y <= 0 || (disparo+i)->y >= ALTO){
+        // El disparo ha llegado al borde
+        // printf("\n-----\nLimite i->%d X[%f] Y[%f]\n-----\n-----\n",i, (disparo + i)->x, (disparo + i)->y);
+        (disparo+i)->disparando = false;
+        (disparo+i)->x = 1.0f;
+        (disparo+i)->y = 1.0f;
+      }
+
+    }
+    // printf("Disparando-> %d [%d]\n", (disparo+i)->disparando,i);
+    if((disparo+i)->disparando && (disparo+i)->x > 0 && (disparo+i)->x < ANCHO && (disparo+i)->y > 0 && (disparo+i)->y < ALTO){
+      // printf("Enviar disparo->%d [%d]\n",(disparo+i)->disparando,i);
+      // CheckColisionPlayerEnemy((disparo + i),enemy);
+    }
+    
   }
 
 

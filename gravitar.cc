@@ -39,7 +39,11 @@ int esat::main(int argc, char **argv) {
 
 
   esat::WindowDestroy();
+  
+  
   FreePointers();
+
+
   return 0;
 
 }

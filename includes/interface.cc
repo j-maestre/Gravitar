@@ -77,6 +77,7 @@ void InterfaceActions(){
 }
 
 void FreePointers(){
+    
     free(map2.map);
     free(points_tmp_map1);
     free(points_tmp_map2);
@@ -105,7 +106,7 @@ void FreePointers(){
     free(turret6.disparos);
     free(turret7.disparos);
     free(turret8.disparos);
-    free(turret1.disparos);
+
     free(turret2.points);
     free(turret3.points);
     free(turret4.points);

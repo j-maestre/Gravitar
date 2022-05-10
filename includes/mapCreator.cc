@@ -20,7 +20,7 @@ int esat::main(int argc, char **argv) {
 	WindowSetMouseVisibility(true);
 	srand(time(NULL));
     float X = 0.0f, Y = 0.0f;
-    sprite = esat::SpriteFromFile("assets/map1.png"); 
+    sprite = esat::SpriteFromFile("assets/map4.png"); 
 
 	// InitMap4();
 
@@ -55,10 +55,12 @@ int esat::main(int argc, char **argv) {
 			Y+=1.0f;
 		}
 
+
+
 		esat::DrawSprite(sprite,{X,Y, 0, zoom, zoom, zoom});
 
         if(esat::MouseButtonDown(0)){
-			printf("(map1.map+%d)->x = %.0f.0f;(map1.map+%d)->y = %.0f.0f;(map1.map+%d)->z = 1.0f;\n", counter, esat::MousePositionX(), counter, esat::MousePositionY(), counter);
+			printf("(map4.map+%d)->x = %.0f.0f;(map4.map+%d)->y = %.0f.0f;(map4.map+%d)->z = 1.0f;\n", counter, esat::MousePositionX(), counter, esat::MousePositionY(), counter);
 			counter++;
 		}
         
@@ -73,8 +75,11 @@ int esat::main(int argc, char **argv) {
     	esat::WindowFrame();
   }
 
+  printf("zoom->%f X[%f] Y[%f]\n",zoom,X,Y);
 
   esat::WindowDestroy();
   return 0;
 
 }
+
+// zoom->1.000000 X[0.000000] Y[-122.000000]

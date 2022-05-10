@@ -59,6 +59,7 @@ void ReturnMenu(){
     map1.escalar = 231.0f;
     map2.escalar = 231.0f;
     map3.escalar = 231.0f;
+    map4.escalar = 231.0f;
 
     map3Bomb.escalar = 231.0f;
     player.timeLeft = 23;
@@ -67,7 +68,7 @@ void ReturnMenu(){
 }
 
 void CheckInputsGeometries(){
-
+    printf("Inputs...\n");
 
 
     if(esat::IsSpecialKeyDown(esat::kSpecialKey_Backspace)){
@@ -198,6 +199,12 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
             player.x = 480.8f;
             break;
         case 4:
+            if(!map4.normalized){
+                printf("Normalizando map 4\n");
+                NormalizeMap(map4,map4.size,994.0f,737.0f);
+                map4.normalized = true;
+                printf("Normalizado");
+            }
             // lenght = 102;
             // original = pointsMap1Original;
             // nuevo = pointsMap1pun;
@@ -209,6 +216,7 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
                 NormalizeMap(map3,74, 931.0f, 724.0f);
                 NormalizeMap(map3Bomb,map3Bomb.size, 699.0f, 489.0f);
                 map3.normalized = true;
+                printf("Normalizado\n");
             }
             break;
         default:
@@ -264,7 +272,7 @@ void TurretShotController(TTurret *turret, float *points, int index = 0){
 
 void CheckGoBack(bool bomb = false){
     if(player.y <= 23.050344f){
-        if(bomb){
+        if(bomb && bombShooted){
             map5Complete = true;
         }
         ReturnMenu();
@@ -272,7 +280,7 @@ void CheckGoBack(bool bomb = false){
 }
 
 void GeometriesActions(){
-    CheckInputsGeometries();
+    // CheckInputsGeometries();
     DrawHacks();
     frameCont<=1000?frameCont++:frameCont=0;
     TColor color = Blanco;
@@ -445,8 +453,24 @@ void GeometriesActions(){
 
             break;
         case 4:
-            CheckInputsGeometries();
-  
+            printf("-------Geometries 1------\n");
+            printf("scalateFramosCount-> %d\n", scalateMatFramesCount);
+            if(scalateMatFramesCount <= 100){
+                printf("Geometries 2\n");
+                DrawFigure3(&map4,map4.size);
+                scalateMatFramesCount++;
+                if(scalateMatFramesCount>=90)scalating = false;
+                printf("Geometries 3\n");
+            }else{
+
+                printf("Geometries 4\n");
+                DrawFigure3(&map4, map4.size,false);
+                printf("Geometries 5\n");
+            }
+
+
+            // CheckInputsGeometries();
+            printf("Geometries FIN\n");
 
         break;
         case 5: //*MATRICES
@@ -454,13 +478,14 @@ void GeometriesActions(){
                 DrawFigure3(&map3,map3.size);
                 DrawFigure3(&map3Bomb, map3Bomb.size, true, Morado,true);
                 scalateMatFramesCount++;
-                if(scalateMatFramesCount>=20)scalating = false;
+                if(scalateMatFramesCount>=90)scalating = false;
             }else{
                 DrawFigure3(&map3,map3.size,false);
 
                 //Animacion de la bomba
                 TColor color = Morado;
                 if(bombShooted){
+                    printf("run");
                     bombExplosionFramesCount++;
                     if(bombExplosionFramesCount%(fps/2) == 0){
                         bombColorChanger = !bombColorChanger;
@@ -486,7 +511,7 @@ void GeometriesActions(){
 
                 //Llamar a colisiones
                 CheckMapColision(points_tmp_map3,74);
-                CheckShootColision(points_tmp_map3,74);
+                // CheckShootColision(points_tmp_map3,74);
 
                 //Colision con la bomba
                 CheckShootColision(points_tmp_map2_bomb,map3Bomb.size-1,false,true);

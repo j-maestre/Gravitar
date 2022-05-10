@@ -192,6 +192,7 @@ void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde, b
     // const int sizeConst = size;
     //  if(scalate)m->escalar += 5.0f;
     //escalar tiene que llegar a 731
+    printf("debug 1\n");
     
     if (IsSpecialKeyPressed(esat::kSpecialKey_Up)){
         YPrueba--;
@@ -218,8 +219,9 @@ void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde, b
         m->escalar+=5;
     }
 
+    printf("debug 2\n");
     //Utilizo la misma variable para el mapa y la bomba, pero como el for se hace hasta el maximo, pues no problem
-    esat::Vec2 tr_circle[74];
+    esat::Vec2 tr_circle[100];
     for (int i = 0; i < size; i++){
          // Scalar cada mat3
          esat::Mat3 matIdentity = esat::Mat3Identity();
@@ -232,10 +234,11 @@ void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde, b
         tr_circle[i] = {tmp.x, tmp.y};
         
     }
+    printf("debug 3\n");
 
     //Puntos para el puntero de las colisiones
     if(scalate){
-        for (int i = 0; i < 74; i++){
+        for (int i = 0; i < size; i++){
             *(points_tmp_map2 + 2 * i) = tr_circle[i].x;
             *(points_tmp_map2 + 2 * i + 1) = tr_circle[i].y;
         }
@@ -246,7 +249,8 @@ void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde, b
             }
         }
     }
-    
+    printf("debug 4\n");
+
     esat::DrawSetStrokeColor(color.r, color.g, color.b);
     // esat::DrawSetFillColor(0,0,0);
     esat::DrawPath(&tr_circle[0].x,size);
@@ -293,6 +297,7 @@ esat::Mat3 UpdateBaseFigure(TMap mapa, bool scalate = true){
 TMap map1;
 TMap map2;
 TMap map3;
+TMap map4;
 TMap map3Bomb;
 
 void InitTurret(TTurret *turret){
@@ -379,6 +384,7 @@ void CreateMaps(){
     map1.normalized = false;
     map2.normalized = false;
     map3.normalized = false;
+    map4.normalized = false;
 
     
 
@@ -646,6 +652,96 @@ void CreateMaps(){
     (map3Bomb.map+8)->x = 489.0f;(map3Bomb.map+8)->y = 299.0f;(map3Bomb.map+8)->z = 1.0f;
     (map3Bomb.map+9)->x = 458.0f;(map3Bomb.map+9)->y = 287.0f;(map3Bomb.map+9)->z = 1.0f;
     (map3Bomb.map+10)->x = 469.0f;(map3Bomb.map+10)->y = 276.0f;(map3Bomb.map+10)->z = 1.0f;
+
+    //Map4
+
+    map4.map = nullptr;
+    map4.map = (esat::Vec3 *)malloc(sizeof(esat::Vec3) * 83);
+    map4.size = 83;
+    (map4.map+0)->x = 36.0f;(map4.map+0)->y = 736.0f;(map4.map+0)->z = 1.0f;
+    (map4.map+1)->x = 51.0f;(map4.map+1)->y = 726.0f;(map4.map+1)->z = 1.0f;
+    (map4.map+2)->x = 65.0f;(map4.map+2)->y = 718.0f;(map4.map+2)->z = 1.0f;
+    (map4.map+3)->x = 79.0f;(map4.map+3)->y = 710.0f;(map4.map+3)->z = 1.0f;
+    (map4.map+4)->x = 94.0f;(map4.map+4)->y = 701.0f;(map4.map+4)->z = 1.0f;
+    (map4.map+5)->x = 122.0f;(map4.map+5)->y = 701.0f;(map4.map+5)->z = 1.0f;
+    (map4.map+6)->x = 131.0f;(map4.map+6)->y = 684.0f;(map4.map+6)->z = 1.0f;
+    (map4.map+7)->x = 137.0f;(map4.map+7)->y = 670.0f;(map4.map+7)->z = 1.0f;
+    (map4.map+8)->x = 143.0f;(map4.map+8)->y = 685.0f;(map4.map+8)->z = 1.0f;
+    (map4.map+9)->x = 148.0f;(map4.map+9)->y = 703.0f;(map4.map+9)->z = 1.0f;
+    (map4.map+10)->x = 153.0f;(map4.map+10)->y = 718.0f;(map4.map+10)->z = 1.0f;
+    (map4.map+11)->x = 161.0f;(map4.map+11)->y = 710.0f;(map4.map+11)->z = 1.0f;
+    (map4.map+12)->x = 184.0f;(map4.map+12)->y = 710.0f;(map4.map+12)->z = 1.0f;
+    (map4.map+13)->x = 190.0f;(map4.map+13)->y = 698.0f;(map4.map+13)->z = 1.0f;
+    (map4.map+14)->x = 197.0f;(map4.map+14)->y = 685.0f;(map4.map+14)->z = 1.0f;
+    (map4.map+15)->x = 206.0f;(map4.map+15)->y = 699.0f;(map4.map+15)->z = 1.0f;
+    (map4.map+16)->x = 212.0f;(map4.map+16)->y = 709.0f;(map4.map+16)->z = 1.0f;
+    (map4.map+17)->x = 221.0f;(map4.map+17)->y = 719.0f;(map4.map+17)->z = 1.0f;
+    (map4.map+18)->x = 230.0f;(map4.map+18)->y = 727.0f;(map4.map+18)->z = 1.0f;
+    (map4.map+19)->x = 256.0f;(map4.map+19)->y = 727.0f;(map4.map+19)->z = 1.0f;
+    (map4.map+20)->x = 265.0f;(map4.map+20)->y = 719.0f;(map4.map+20)->z = 1.0f;
+    (map4.map+21)->x = 273.0f;(map4.map+21)->y = 711.0f;(map4.map+21)->z = 1.0f;
+    (map4.map+22)->x = 280.0f;(map4.map+22)->y = 688.0f;(map4.map+22)->z = 1.0f;
+    (map4.map+23)->x = 288.0f;(map4.map+23)->y = 661.0f;(map4.map+23)->z = 1.0f;
+    (map4.map+24)->x = 295.0f;(map4.map+24)->y = 683.0f;(map4.map+24)->z = 1.0f;
+    (map4.map+25)->x = 300.0f;(map4.map+25)->y = 697.0f;(map4.map+25)->z = 1.0f;
+    (map4.map+26)->x = 304.0f;(map4.map+26)->y = 711.0f;(map4.map+26)->z = 1.0f;
+    (map4.map+27)->x = 314.0f;(map4.map+27)->y = 720.0f;(map4.map+27)->z = 1.0f;
+    (map4.map+28)->x = 323.0f;(map4.map+28)->y = 727.0f;(map4.map+28)->z = 1.0f;
+    (map4.map+29)->x = 333.0f;(map4.map+29)->y = 735.0f;(map4.map+29)->z = 1.0f;
+    (map4.map+30)->x = 337.0f;(map4.map+30)->y = 720.0f;(map4.map+30)->z = 1.0f;
+    (map4.map+31)->x = 341.0f;(map4.map+31)->y = 702.0f;(map4.map+31)->z = 1.0f;
+    (map4.map+32)->x = 356.0f;(map4.map+32)->y = 702.0f;(map4.map+32)->z = 1.0f;
+    (map4.map+33)->x = 369.0f;(map4.map+33)->y = 715.0f;(map4.map+33)->z = 1.0f;
+    (map4.map+34)->x = 382.0f;(map4.map+34)->y = 725.0f;(map4.map+34)->z = 1.0f;
+    (map4.map+35)->x = 393.0f;(map4.map+35)->y = 735.0f;(map4.map+35)->z = 1.0f;
+    (map4.map+36)->x = 397.0f;(map4.map+36)->y = 723.0f;(map4.map+36)->z = 1.0f;
+    (map4.map+37)->x = 401.0f;(map4.map+37)->y = 702.0f;(map4.map+37)->z = 1.0f;
+    (map4.map+38)->x = 416.0f;(map4.map+38)->y = 702.0f;(map4.map+38)->z = 1.0f;
+    (map4.map+39)->x = 420.0f;(map4.map+39)->y = 721.0f;(map4.map+39)->z = 1.0f;
+    (map4.map+40)->x = 423.0f;(map4.map+40)->y = 737.0f;(map4.map+40)->z = 1.0f;
+    (map4.map+41)->x = 436.0f;(map4.map+41)->y = 722.0f;(map4.map+41)->z = 1.0f;
+    (map4.map+42)->x = 454.0f;(map4.map+42)->y = 701.0f;(map4.map+42)->z = 1.0f;
+    (map4.map+43)->x = 462.0f;(map4.map+43)->y = 713.0f;(map4.map+43)->z = 1.0f;
+    (map4.map+44)->x = 468.0f;(map4.map+44)->y = 727.0f;(map4.map+44)->z = 1.0f;
+    (map4.map+45)->x = 490.0f;(map4.map+45)->y = 727.0f;(map4.map+45)->z = 1.0f;
+    (map4.map+46)->x = 502.0f;(map4.map+46)->y = 707.0f;(map4.map+46)->z = 1.0f;
+    (map4.map+47)->x = 514.0f;(map4.map+47)->y = 686.0f;(map4.map+47)->z = 1.0f;
+    (map4.map+48)->x = 543.0f;(map4.map+48)->y = 686.0f;(map4.map+48)->z = 1.0f;
+    (map4.map+49)->x = 559.0f;(map4.map+49)->y = 659.0f;(map4.map+49)->z = 1.0f;
+    (map4.map+50)->x = 574.0f;(map4.map+50)->y = 685.0f;(map4.map+50)->z = 1.0f;
+    (map4.map+51)->x = 589.0f;(map4.map+51)->y = 659.0f;(map4.map+51)->z = 1.0f;
+    (map4.map+52)->x = 604.0f;(map4.map+52)->y = 686.0f;(map4.map+52)->z = 1.0f;
+    (map4.map+53)->x = 627.0f;(map4.map+53)->y = 686.0f;(map4.map+53)->z = 1.0f;
+    (map4.map+54)->x = 630.0f;(map4.map+54)->y = 701.0f;(map4.map+54)->z = 1.0f;
+    (map4.map+55)->x = 635.0f;(map4.map+55)->y = 718.0f;(map4.map+55)->z = 1.0f;
+    (map4.map+56)->x = 648.0f;(map4.map+56)->y = 718.0f;(map4.map+56)->z = 1.0f;
+    (map4.map+57)->x = 663.0f;(map4.map+57)->y = 701.0f;(map4.map+57)->z = 1.0f;
+    (map4.map+58)->x = 671.0f;(map4.map+58)->y = 684.0f;(map4.map+58)->z = 1.0f;
+    (map4.map+59)->x = 679.0f;(map4.map+59)->y = 667.0f;(map4.map+59)->z = 1.0f;
+    (map4.map+60)->x = 687.0f;(map4.map+60)->y = 687.0f;(map4.map+60)->z = 1.0f;
+    (map4.map+61)->x = 696.0f;(map4.map+61)->y = 703.0f;(map4.map+61)->z = 1.0f;
+    (map4.map+62)->x = 709.0f;(map4.map+62)->y = 727.0f;(map4.map+62)->z = 1.0f;
+    (map4.map+63)->x = 725.0f;(map4.map+63)->y = 727.0f;(map4.map+63)->z = 1.0f;
+    (map4.map+64)->x = 731.0f;(map4.map+64)->y = 711.0f;(map4.map+64)->z = 1.0f;
+    (map4.map+65)->x = 739.0f;(map4.map+65)->y = 695.0f;(map4.map+65)->z = 1.0f;
+    (map4.map+66)->x = 748.0f;(map4.map+66)->y = 712.0f;(map4.map+66)->z = 1.0f;
+    (map4.map+67)->x = 754.0f;(map4.map+67)->y = 726.0f;(map4.map+67)->z = 1.0f;
+    (map4.map+68)->x = 768.0f;(map4.map+68)->y = 719.0f;(map4.map+68)->z = 1.0f;
+    (map4.map+69)->x = 785.0f;(map4.map+69)->y = 719.0f;(map4.map+69)->z = 1.0f;
+    (map4.map+70)->x = 791.0f;(map4.map+70)->y = 698.0f;(map4.map+70)->z = 1.0f;
+    (map4.map+71)->x = 799.0f;(map4.map+71)->y = 670.0f;(map4.map+71)->z = 1.0f;
+    (map4.map+72)->x = 808.0f;(map4.map+72)->y = 695.0f;(map4.map+72)->z = 1.0f;
+    (map4.map+73)->x = 815.0f;(map4.map+73)->y = 718.0f;(map4.map+73)->z = 1.0f;
+    (map4.map+74)->x = 829.0f;(map4.map+74)->y = 703.0f;(map4.map+74)->z = 1.0f;
+    (map4.map+75)->x = 845.0f;(map4.map+75)->y = 702.0f;(map4.map+75)->z = 1.0f;
+    (map4.map+76)->x = 874.0f;(map4.map+76)->y = 718.0f;(map4.map+76)->z = 1.0f;
+    (map4.map+77)->x = 897.0f;(map4.map+77)->y = 701.0f;(map4.map+77)->z = 1.0f;
+    (map4.map+78)->x = 935.0f;(map4.map+78)->y = 701.0f;(map4.map+78)->z = 1.0f;
+    (map4.map+79)->x = 950.0f;(map4.map+79)->y = 660.0f;(map4.map+79)->z = 1.0f;
+    (map4.map+80)->x = 965.0f;(map4.map+80)->y = 703.0f;(map4.map+80)->z = 1.0f;
+    (map4.map+81)->x = 979.0f;(map4.map+81)->y = 703.0f;(map4.map+81)->z = 1.0f;
+    (map4.map+82)->x = 994.0f;(map4.map+82)->y = 733.0f;(map4.map+82)->z = 1.0f;
+
 }
 
 void NormalizeMap(TMap mapa,float lenght,float sizeX, float sizeY){

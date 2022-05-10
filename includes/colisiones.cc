@@ -77,13 +77,18 @@ bool CheckShootColision(float *points, int size, bool turret = false,bool bomb =
                 
 
                 if (moduloSum < modulo3 + 1){
-                    printf("Colision mapa disparo en X->%f Y->%f\n", (player.disparos + j)->x, (player.disparos + j)->y);
+
+
+                    printf("Colision mapa %d disparo en X->%f Y->%f\n",player.nivel, (player.disparos + j)->x, (player.disparos + j)->y);
                     if(player.nivel == 1 && (player.disparos + j)->x > 408.0f && (player.disparos + j)->x < 481.0f){
                         //Colision con un bug
                         printf("------BUG-------\n");
                     }else{
                         (player.disparos + j)->disparando = false;
                     }
+
+                    (player.disparos + j)->disparando = false;
+
                     if(turret){
                         printf("Colision con torreta\n");
                         player.score+=100;
