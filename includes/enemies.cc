@@ -10,6 +10,10 @@ void InitEnemies(){
     enemi1.x = 100.0f;
     enemi1.y = 350.0f;
 
+    enemi1.canMove = false;
+    enemi1.secondsToMove = 2;
+    enemi1.secondsToMoveCount = 1;
+
     // for (int i = 0; i < 4; i++){
 
         // printf("Disparo del enemigo %d->%d\n", i, (enemi1.disparos + i)->disparando);
@@ -149,22 +153,32 @@ void DrawEnemy2(TEnemy *enemi){
 void MoveEnemy(TEnemy *enemi){
     // Sacar vector director entre el enemigo y el jugador
     // bool nuevoDisp = false;
-    xemath::Vector2 direccion = {player.x - enemi->x, player.y - enemi->y};
-    direccion = xemath::Vec2Normalize(direccion);
+    if(enemi->canMove){
 
-    direccion.x *= enemi->velocidad;
-    direccion.y *= enemi->velocidad;
-    enemi->x += direccion.x;
-    enemi->y += direccion.y;
+        xemath::Vector2 direccion = {player.x - enemi->x, player.y - enemi->y};
+        direccion = xemath::Vec2Normalize(direccion);
+
+        direccion.x *= enemi->velocidad;
+        direccion.y *= enemi->velocidad;
+        enemi->x += direccion.x;
+        enemi->y += direccion.y;
 
 
-    if(shootFramesCont%(nextShootTime * fps) == 0){
-        //Sorteamos cuando saldrá el proximo disparo
-        nextShootTime = 1 + rand() % SHOOT_FRECUENCY;
-        // printf("Disparo, siguiente en %ds\n",nextShootTime);
-        Disparo(enemi1.disparos, enemi1.x, enemi1.y, direccion, Rojo, true);
+        if(shootFramesCont%(nextShootTime * fps) == 0){
+            //Sorteamos cuando saldrá el proximo disparo
+            nextShootTime = 1 + rand() % SHOOT_FRECUENCY;
+            // printf("Disparo, siguiente en %ds\n",nextShootTime);
+            Disparo(enemi1.disparos, enemi1.x, enemi1.y, direccion, Rojo, true);
+        }
+        Disparo(enemi1.disparos, enemi1.x, enemi1.y, direccion, Rojo, false);
+
+        shootFramesCont++;
+    }else{
+        enemi->secondsToMoveCount++;
+
+        if (enemi->secondsToMoveCount%(enemi->secondsToMove*fps) == 0)
+        {
+            enemi->canMove = true;
+        }
     }
-    Disparo(enemi1.disparos, enemi1.x, enemi1.y, direccion, Rojo, false);
-
-    shootFramesCont++;
 }

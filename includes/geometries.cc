@@ -16,6 +16,7 @@ bool map5Complete = false;
 void DrawHacks(){
     if(debug){
         esat::DrawSetStrokeColor(Amarillo.r,Amarillo.g,Amarillo.b);
+        esat::DrawSetFillColor(Amarillo.r,Amarillo.r,Amarillo.r);
         esat::DrawText(10.0f,ALTO-100.0f,"GOD MODE");
     }else{
         printf("na de na");
@@ -376,7 +377,7 @@ void GeometriesActions(){
             }
 
             //Pintar enemigos
-            DrawEnemy1(&enemi1);
+            if(enemi1.canMove)DrawEnemy1(&enemi1);
             MoveEnemy(&enemi1);
 
             break;

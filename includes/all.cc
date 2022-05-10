@@ -72,9 +72,12 @@ struct TEnemy{
   xemath::Vector2 vecPunta = {100.0f, 200.0f};
   float x = 100.0f;
   float y = 300.0f;
-  float velocidad = 1.5f;
+  float velocidad = 1.0f;
   float gravityForce = 0.01f;
   float angle;
+  bool canMove;
+  int secondsToMove;
+  int secondsToMoveCount;
 };
 
 struct TFuel{
@@ -146,7 +149,7 @@ TPlayer player1;
 
 TEnemy enemi1;
 
-//TODO ver que pasa con el pintado de las balas que se cargan el pintado del texto
+
 //TODO arreglar la colision con el disparo del jugador y el enemigo
 
 void Createcircle(float x, float y, float radio, TColor color = Rosa,float excentricidadX = 1.0f,float excentricidadY = 1.0f, int points = 360, int extravagancia = -1, float peculiaridad = -1.0f){
@@ -203,7 +206,7 @@ void CheckColisionPlayerEnemy(TDisparo * disparo, bool enemy){
         printf("AL CARRER en %f\n",modulo);
         player.score += 100;
       }else{
-        printf("Distancia-> %f EnemyX->%f EnemyY->%f\n",modulo,enemi1.x,enemi1.y);
+        // printf("Distancia-> %f EnemyX->%f EnemyY->%f\n",modulo,enemi1.x,enemi1.y);
       }
       }
   }
