@@ -84,8 +84,8 @@ void DrawFuelMap2(bool scalating, esat::Vec2 tr_circle[]){
     if(esat::IsKeyDown('O'))temporalINTfuel--;
     if(esat::IsKeyPressed('P'))temporalFloatturret += 0.5f;
     if(esat::IsKeyPressed('O'))temporalFloatturret -= 0.5f;
-    printf("Turret INT ->%d\n", temporalINTfuel);
-    printf("Turret Float ->%f\n",temporalFloatturret);
+    // printf("Turret INT ->%d\n", temporalINTfuel);
+    // printf("Turret Float ->%f\n",temporalFloatturret);
 
     //El escalar de fuel tiene que llegar a 30
     if(fuel5.escalar<30)fuel5.escalar+=0.3f;

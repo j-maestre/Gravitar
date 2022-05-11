@@ -1,10 +1,16 @@
-// int aux = 0;
+
+
+int aux = 0;
 //TODO check colision disparo con el borde del mapa cuando he hecho scroll
 //*Colision del jugador con el mapa
 void CheckMapColision(float *points, int size){
     // printf("uep\n");
-    for (int i = 0; i < (size-2); i++){
+    if(esat::IsKeyDown('Z'))aux++;
+    Createcircle(*(points + (aux*2)), *(points + (aux*2 + 1)), 5);
+    printf("Aux-> %d\n",aux);
+    for (int i = 0; i < (size-1); i++){
         // printf("uep %d\n",i);
+        Createcircle(*(points + (i * 2)), *(points + (i * 2 + 1)), 5,Rojo);
 
         // int i = aux;
         // if(esat::IsKeyPressed('J')){
@@ -42,15 +48,8 @@ void CheckMapColision(float *points, int size){
         if(!debug){
             if(moduloSum < moduloMapa+0.1 || moduloSum2 < moduloMapa+0.1 && !scalating){
                 printf("COLISION\n");
-                player.vidas--;
-                player.vecDirector.x = 0.0f;
-                player.vecDirector.y = -15.0f;
-                player.aceleration.x = 0.0f;
-                player.aceleration.y = 0.0f;
-                player.velocity.x = 0.0f;
-                player.velocity.y = 0.0f;
-                player.x = CENTROX;
-                player.y = CENTROY;
+                DiePlayer();
+                
             }
         }
 
@@ -106,4 +105,22 @@ bool CheckShootColision(float *points, int size, bool turret = false,bool bomb =
         }// End j for
     } // End i for
     return turretDead;
+}
+
+
+void TurretShootcolision(TDisparo *disparo, int size){
+    //Disparos de una torreta y el maximo de disparos que pueden haber
+
+    for (int i = 0; i < size; i++){
+        
+        if((disparo+i)->disparando){
+            // xemath::Vector2 distancia = {player.x - (disparo+i)->x, player.y - (disparo+i)->y};
+            xemath::Vector2 distancia = {player.x - (float)esat::MousePositionX(), player.y - (float)esat::MousePositionY()};
+            float modulo = xemath::Vec2Modulo(distancia);
+
+            if(modulo <= 15){
+                printf("-----MUERTO-----\n");
+            }
+        }
+    }
 }

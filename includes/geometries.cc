@@ -18,8 +18,6 @@ void DrawHacks(){
         esat::DrawSetStrokeColor(Amarillo.r,Amarillo.g,Amarillo.b);
         esat::DrawSetFillColor(Amarillo.r,Amarillo.r,Amarillo.r);
         esat::DrawText(10.0f,ALTO-100.0f,"GOD MODE");
-    }else{
-        printf("na de na");
     }
 }
 
@@ -68,7 +66,7 @@ void ReturnMenu(){
 }
 
 void CheckInputsGeometries(){
-    printf("Inputs...\n");
+    // printf("Inputs...\n");
 
 
     if(esat::IsSpecialKeyDown(esat::kSpecialKey_Backspace)){
@@ -192,7 +190,8 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
         break;
         case 2:
             if(!map2.normalized){
-                NormalizeMap(map2,49, 892.0f, 714.0f);
+                // NormalizeMap(map2,49, 892.0f, 714.0f);
+                NormalizeMap(map2, 112, 990.0f, 714.0f);
                 map2.normalized = true;
             }
             player.y = 112.8f;
@@ -218,6 +217,8 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
                 map3.normalized = true;
                 printf("Normalizado\n");
             }
+            player.y = 112.8f;
+            player.x = 480.8f;
             break;
         default:
             break;
@@ -422,12 +423,12 @@ void GeometriesActions(){
 
             if(scalateMatFramesCount <= 110){
                 // esat::Mat3 aux = UpdateBaseFigure(map2);
-                DrawFigure2(&map2, 49);
+                DrawFigure2(&map2, map2.size);
                 scalateMatFramesCount++;
                 if(scalateMatFramesCount>=109)scalating = false;
             }else{
                 // esat::Mat3 aux = UpdateBaseFigure(map2,false);
-                DrawFigure2(&map2, 49, false);
+                DrawFigure2(&map2, map2.size, false);
                 //Llamar a colisiones
 
                 TurretShotController(&turret9, turret1_points, 1);
@@ -439,12 +440,15 @@ void GeometriesActions(){
                 TurretShotController(&turret15, turret7_points, 1);
                 TurretShotController(&turret16, turret8_points, 1);
 
-                CheckMapColision(points_tmp_map2,48);
-                CheckShootColision(points_tmp_map2,48);
+                CheckMapColision(points_tmp_map2, map2.size);
+                CheckShootColision(points_tmp_map2, map2.size);
 
                 CheckShield(&fuel5, &fuel6, &fuel7, &fuel8);
 
                 CheckGoBack();
+
+                //Shot turret colision with player
+                TurretShootcolision(turret9.disparos,4);
         
              
                 
@@ -474,7 +478,9 @@ void GeometriesActions(){
 
         break;
         case 5: //*MATRICES
-            if(scalateMatFramesCount <= 100){
+            // Mapa bomba
+
+            if(scalateMatFramesCount <= 130){
                 DrawFigure3(&map3,map3.size);
                 DrawFigure3(&map3Bomb, map3Bomb.size, true, Morado,true);
                 scalateMatFramesCount++;
@@ -510,7 +516,7 @@ void GeometriesActions(){
                 }
 
                 //Llamar a colisiones
-                CheckMapColision(points_tmp_map3,74);
+                CheckMapColision(points_tmp_map3,map3.size);
                 // CheckShootColision(points_tmp_map3,74);
 
                 //Colision con la bomba

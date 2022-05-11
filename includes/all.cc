@@ -9,7 +9,7 @@
 #include <time.h>
 #include "xemath.cc"
 
-bool debug = true;
+bool debug = false;
 
 //Ancho -> 256*4
 //Alto -> 192*4
@@ -115,11 +115,11 @@ struct TMap{
   bool normalized;
 };
 
-float *points_tmp_map1 = (float *) calloc(0,sizeof(float) * 91);
-float *points_tmp_map2 = (float *) calloc(0,sizeof(float) * 49);
-float *points_tmp_map2_bomb = (float *) calloc(0,sizeof(float) * 49);
-float *points_tmp_map3 = (float *) calloc(0,sizeof(float) * 74);
-float *points_tmp_map4 = (float *) calloc(0,sizeof(float) * 74);
+float *points_tmp_map1 = (float*) calloc(0,sizeof(float) * 250); //91
+float *points_tmp_map2 = (float*) calloc(0,sizeof(float) * 250); //150?
+float *points_tmp_map2_bomb = (float*) calloc(0,sizeof(float) * 250); //49
+float *points_tmp_map3 = (float*) calloc(0,sizeof(float) * 250); //74
+float *points_tmp_map4 = (float*) calloc(0,sizeof(float) * 250); //74
 
 //fwd = cos(angel),sin(angle)
 //aceleration = fwd * 0.1f;

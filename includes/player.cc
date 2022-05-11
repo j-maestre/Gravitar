@@ -1,5 +1,34 @@
 
 // player.velocidad = xemath::Vec2Normalize(player.vecDirector);
+void DiePlayer(){
+  player.vidas--;
+  player.vecDirector.x = 0.0f;
+  player.vecDirector.y = -15.0f;
+  player.aceleration.x = 0.0f;
+  player.aceleration.y = 0.0f;
+  player.velocity.x = 0.0f;
+  player.velocity.y = 0.0f;
+
+  switch (player.nivel){
+  case 1:
+    player.y = 112.8f;
+    player.x = 514.8f;
+  break;
+  case 2:
+    player.y = 112.8f;
+    player.x = 480.8f;
+  break;
+  case 5:
+    player.y = 112.8f;
+    player.x = 480.8f;
+  break;
+  
+  default:
+    break;
+  }
+  
+}
+
 
 void InitPlayer(){
   player.disparos = (TDisparo*) malloc(sizeof(TDisparo)*4);
@@ -175,10 +204,7 @@ void PlayerActions(){
   DrawPlayer();
   if(!scalating)MovePlayer();
   Disparo(player.disparos, player.x,player.y,player.vecDirector);
-  // printf("Aceleracion-> ");
-  // xemath::DebugVector2(player.aceleration);
-  // printf("Velocidad-> ");
-  // xemath::DebugVector2(player.velocity);
+
 }
 
 

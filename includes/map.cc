@@ -106,7 +106,7 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
     
 }
 void DrawFigure2(TMap *m, int size, bool scalate = true, TColor color = Verde){
-    esat::Vec2 tr_circle[49];
+    esat::Vec2 tr_circle[150];
 
     if(scalate){
         m->escalar+=5;
@@ -239,8 +239,8 @@ void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde, b
     //Puntos para el puntero de las colisiones
     if(scalate){
         for (int i = 0; i < size; i++){
-            *(points_tmp_map2 + 2 * i) = tr_circle[i].x;
-            *(points_tmp_map2 + 2 * i + 1) = tr_circle[i].y;
+            *(points_tmp_map3 + 2 * i) = tr_circle[i].x;
+            *(points_tmp_map3 + 2 * i + 1) = tr_circle[i].y;
         }
         if(bomba){
             for(int i = 0; i < size; i++){
