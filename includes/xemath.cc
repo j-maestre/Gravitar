@@ -142,9 +142,9 @@ namespace xemath{
     return aux;
   }
 
- 
-
-
+  float crossProductVec2(xemath::Vector2 vec1, xemath::Vector2 vec2){
+    return (vec1.x * vec2.y) - (vec1.y * vec2.x);
+  }
 
   //Debug Vector2
   void DebugVector2(Vector2 vector){

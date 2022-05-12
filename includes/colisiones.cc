@@ -47,9 +47,7 @@ void CheckMapColision(float *points, int size){
         // esat::DrawLine((player.x + player.vecDirector.x),(player.y + player.vecDirector.y),*(pointsNormalized + ((i * 2) + 2)), *(pointsNormalized + ((i * 2) + 3)) );
         if(!debug){
             if(moduloSum < moduloMapa+0.1 || moduloSum2 < moduloMapa+0.1 && !scalating){
-                printf("COLISION\n");
-                DiePlayer();
-                
+                DiePlayer();                
             }
         }
 
@@ -123,4 +121,83 @@ void TurretShootcolision(TDisparo *disparo, int size){
             }
         }
     }
+}
+
+
+
+bool ColisionLine(float s1x, float s1y, float s2x, float s2y, float r1x, float r1y, float r2x, float r2y){
+    // orden: 4 coordenadas de un segmento , 4 coordenadas el otro segmento
+    // devuelve true si esos 2 segmentos colisionan.
+    bool colide = true;
+    xemath::Vector2 R1S1{s1x - r1x, s1y - r1y};
+    xemath::Vector2 R1S2{s2x - r1x, s2y - r1y};
+    xemath::Vector2 R2S1{s1x - r2x, s1y - r2y};
+    xemath::Vector2 R2S2{s2x - r2x, s2y - r2y};
+    xemath::Vector2 S1R1{r1x - s1x, r1y - s1y};
+    xemath::Vector2 S1R2{r2x - s1x, r2y - s1y};
+    xemath::Vector2 S2R1{r1x - s2x, r1y - s2y};
+    xemath::Vector2 S2R2{r2x - s2x, r2y - s2y};
+    if (!((xemath::crossProductVec2(R1S1, R1S2) < 0 && xemath::crossProductVec2(R2S1, R2S2) > 0) ||
+          (xemath::crossProductVec2(R1S1, R1S2) > 0 && xemath::crossProductVec2(R2S1, R2S2) < 0)))
+        colide = false;
+    if (!((xemath::crossProductVec2(S1R1, S1R2) < 0 && xemath::crossProductVec2(S2R1, S2R2) > 0) ||
+          (xemath::crossProductVec2(S1R1, S1R2) > 0 && xemath::crossProductVec2(S2R1, S2R2) < 0)))
+        colide = false;
+    if (colide)
+        return true;
+    else
+        return false;
+}
+
+// int i = 0;
+
+bool ColisionMap(float *puntos,int size){
+    bool colide = false;
+    // if(esat::IsKeyDown('L'))i++;
+    for (int i = 0; i < size; i++){
+        float x1 = *(puntos + i * 2);
+        float y1 = *(puntos + i * 2 + 1);
+
+        float x2 = *(puntos + i * 2 + 2);
+        float y2 = *(puntos + i * 2 + 3);
+
+        // Sacamos el vector de la linea principal
+        xemath::Vector2 aux = {(player.x + player.vecDirector.x) - player.x, (player.y + player.vecDirector.y) - player.y};
+        // Rotamos el vector
+        xemath::Vector2 izquierda = xemath::RotateVec2(aux, 200.0f);
+        xemath::Vector2 derecha = xemath::RotateVec2(aux, -200.0f);
+        float playerx = (player.x + aux.x);
+        float playery = (player.y + aux.y);
+        
+        float playerxIz = (player.x + aux.x) + izquierda.x;
+        float playeryIz = (player.y + aux.y) + izquierda.y;
+        
+        float playerxDer = (player.x + aux.x) + derecha.x;
+        float playeryDer = (player.y + aux.y) + derecha.y;
+
+        // float x21 = *(puntos + i * 2 +4);
+        // float y21 = *(puntos + i * 2 + 5);
+
+        // float x22 = *(puntos + i * 2 + 6);
+        // float y22 = *(puntos + i * 2 + 7);
+
+        // Createcircle(x1,y1,5);
+        // Createcircle(x2,y2,5);
+        // Createcircle(x22,y22,5);
+        // Createcircle(x22,y22,5);
+
+        if(!colide){
+            colide = ColisionLine(x1, y1, x2, y2, playerx, playery, playerxIz, playeryIz);
+        }else{
+            i = size;
+        }
+        if(!colide){
+            colide = ColisionLine(x1, y1, x2, y2, playerx, playery, playerxDer, playeryDer);
+        }else{
+            i = size;
+        }
+    }
+
+    return colide;
+    
 }

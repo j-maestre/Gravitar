@@ -403,7 +403,11 @@ void GeometriesActions(){
             }else{
                 DrawFigure1(&map1,map1.size,false);
                 //Llamar a colisiones
-                CheckMapColision(points_tmp_map1,map1.size-1);
+                // CheckMapColision(points_tmp_map1,map1.size-1);
+                bool colision = ColisionMap(points_tmp_map1, map1.size);
+                if (colision){
+                    DiePlayer();
+                }
                 CheckShootColision(points_tmp_map1,map1.size-1);
                 CheckShield(&fuel1,&fuel2,&fuel3,&fuel4);
 
@@ -439,9 +443,12 @@ void GeometriesActions(){
                 TurretShotController(&turret14, turret6_points, 1);
                 TurretShotController(&turret15, turret7_points, 1);
                 TurretShotController(&turret16, turret8_points, 1);
-
-                CheckMapColision(points_tmp_map2, map2.size);
-                CheckShootColision(points_tmp_map2, map2.size);
+                // CheckMapColision(points_tmp_map2, map2.size);
+                bool colision = ColisionMap(points_tmp_map2, map2.size);
+                if(colision){
+                    DiePlayer();
+                }
+                // CheckShootColision(points_tmp_map2, map2.size);
 
                 CheckShield(&fuel5, &fuel6, &fuel7, &fuel8);
 

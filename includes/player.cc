@@ -1,30 +1,33 @@
 
 // player.velocidad = xemath::Vec2Normalize(player.vecDirector);
 void DiePlayer(){
-  player.vidas--;
-  player.vecDirector.x = 0.0f;
-  player.vecDirector.y = -15.0f;
-  player.aceleration.x = 0.0f;
-  player.aceleration.y = 0.0f;
-  player.velocity.x = 0.0f;
-  player.velocity.y = 0.0f;
+  if(!debug){
 
-  switch (player.nivel){
-  case 1:
-    player.y = 112.8f;
-    player.x = 514.8f;
-  break;
-  case 2:
-    player.y = 112.8f;
-    player.x = 480.8f;
-  break;
-  case 5:
-    player.y = 112.8f;
-    player.x = 480.8f;
-  break;
-  
-  default:
+    player.vidas--;
+    player.vecDirector.x = 0.0f;
+    player.vecDirector.y = -15.0f;
+    player.aceleration.x = 0.0f;
+    player.aceleration.y = 0.0f;
+    player.velocity.x = 0.0f;
+    player.velocity.y = 0.0f;
+
+    switch (player.nivel){
+    case 1:
+      player.y = 112.8f;
+      player.x = 514.8f;
     break;
+    case 2:
+      player.y = 112.8f;
+      player.x = 480.8f;
+    break;
+    case 5:
+      player.y = 112.8f;
+      player.x = 480.8f;
+    break;
+    
+    default:
+      break;
+    }
   }
   
 }
