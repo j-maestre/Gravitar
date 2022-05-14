@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <iostream>
+#include <cstring>
+
 struct Nacimiento{
   char dia[10];
   char mes[10];
@@ -19,9 +23,8 @@ struct Persona{
 };
 
 int valor;
-FILE *f, *fnew;
-
 Persona *personas = (Persona*) malloc(sizeof(Persona)*50);
+FILE *f, *fnew;
 
 void DeleteEnter(char palabra[80]){
   palabra[strlen(palabra)-1] = '\0';
@@ -40,15 +43,14 @@ void Create(){
   Persona per;
   Nacimiento nac;
 
-  // nac.dia[0] = '\0';
-  // nac.mes[0] = '\0';
-  // nac.anyo[0] = '\0';
-  // nac.provincia[0] = '\0';
 
   printf("Nombre:\n");
   fgets(per.nombre,20,stdin);
   DeleteEnter(per.nombre);
-  // per.nombre[strlen(per.nombre)-1]='\0';
+  for (int i = 0; i < strlen(per.nombre); i++){
+    per.nombre[i]=toupper(per.nombre[i]);
+  }
+
 
   printf("Introduzca una password\n");
   fgets(per.password,20,stdin);
@@ -139,7 +141,7 @@ void Create(){
   fclose(f);
 }
 
-void ReadAllPersonas(int size){
+void ReadAllPersonas(int size, Persona *personas){
   for (int i = 0; i < size; i++){
     printf("\n--------------------------------------------------\n");
     printf("Id: %d | Nombre: %s |Password: %s | Apellido1 %s | Apellido2 %s | Nacimiento: %s/%s/%s | Provincia: %s | tlf: %s | Email:%s | Puntuacion Maxima: %d | Creditos: %d\n", (personas+i)->id, (personas+i)->nombre,(personas+i)->password, (personas+i)->apellido1, (personas+i)->apellido2,
@@ -148,32 +150,40 @@ void ReadAllPersonas(int size){
       (personas+i)->telefono, (personas+i)->email,
       (personas+i)->puntuacion, (personas+i)->creditos);
   }
-  free(personas);
+//   free(personas);
 }
 
 
 
+int LoadToMemory(Persona *personas){
+    printf("Abriendo fichero...\n");
+    int index = 0;
+    if(f = fopen("./includes/usuarios.dat", "rb")){
+        
+        printf("----Fichero abierto Ole los caracoles----\n");  
+        Persona per;
 
-int LoadToMemory(){
-  f = fopen("usuarios.dat", "rb");
-  Persona per;
-  int index = 0;
-  while (fread(&per, sizeof(Persona), 1, f))
-  {
-    *(personas + index) = per;
-    // printf("\n--------------------------------------------------\n"); //
-    // printf("Id: %d | Nombre: %s | apellido1 %s | apellido2 %s | Nacimiento: %s/%s/%s | Provincia: %s | tlf: %s | Email: %s | Puntuacion Maxima: %s\n", per.id, per.nombre, per.apellido1, per.apellido2, per.nacimiento.dia, per.nacimiento.mes, per.nacimiento.anyo,per.nacimiento.provincia, per.telefono, per.email, per.puntuacion);
-    // printf("Id: %d | Nombre: %s | Apellido1 %s | Apellido2 %s | Nacimiento: %s/%s/%s | Provincia: %s | tlf: %s | Email:%s | Puntuacion Maxima: %d\n",per.id, per.nombre, per.apellido1, per.apellido2,per.nacimiento.dia, per.nacimiento.mes, per.nacimiento.anyo, per.nacimiento.provincia,per.telefono, per.email, per.puntuacion);
-    index++;
-  }
-  fclose(f);
-  return index;
+        while (fread(&per, sizeof(Persona), 1, f)){
+            printf("Leyendo fichero\n");
+
+            *(personas + index) = per;
+            printf("\n--------------------------------------------------\n"); //
+            // printf("Id: %d | Nombre: %s | apellido1 %s | apellido2 %s | Nacimiento: %s/%s/%s | Provincia: %s | tlf: %s | Email: %s | Puntuacion Maxima: %s\n", per.id, per.nombre, per.apellido1, per.apellido2, per.nacimiento.dia, per.nacimiento.mes, per.nacimiento.anyo,per.nacimiento.provincia, per.telefono, per.email, per.puntuacion);
+            printf("Id: %d | Nombre: %s | Contraseña %s | Apellido1 %s | Apellido2 %s | Nacimiento: %s/%s/%s | Provincia: %s | tlf: %s | Email:%s | Puntuacion Maxima: %d\n", per.id, per.nombre,per.password, per.apellido1, per.apellido2, per.nacimiento.dia, per.nacimiento.mes, per.nacimiento.anyo, per.nacimiento.provincia, per.telefono, per.email, per.puntuacion);
+            index++;
+        }
+        fclose(f);
+    }else{
+        printf("F\n");
+    }
+
+    return index;
 }
 
 void Read(){
 
-  int size = LoadToMemory();
-  ReadAllPersonas(size);
+  int size = LoadToMemory(personas);
+  ReadAllPersonas(size,personas);
 }
 
 void Update(){

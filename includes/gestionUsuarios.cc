@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <time.h>
 #include <conio.h>
-
+#include <iostream>
+#include <cstring>
 
 int valor;
 FILE *f,*fnew;
@@ -47,6 +48,8 @@ void Create(){
   Persona per;
   Nacimiento nac;
 
+  // per.password = (char*) calloc('\0',sizeof(char)*20);
+
   // nac.dia[0] = '\0';
   // nac.mes[0] = '\0';
   // nac.anyo[0] = '\0';
@@ -55,11 +58,20 @@ void Create(){
   printf("Nombre:\n");
   fgets(per.nombre,20,stdin);
   DeleteEnter(per.nombre);
+  for (int i = 0; i < strlen(per.nombre); i++){
+    per.nombre[i]=toupper(per.nombre[i]);
+  }
+  
   // per.nombre[strlen(per.nombre)-1]='\0';
 
   printf("Introduzca una password\n");
   fgets(per.password,20,stdin);
   DeleteEnter(per.password);
+  for (int i = 0; i < strlen(per.password); i++){
+    per.password[i] = toupper(per.password[i]);
+  }
+  per.password[strlen(per.password)+1] = '\0';
+  
 
   printf("Apellido1: \n");
   fgets(per.apellido1,20,stdin);
@@ -111,7 +123,7 @@ void Create(){
   printf("%s %s %s %s %s %s %s %s %s %s\n",per.nombre,per.password, per.apellido1, per.apellido2,
                                         per.nacimiento.dia, per.nacimiento.mes, per.nacimiento.anyo, per.nacimiento.provincia,
                                         per.telefono,per.email);
-  f=fopen("usuarios.dat","rb");
+  
 
   per.puntuacion = 0;
   per.creditos = 0;
@@ -119,24 +131,28 @@ void Create(){
   int last_id = -1;
   Persona last_per;
 
+  if(f=fopen("usuarios.dat","rb")){
+
+
   //Comprobamos si hay alguna persona ya añadida, en ese caso las recorremos todas buscando la ultima
   if(fread(&last_per,sizeof(Persona),1,f)){
-    printf("Ya hay alguien\n");
-    //Movemos el offset al principio
-    // fseek(f,sizeof(Persona),SEEK_CUR);
-    rewind(f);
+      printf("Ya hay alguien\n");
+      //Movemos el offset al principio
+      // fseek(f,sizeof(Persona),SEEK_CUR);
+      rewind(f);
 
-    while(fread(&last_per,sizeof(Persona),1,f)){
-      fseek(f,-1*sizeof(Persona),SEEK_END);
-      fread(&last_per,sizeof(Persona),1,f); //Cogemos la ultima persona
-      last_id = last_per.id;
-      printf("Id leido->%d\n",last_per.id);
-      fseek(f,sizeof(Persona),SEEK_CUR);
+      while(fread(&last_per,sizeof(Persona),1,f)){
+        fseek(f,-1*sizeof(Persona),SEEK_END);
+        fread(&last_per,sizeof(Persona),1,f); //Cogemos la ultima persona
+        last_id = last_per.id;
+        printf("Id leido->%d\n",last_per.id);
+        fseek(f,sizeof(Persona),SEEK_CUR);
+      }
+    }else{
+      printf("Primer usuario\n");
     }
-  }else{
-    printf("Primer usuario\n");
+    fclose(f);
   }
-  fclose(f);
   per.id = last_id + 1;
   printf("Id de la ultima persona %d id de la nuev apersona %d\n",last_id,per.id );
 
@@ -155,30 +171,40 @@ void ReadAllPersonas(int size){
       (personas+i)->telefono, (personas+i)->email,
       (personas+i)->puntuacion, (personas+i)->creditos);
   }
-  free(personas);
+  // free(personas);
 }
 
-int LoadToMemory(){
-  f = fopen("usuarios.dat", "rb");
-  Persona per;
-  int index = 0;
-  while (fread(&per, sizeof(Persona), 1, f))
-  {
-    *(personas + index) = per;
-    // printf("\n--------------------------------------------------\n"); //
-    // printf("Id: %d | Nombre: %s | apellido1 %s | apellido2 %s | Nacimiento: %s/%s/%s | Provincia: %s | tlf: %s | Email: %s | Puntuacion Maxima: %s\n", per.id, per.nombre, per.apellido1, per.apellido2, per.nacimiento.dia, per.nacimiento.mes, per.nacimiento.anyo,per.nacimiento.provincia, per.telefono, per.email, per.puntuacion);
-    // printf("Id: %d | Nombre: %s | Apellido1 %s | Apellido2 %s | Nacimiento: %s/%s/%s | Provincia: %s | tlf: %s | Email:%s | Puntuacion Maxima: %d\n",per.id, per.nombre, per.apellido1, per.apellido2,per.nacimiento.dia, per.nacimiento.mes, per.nacimiento.anyo, per.nacimiento.provincia,per.telefono, per.email, per.puntuacion);
-    index++;
-  }
-  fclose(f);
-  return index;
+int LoadToMemory(Persona *personas){
+    printf("Ole los caracoles\n");
+    int index = 0;
+    if(f = fopen("usuarios.dat", "rb")){
+      printf("-----Abierto-----\n");
+      Persona per;
+      // printf("Fichero abierto\n");  
+
+      while (fread(&per, sizeof(Persona), 1, f)){
+          printf("--Leyendo fichero--");
+
+          *(personas + index) = per;
+          // printf("\n--------------------------------------------------\n"); //
+          // printf("Id: %d | Nombre: %s | apellido1 %s | apellido2 %s | Nacimiento: %s/%s/%s | Provincia: %s | tlf: %s | Email: %s | Puntuacion Maxima: %s\n", per.id, per.nombre, per.apellido1, per.apellido2, per.nacimiento.dia, per.nacimiento.mes, per.nacimiento.anyo,per.nacimiento.provincia, per.telefono, per.email, per.puntuacion);
+          // printf("Id: %d | Nombre: %s | Apellido1 %s | Apellido2 %s | Nacimiento: %s/%s/%s | Provincia: %s | tlf: %s | Email:%s | Puntuacion Maxima: %d\n", per.id, per.nombre, per.apellido1, per.apellido2, per.nacimiento.dia, per.nacimiento.mes, per.nacimiento.anyo, per.nacimiento.provincia, per.telefono, per.email, per.puntuacion);
+          index++;
+      }
+      rewind(f);
+      fclose(f);
+    }else{
+      printf("No se ha podido abrir el fichero\n");
+    }
+    return index;
 }
 
 void Read(){
 
-  int size = LoadToMemory();
+  int size = LoadToMemory(personas);
   ReadAllPersonas(size);
 }
+
 
 void Update(){
   f=fopen("usuarios.dat","r+b");

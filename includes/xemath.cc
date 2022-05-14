@@ -1,4 +1,4 @@
-#include <stdio.h>
+// #include <stdio.h>
 #include <math.h>
 //En el .h poner:
 //#ifndef __LIBRERIA__H__
@@ -148,19 +148,19 @@ namespace xemath{
 
   //Debug Vector2
   void DebugVector2(Vector2 vector){
-    printf("X:[%f] Y:[%f]\n",vector.x,vector.y);
+    // printf("X:[%f] Y:[%f]\n",vector.x,vector.y);
   }
   //Debug Vector3
   void DebugVector3(Vector3 vector){
-    printf("X:[%f] Y:[%f] Z:[%f]\n",vector.x,vector.y,vector.z);
+    // printf("X:[%f] Y:[%f] Z:[%f]\n",vector.x,vector.y,vector.z);
   }
   //Debug Vector4
   void DebugVector4(Vector4 vector){
-    printf("X:[%f] Y:[%f] Z:[%f] W:[%f]\n",vector.x,vector.y,vector.z,vector.w);
+    // printf("X:[%f] Y:[%f] Z:[%f] W:[%f]\n",vector.x,vector.y,vector.z,vector.w);
   }
   //Debug Mat2
   void DebugMat2(Mat2 mat){
-    printf("0:[%f] 1:[%f] 2:[%f] 3:[%f]\n",mat.m[0],mat.m[1],mat.m[2],mat.m[3]);
+    // printf("0:[%f] 1:[%f] 2:[%f] 3:[%f]\n",mat.m[0],mat.m[1],mat.m[2],mat.m[3]);
   }
 
   Vector2 ScalateVec2(Vector2 vec, float size){

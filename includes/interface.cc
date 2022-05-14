@@ -1,4 +1,4 @@
-bool login = false;
+bool logued = false;
 
 bool inputName = true;
 bool inputPasswd = false;
@@ -15,6 +15,9 @@ char *userPasswd = (char*) calloc('\0',sizeof(char)*20);
 int sizePasswd = 0;
 
 const int MAX_SIZE = 17;
+const int MAX_USERS_LOADED = 50;
+
+Persona *users = (Persona*) malloc(sizeof(Persona)*MAX_USERS_LOADED);
 
 void DrawFuel(){
     //Print score
@@ -40,6 +43,28 @@ void DrawVidas(){
 }
 
 void Login(){
+    printf("Cargando usuarios\n");
+    int size = LoadToMemory(users);
+    printf("Usuarios totales->%d \n",size);
+    if(size>0)printf("Usuarios cargados\n");
+
+    for (int i = 0; i < size; i++){
+        //Buscamos la persona con ese nombre
+        printf("Comparando %s con %s\n",(users + i)->nombre,userName);
+        // const char[20] = *(users + i)->nombre;
+        if (strcmp(userName,(users + i)->nombre) == 0){
+            //Usuario encontrado
+            printf("Comparando %s con %s\n", (users + i)->password, userPasswd);
+
+            if(strcmp(userPasswd,(users + i)->password) == 0){
+                //Usuario y contraseña correctos
+                logued = true;
+            }else{
+                printf("Contraseña incorrecta\n");
+            }
+        }
+    }
+    
 
 }
 
@@ -130,7 +155,7 @@ void LoginInputs(){
         }
     }
 
-    printf("%s\n",userName);
+    // printf("%s\n",userName);
     esat::DrawSetTextSize(20);
     esat::DrawSetFillColor(0,255,0);
     // esat::DrawSetFillColor(0,0,0);
@@ -188,7 +213,7 @@ void Interface(){
 
 void InterfaceActions(){
 	esat::DrawSetTextSize(38);
-    if(!login){
+    if(!logued){
         LoginInputs();
     }else{
         DrawFuel();

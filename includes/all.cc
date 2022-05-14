@@ -5,11 +5,10 @@
 #include <esat/time.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <time.h>
 #include "xemath.cc"
 #include <conio.h>
-
+#include "users.cc"
 
 bool debug = false;
 
@@ -353,5 +352,4 @@ void DebugPointer(float *ptr, int sizePtr){
 #include "map.cc"
 #include "enemies.cc"
 #include "geometries.cc"
-#include "users.cc"
 #include "interface.cc"
