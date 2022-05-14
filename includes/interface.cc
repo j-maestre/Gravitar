@@ -1,4 +1,20 @@
+bool login = false;
 
+bool inputName = true;
+bool inputPasswd = false;
+
+bool showName = true;
+bool showPasswd = true;
+
+int inputNameFramesCount = 1;
+int inputPasswdFramesCount = 1;
+
+char *userName = (char*) calloc('\0',sizeof(char)*20);
+int sizeName = 0;
+char *userPasswd = (char*) calloc('\0',sizeof(char)*20);
+int sizePasswd = 0;
+
+const int MAX_SIZE = 17;
 
 void DrawFuel(){
     //Print score
@@ -23,7 +39,108 @@ void DrawVidas(){
     
 }
 
+void Login(){
+
+}
+
+void CheckInputSelector(){
+
+    if(esat::IsSpecialKeyDown(esat::kSpecialKey_Enter)){
+        if(inputName){
+            //Ya ha puesto el nombre, ahora hay que poner la passwd
+            inputName = false;
+            inputPasswd = true;
+        }else if(inputPasswd){
+            //Ya ha puesto el name y la passwd, hay que hacer login
+            Login();
+        }
+    }
+}
+
+void LoginInputs(){
+    CheckInputSelector();
+    esat::DrawSetStrokeColor(255, 255, 255);
+    esat::DrawText(420, 200, "Nombre");
+    float *recuadro = (float*) malloc(sizeof(float)*8);
+    *(recuadro) = 420.0f;
+    *(recuadro + 1) = 230.0f;
+
+    *(recuadro + 2) = 600.0f;
+    *(recuadro + 3) = 230.0f;
+    
+    *(recuadro + 4) = 600.0f;
+    *(recuadro + 5) = 270.0f;
+
+    *(recuadro + 6) = 420.0f;
+    *(recuadro + 7) = 270.0f;
+
+    esat::DrawSetStrokeColor(Amarillo.r, Amarillo.g, Amarillo.b);
+    esat::DrawSetFillColor(50, 50, 50);
+    esat::DrawSolidPath(recuadro,4);
+
+
+    esat::DrawSetStrokeColor(255, 255, 255);
+    esat::DrawText(420, 330, "Password");
+    *(recuadro + 1) = 360.0f;
+    *(recuadro + 3) = 360.0f;
+    *(recuadro + 5) = 400.0f;
+    *(recuadro + 7) = 400.0f;
+
+    esat::DrawSetStrokeColor(Amarillo.r, Amarillo.g, Amarillo.b);
+    esat::DrawSetFillColor(50, 50, 50);
+    esat::DrawSolidPath(recuadro, 4);
+    free(recuadro);
+
+    //Check inputs 
+    if(inputName){
+        //Style
+        inputNameFramesCount++;
+        if(inputNameFramesCount%(fps/2)==0){
+            showName = !showName;
+        }
+        if(showName)esat::DrawLine(430+sizeName*10,260,430+sizeName*10,240);
+
+        //Name
+        char letra = esat::GetNextPressedKey();
+        if(letra!=0){
+            //He escrito algo
+            // printf("%c",letra);
+            if(sizeName<MAX_SIZE){
+                *(userName+sizeName) = letra;
+                sizeName++;
+            }
+            esat::ResetBufferdKeyInput();
+        }
+    }else if(inputPasswd){
+        inputPasswdFramesCount++;
+        if(inputPasswdFramesCount%(fps/2)==0){
+            showPasswd = !showPasswd;
+        }
+        if(showPasswd)esat::DrawLine(430+sizePasswd*10,370,430+sizePasswd*10,390);
+        //Name
+        char letra = esat::GetNextPressedKey();
+        if(letra!=0){
+            //He escrito algo
+            // printf("%c",letra);
+            if(sizePasswd<MAX_SIZE){
+                *(userPasswd+sizePasswd) = letra;
+                sizePasswd++;
+            }
+            esat::ResetBufferdKeyInput();
+        }
+    }
+
+    printf("%s\n",userName);
+    esat::DrawSetTextSize(20);
+    esat::DrawSetFillColor(0,255,0);
+    // esat::DrawSetFillColor(0,0,0);
+    esat::DrawText(430,260,userName);
+    esat::DrawText(430,390,userPasswd);
+    // esat::DrawSetFillColor(0,0,0);
+}
+
 void Intro(){
+    esat::DrawSetFillColor(AzulText.r, AzulText.g, AzulText.b);
     esat::DrawText(420,200,"GAME OVER");
     esat::DrawText(410,240,"INSERT COIN");
     esat::DrawText(400,280,"1 COIN 1 PLAY");
@@ -71,10 +188,14 @@ void Interface(){
 
 void InterfaceActions(){
 	esat::DrawSetTextSize(38);
-    DrawFuel();
-    DrawVidas();
-    if(intro)Intro();
-    if(!intro && interfaz)Interface();
+    if(!login){
+        LoginInputs();
+    }else{
+        DrawFuel();
+        DrawVidas();
+        if(intro)Intro();
+        if(!intro && interfaz)Interface();
+    }
 }
 
 void FreePointers(){

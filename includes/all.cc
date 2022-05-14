@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <time.h>
 #include "xemath.cc"
+#include <conio.h>
+
 
 bool debug = false;
 
@@ -27,6 +29,8 @@ int credits = 0;
 bool scalating = false;
 bool scrollHorizontal = false;
 bool bombShooted = false;
+
+int id_current_user;
 
 //Para escalar los puntos, cogemos los puntos de un mapa cualquiera, los normalizamos para pasarlos entre 0-1 y luego lo multiplicamos 
 //Por el ancho y alto de nuestra pantalla para escalar cualquier mapa a nuestra pantalla
@@ -115,15 +119,16 @@ struct TMap{
   bool normalized;
 };
 
+
+
+
 float *points_tmp_map1 = (float*) calloc(0,sizeof(float) * 250); //91
 float *points_tmp_map2 = (float*) calloc(0,sizeof(float) * 250); //150?
 float *points_tmp_map2_bomb = (float*) calloc(0,sizeof(float) * 250); //49
 float *points_tmp_map3 = (float*) calloc(0,sizeof(float) * 250); //74
 float *points_tmp_map4 = (float*) calloc(0,sizeof(float) * 250); //74
 
-//fwd = cos(angel),sin(angle)
-//aceleration = fwd * 0.1f;
-//vel += aceleration
+
 
 
 TColor Rojo = {180,0,0};
@@ -348,4 +353,5 @@ void DebugPointer(float *ptr, int sizePtr){
 #include "map.cc"
 #include "enemies.cc"
 #include "geometries.cc"
+#include "users.cc"
 #include "interface.cc"
