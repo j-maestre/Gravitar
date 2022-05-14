@@ -27,6 +27,7 @@ void Intro(){
     esat::DrawText(420,200,"GAME OVER");
     esat::DrawText(410,240,"INSERT COIN");
     esat::DrawText(400,280,"1 COIN 1 PLAY");
+    //Mostrar 10 mejores
     if(esat::IsSpecialKeyDown(esat::kSpecialKey_Space)){
         intro = false;
         InitEnemies();
