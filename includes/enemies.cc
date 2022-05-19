@@ -176,8 +176,14 @@ void MoveEnemy(TEnemy *enemi){
     }else{
         enemi->secondsToMoveCount++;
 
-        if (enemi->secondsToMoveCount%(enemi->secondsToMove*fps) == 0)
-        {
+        if(enemi->secondsToMoveCount == 0){
+            enemi->secondsToMoveCount = 1;
+        }
+        if(enemi->secondsToMove == 0){
+            enemi->secondsToMove = 2;
+        }
+
+        if (enemi->secondsToMoveCount%(enemi->secondsToMove*fps) == 0){
             enemi->canMove = true;
         }
     }

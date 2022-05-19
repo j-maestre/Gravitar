@@ -10,7 +10,7 @@
 #include <conio.h>
 #include "users.cc"
 
-bool debug = false;
+bool debug = true;
 
 //Ancho -> 256*4
 //Alto -> 192*4
@@ -24,7 +24,7 @@ const int FUEL_CONSUME = 4;
 const int TIME_TO_EXPLOSION = 10;
 const float ENEMY_HITBOX_SIZE = 30.0f;
 bool intro = true, interfaz = true;
-int credits = 0;
+int credits = 1;
 bool scalating = false;
 bool scrollHorizontal = false;
 bool bombShooted = false;
@@ -121,7 +121,7 @@ struct TMap{
 
 
 
-float *points_tmp_map1 = (float*) malloc(sizeof(float) * 250); //91
+float *points_tmp_map1 = (float*) calloc(0,sizeof(float) * 250); //91
 float *points_tmp_map2 = (float*) calloc(0,sizeof(float) * 250); //150?
 float *points_tmp_map2_bomb = (float*) calloc(0,sizeof(float) * 250); //49
 float *points_tmp_map3 = (float*) calloc(0,sizeof(float) * 250); //74
@@ -157,12 +157,12 @@ TEnemy enemi1;
 
 //TODO arreglar la colision con el disparo del jugador y el enemigo
 
-void Createcircle(float x, float y, float radio, TColor color = Rosa,float excentricidadX = 1.0f,float excentricidadY = 1.0f, int points = 360, int extravagancia = -1, float peculiaridad = -1.0f){
+void Createcircle(float x, float y, float radio, TColor color = Rosa,float excentricidadX = 1.0f,float excentricidadY = 1.0f, int points = 32, int extravagancia = -1, float peculiaridad = -1.0f){
     
     if(points==0)printf("--------------------------\n--------------------------\n--------------------------\n--------------------------\n--------------------------\n--------------------------\nDebug %d--------------------------\n--------------------------\n--------------------------\n--------------------------\n--------------------------\n--------------------------\n\n", points);
     
     //Iniciar circulo
-    float *circulo = (float*) malloc(sizeof(float)*(points * 2));
+    float *circulo = (float*) malloc(sizeof(float)*(points * 3));
     float angle = (dPI*2) / (float) points;
     for(int i = 0; i<points; i++){
         if(extravagancia ==-1){
@@ -185,7 +185,7 @@ void Createcircle(float x, float y, float radio, TColor color = Rosa,float excen
     esat::DrawSetStrokeColor(color.r,color.g,color.b);
     esat::DrawSetFillColor(color.r,color.g,color.b,0);
 
-    float *circleToDraw = (float*) malloc(sizeof(float)*(points*2));
+    float *circleToDraw = (float*) malloc(sizeof(float)*(points*3));
 
     for(int i = 0; i<points; i++){
         *(circleToDraw + (i * 2)) = *(circulo + (i * 2)) * radio + x;

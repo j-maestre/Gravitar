@@ -27,7 +27,7 @@ void NormalizeTurret(TTurret mapa,float lenght,float sizeX = 1.0f, float sizeY =
 }
 
 void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
-    esat::Vec2 tr_circle[91]; // Size de map1-> 91
+    esat::Vec2 tr_circle[250]; // Size de map1-> 91
     //?---------DEBUG---------
     if (IsSpecialKeyPressed(esat::kSpecialKey_Up)){
         YPrueba--;
@@ -80,15 +80,20 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
     }
     
     //Scalating map
+    bool checked = false;
     for (int i = 0; i < size; i++){
         esat::Mat3 matIdentity = esat::Mat3Identity();
         matIdentity = esat::Mat3Multiply(esat::Mat3Scale(m->escalar, m->escalar), matIdentity);
         matIdentity = esat::Mat3Multiply(esat::Mat3Scale(1.25f, 1.0f), matIdentity);
         matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY+50), matIdentity);
         esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i));
+        Createcircle((m->map + i)->x, (m->map + i)->y,5,Verde);
         tr_circle[i] = {tmp.x, tmp.y};
-        *(points_tmp_map1 + (2 * i)) = tmp.x;
-        *(points_tmp_map1 + (2 * i) + 1) = tmp.y;
+        if(!scalate){
+            // *(points_tmp_map1 + (2 * i)) = tmp.x;
+            // *(points_tmp_map1 + (2 * i) + 1) = tmp.y;
+        }
+        checked = true;
     }
 
     //Puntos para el puntero de las colisiones
@@ -124,15 +129,19 @@ void DrawFigure2(TMap *m, int size, bool scalate = true, TColor color = Verde){
         if((m->map + i)->x > 10000.0f || (m->map + i)->x < -10000.0f || (m->map + i)->y > 10000.0f || (m->map + i)->y < -10000.0f || (m->map + i)->z > 10000.0f || (m->map + i)->z < -10000.0f){
             printf("Mapvalues X->%f Y->%f Z->%f\n", (m->map + i)->x, (m->map + i)->y, (m->map + i)->z);
         }
+        *(points_tmp_map2 + 2 * i) = tmp.x;
+        *(points_tmp_map2 + 2 * i + 1) = tmp.y;
     }
 
     //Puntos para el puntero de las colisiones
-    if(scalate && m->escalar > 400){
-        for (int i = 0; i < size; i++){
-            *(points_tmp_map2 + 2 * i) = tr_circle[i].x;
-            *(points_tmp_map2 + 2 * i + 1) = tr_circle[i].y;
-        }
-    }
+    // if(scalate && m->escalar > 400){
+    printf("-------------------Size-> %d\n",size);
+    // if(m->escalar > 400){
+    //     for (int i = 0; i < size; i++){
+    //         *(points_tmp_map2 + 2 * i) = tr_circle[i].x;
+    //         *(points_tmp_map2 + 2 * i + 1) = tr_circle[i].y;
+    //     }
+    // }
 
 
     DrawTurretsMap2(scalate,tr_circle);
@@ -140,55 +149,10 @@ void DrawFigure2(TMap *m, int size, bool scalate = true, TColor color = Verde){
 
     esat::DrawSetStrokeColor(color.r, color.g, color.b);
     esat::DrawPath(&tr_circle[0].x,size);
+    printf("End Draw map\n");
     
 }
 
-
-void DrawFigure(TMap *m, int size, bool scalate = true){
-
-    if (IsSpecialKeyPressed(esat::kSpecialKey_Up)){
-        YPrueba--;
-    }
-    if (IsSpecialKeyPressed(esat::kSpecialKey_Down)){
-        YPrueba++;
-    }
-    if (IsSpecialKeyPressed(esat::kSpecialKey_Right)){
-        xPrueba++;
-    }
-    if (IsSpecialKeyPressed(esat::kSpecialKey_Left)){
-        xPrueba--;
-    }
-    
-    if(esat::IsKeyPressed('T'))m->escalar++;
-
-    if(scalate){
-        m->escalar+=5;
-    }
-    esat::Vec2 tr_circle[49];
-     for (int i = 0; i < size; i++){
-         // Scalar cada mat3
-         esat::Mat3 matIdentity = esat::Mat3Identity();
-        //  esat::Vec3 vecAux = {(m.map + i)->x, (m.map + i)->y, (m.map + i)->z};
-
-        matIdentity = esat::Mat3Multiply(esat::Mat3Scale(m->escalar, m->escalar), matIdentity);
-        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY), matIdentity);
-        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(85.0f, 11.0f), matIdentity);
-         esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i) );
-         tr_circle[i] = {tmp.x, tmp.y};
-        
-    }
-
-    //Puntos para el puntero de las colisiones
-    if(scalate){
-        for (int i = 0; i < 48; i++){
-            *(points_tmp_map2 + 2 * i) = tr_circle[i].x;
-            *(points_tmp_map2 + 2 * i + 1) = tr_circle[i].y;
-        }
-    }
-    esat::DrawSetStrokeColor(Verde.r, Verde.g, Verde.b);
-    // esat::DrawSetFillColor(0,0,0);
-    esat::DrawPath(&tr_circle[0].x,size);
-}
 
 //Draw Bomba
 void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde, bool bomba = false){
@@ -224,65 +188,86 @@ void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde, b
 
     printf("debug 2\n");
     //Utilizo la misma variable para el mapa y la bomba, pero como el for se hace hasta el maximo, pues no problem
-    esat::Vec2 tr_circle[100];
+    esat::Vec2 tr_circle[200];
+    esat::Vec2 tr_circle_bomba[200];
     for (int i = 0; i < size; i++){
          // Scalar cada mat3
-         esat::Mat3 matIdentity = esat::Mat3Identity();
-        //  esat::Vec3 vecAux = {(m.map + i)->x, (m.map + i)->y, (m.map + i)->z};
-
+        esat::Mat3 matIdentity = esat::Mat3Identity();
         matIdentity = esat::Mat3Multiply(esat::Mat3Scale(m->escalar, m->escalar), matIdentity);
         matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY), matIdentity);
         if(bomba)matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX-402.0f, CENTROY - 214.0f), matIdentity);
         esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i) );
-        tr_circle[i] = {tmp.x, tmp.y};
+
+        if(!bomba)tr_circle[i] = {tmp.x, tmp.y};
+        if(bomba)tr_circle_bomba[i] = {tmp.x, tmp.y};
         
     }
     printf("debug 3\n");
 
     //Puntos para el puntero de las colisiones
-    if(scalate){
+    if(!scalate){
+        printf("ueeepp\n");
         if(!bomba){
+            printf("NO Bomba size-> %d\n", size);
+            printf("No Bomba ueeepp\n");
+
             for (int i = 0; i < size; i++){
                 *(points_tmp_map3 + 2 * i) = tr_circle[i].x;
                 *(points_tmp_map3 + 2 * i + 1) = tr_circle[i].y;
             }
+            printf("No bomba ueeepp\n");
         }
         if(bomba){
+            printf("Bomba ueeepp\n");
+            printf("Bomba size-> %d\n", size);
             for(int i = 0; i < size; i++){
-                *(points_tmp_map2_bomb + 2 * i) = tr_circle[i].x;
-                *(points_tmp_map2_bomb + 2 * i + 1) = tr_circle[i].y;
+                *(points_tmp_map2_bomb + 2 * i) = tr_circle_bomba[i].x;
+                *(points_tmp_map2_bomb + 2 * i + 1) = tr_circle_bomba[i].y;
             }
+            printf("Bomba ueeepp\n");
         }
     }
     printf("debug 4\n");
 
     esat::DrawSetStrokeColor(color.r, color.g, color.b);
     // esat::DrawSetFillColor(0,0,0);
-    esat::DrawPath(&tr_circle[0].x,size);
-
+    if(!bomba)esat::DrawPath(&tr_circle[0].x,size);
+    if(bomba)esat::DrawPath(&tr_circle_bomba[0].x,size);
+    printf("debug 5\n");
 }
 
 int bombFpsCounter = 0;
 
 void DrawTimeLeft(){
+    esat::DrawSetStrokeColor(0,0,255);
+    esat::DrawSetFillColor(0,0,255);
     esat::DrawText(246.0f,397.0f,"ESCAPE TIME");
     
     // float tiempo = esat::Time();
     // tiempo /= 1000;
     // player.timeLeft = 29 - tiempo ;
 
-
+    printf("Draw time debug 1\n");
     bombFpsCounter++;
     if(bombFpsCounter%fps == 0){
         player.timeLeft--;
     }
 
-    char *aux;
-    aux = IntToAscii(player.timeLeft, false);
-    esat::DrawText(246.0f, 457.0f, aux);
+    printf("Draw time debug 2\n");
+    char *aux = (char*) calloc('\0',sizeof(char)*4);
+    printf("Draw time debug 3\n");
+    // aux = IntToAscii(player.timeLeft, false);
+    itoa(player.timeLeft,aux,10);
+    printf("Draw time debug 4\n");
+    printf("Aux %s\n",aux);
+    //esat::DrawText(246.0f, 457.0f, aux);//PETA AQUIII
+    printf("Draw time debug 5\n");
     free(aux);
+    printf("Draw time debug 6\n");
 
     esat::DrawText(318.0f,560.0f,"SHOOT REACTOR");
+    printf("Draw time debug 7\n");
+
 }
 
 

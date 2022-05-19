@@ -7,11 +7,12 @@ int esat::main(int argc, char **argv) {
 	esat::WindowInit(ANCHO,ALTO);
 	WindowSetMouseVisibility(true);
 	srand(time(NULL));
+	esat::DrawSetTextFont("./includes/assets/fonts/fuente.ttf");
+	
 	InitPlayer();
 	CreateMaps();
+	// InitVidasPoints();
 
-
-    esat::DrawSetTextFont("./includes/assets/fonts/fuente.ttf");
 
 	while (esat::WindowIsOpened() && !esat::IsSpecialKeyDown(esat::kSpecialKey_Escape)){
 
@@ -23,6 +24,7 @@ int esat::main(int argc, char **argv) {
 			if(!intro && !interfaz){
 				PlayerActions();
 				GeometriesActions();
+
 			}
 
 
@@ -36,10 +38,10 @@ int esat::main(int argc, char **argv) {
   }
 
 
+  FreePointers();
   esat::WindowDestroy();
   
   
-  FreePointers();
 
 
   return 0;

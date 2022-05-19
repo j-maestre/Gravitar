@@ -16,34 +16,16 @@ int sizePasswd = 0;
 
 const int MAX_SIZE = 17;
 const int MAX_USERS_LOADED = 50;
+float *points = (float *)calloc(0, sizeof(float) * 20);
+float *points1 = (float *)calloc(0, sizeof(float) * 20);
+float *points2 = (float *)calloc(0, sizeof(float) * 20);
+float *points3 = (float *)calloc(0, sizeof(float) * 20);
+float *points4 = (float *)calloc(0, sizeof(float) * 20);
 
 Persona *users = (Persona*) malloc(sizeof(Persona)*MAX_USERS_LOADED);
 
-void DrawFuel(){
-    //Print score
-    char *aux;
-    aux = IntToAscii(player.score);
-    esat::DrawSetFillColor(VerdeScore.r,VerdeScore.g,VerdeScore.b);
-    esat::DrawText(200,50,aux);
-
-    //Print fuel
-    esat::DrawSetFillColor(VerdeFuel.r,VerdeFuel.g,VerdeFuel.b);
-    aux = IntToAscii(player.fuel);
-    esat::DrawText(200,90,aux);
-
-    //Print fuel&score text
-    esat::DrawSetFillColor(AzulText.r,AzulText.g,AzulText.b);
-    esat::DrawText(500,50,"SCORE");
-    esat::DrawText(500,90,"FUEL");
-    free(aux);
-}
-
-void DrawVidas(){
-    float *points = (float*) calloc(0,sizeof(float)*20);
-    float *points1 = (float*) calloc(0,sizeof(float)*20);
-    float *points2 = (float*) calloc(0,sizeof(float)*20);
-    float *points3 = (float*) calloc(0,sizeof(float)*20);
-    float *points4 = (float*) calloc(0,sizeof(float)*20);
+void InitVidasPoints(){
+    printf("Setting points...\n");
 
     *(points+0)=215.0f;
     *(points+1)=23.0f;
@@ -129,25 +111,75 @@ void DrawVidas(){
     *(points4+13)=54.0f;
     *(points4+14)=147.0f;
     *(points4+15)=45.0f;
+}
+
+void DrawFuel(){
+    //Print score
+    char *aux;
+    aux = IntToAscii(player.score);
+    esat::DrawSetFillColor(VerdeScore.r,VerdeScore.g,VerdeScore.b);
+    esat::DrawText(200,50,aux);
+
+    //Print fuel
+    esat::DrawSetFillColor(VerdeFuel.r,VerdeFuel.g,VerdeFuel.b);
+    aux = IntToAscii(player.fuel);
+    esat::DrawText(200,90,aux);
+
+    //Print fuel&score text
+    esat::DrawSetFillColor(AzulText.r,AzulText.g,AzulText.b);
+    esat::DrawText(500,50,"SCORE");
+    esat::DrawText(500,90,"FUEL");
+    free(aux);
+}
+
+void DrawVidas(){
+    
 
 
 
         esat::DrawSetStrokeColor(0,0,255);
-        // esat::DrawSetFillColor(0,0,0,0);
-        printf("Vidas->%d\n",player.vidas);
+        esat::DrawSetFillColor(0,0,0,0);
+        // printf("Vidas->%d\n",player.vidas);
 
-        switch (player.vidas){
-        case 1:
-            // esat::DrawSolidPath(points,8);
-        break;
-        
-        default:
-            break;
-        }
+        InitVidasPoints();
 
-        printf("///////////////////\n");
+         switch (player.vidas){
+         case 1:
+             esat::DrawSolidPath(points,8);
+         break;
+         case 2:
+             esat::DrawSolidPath(points,8);
+             esat::DrawSolidPath(points1,8);
+         break;
+         case 3:
+             esat::DrawSolidPath(points,8);
+             esat::DrawSolidPath(points1,8);
+             esat::DrawSolidPath(points2,8);
+         break;
+         case 4:
+             esat::DrawSolidPath(points,8);
+             esat::DrawSolidPath(points1,8);
+             esat::DrawSolidPath(points2,8);
+             esat::DrawSolidPath(points3,8);
+         break;
+         case 5:
+             esat::DrawSolidPath(points,8);
+             esat::DrawSolidPath(points1,8);
+             esat::DrawSolidPath(points2,8);
+             esat::DrawSolidPath(points3,8);
+             esat::DrawSolidPath(points4,8);
+         break;
+
+         default:
+             break;
+         }
+
 
         // free(points);
+        // free(points1);
+        // free(points2);
+        // free(points3);
+        // free(points4);
     
 }
 
@@ -288,24 +320,24 @@ void Intro(){
 void Interface(){
     esat::DrawText(420,200,"GAME OVER");
     esat::DrawText(410,240,"PRESS ENTER");
-    char *numberToChar = (char*) calloc(11,sizeof(char));
-    char *aux = (char*) calloc(3,sizeof(char));
-    *numberToChar = 'C';
-    *(numberToChar+1) = 'R';
-    *(numberToChar+2) = 'E';
-    *(numberToChar+3) = 'D';
-    *(numberToChar+4) = 'I';
-    *(numberToChar+5) = 'T';
-    *(numberToChar+6) = 'S';
-    *(numberToChar+7) = ' ';
-    if(credits<100 && credits>=10){
-        *(numberToChar+8) = '0';
-    }else if(credits<10){
-        *(numberToChar+8) = '0';
-        *(numberToChar+9) = '0';
-    }
-    itoa(credits,aux,10);
-    strcat(numberToChar,aux);
+    char *numberToChar = (char*) calloc('\0',sizeof(char)*30);
+    char *aux = (char*) calloc('\0',sizeof(char)*30);
+    // *numberToChar = 'C';
+    // *(numberToChar+1) = 'R';
+    // *(numberToChar+2) = 'E';
+    // *(numberToChar+3) = 'D';
+    // *(numberToChar+4) = 'I';
+    // *(numberToChar+5) = 'T';
+    // *(numberToChar+6) = 'S';
+    // *(numberToChar+7) = ' ';
+    // if(credits<100 && credits>=10){
+    //     *(numberToChar+8) = '0';
+    // }else if(credits<10){
+    //     *(numberToChar+8) = '0';
+    //     *(numberToChar+9) = '0';
+    // }
+    // itoa(credits,aux,10);
+    // strcat(numberToChar,aux);
     esat::DrawText(400,280,numberToChar);
     free(aux);
     free(numberToChar);
@@ -313,7 +345,10 @@ void Interface(){
 
 
 
-    if(esat::IsSpecialKeyPressed(esat::kSpecialKey_Space))credits++;
+    if(esat::IsSpecialKeyPressed(esat::kSpecialKey_Space)){
+        credits++;
+        printf("sumando");
+    }
     if(esat::IsSpecialKeyDown(esat::kSpecialKey_Enter)){
         interfaz = false;
     }
@@ -322,15 +357,21 @@ void Interface(){
 
 void InterfaceActions(){
 	esat::DrawSetTextSize(38);
-    if(!logued){
+    if(!logued && !debug){
         LoginInputs();
     }else{
-        DrawFuel();
-        printf("Antes\n");
+        logued = true;
+        // DrawFuel();
         // DrawVidas();
-        printf("Despues\n");
+
         if(intro)Intro();
         if(!intro && interfaz)Interface();
+
+        if(player.vidas <= 0){
+            intro = true;
+            interfaz = true;
+            player.vidas = 5;
+        }
     }
 }
 
@@ -372,5 +413,11 @@ void FreePointers(){
     free(turret6.points);
     free(turret7.points);
     free(turret8.points);
+
+    free(points);
+    free(points1);
+    free(points2);
+    free(points3);
+    free(points4);
     // free(Fuel1New);
 }

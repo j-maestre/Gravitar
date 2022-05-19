@@ -154,7 +154,8 @@ bool ColisionLine(float s1x, float s1y, float s2x, float s2y, float r1x, float r
 bool ColisionMap(float *puntos,int size){
     bool colide = false;
     // if(esat::IsKeyDown('L'))i++;
-    for (int i = 0; i < size-4; i++){
+    printf("colisiones\n");
+    for (int i = 0; i < size; i++){
         Createcircle(*(puntos + i * 2), *(puntos + i * 2 + 1),5);
         float x1 = *(puntos + i * 2);
         float y1 = *(puntos + i * 2 + 1);
