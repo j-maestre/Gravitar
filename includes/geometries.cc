@@ -320,11 +320,11 @@ void GeometriesActions(){
 
             Createcircle(800.0f,600.0f,40.0f,Amarillo,1.0f,0.8f,8);
             Createcircle(800.0f,600.0f,40.0f,Azul,1.5f,0.2f,6);
-            CheckGalaxyColision(800.0f,600.0f,3);
+            // CheckGalaxyColision(800.0f,600.0f,3);
 
             //Inferior izquierda
             Createcircle(150.0f,700.0f,20.0f,Rojo,1.0f,0.8f,8);
-            CheckGalaxyColision(150.0f,700.0f,4);
+            // CheckGalaxyColision(150.0f,700.0f,4);
 
             esat::DrawSetStrokeColor(Verde.r,Verde.g,Verde.b);
             xIzInf = 130.0f;
@@ -498,7 +498,7 @@ void GeometriesActions(){
                 //Animacion de la bomba
                 TColor color = Morado;
                 if(bombShooted){
-                    printf("run");
+                    // printf("run");
                     bombExplosionFramesCount++;
                     if(bombExplosionFramesCount%(fps/2) == 0){
                         bombColorChanger = !bombColorChanger;
@@ -523,7 +523,11 @@ void GeometriesActions(){
                 }
 
                 //Llamar a colisiones
-                CheckMapColision(points_tmp_map3,map3.size);
+                bool colision = ColisionMap(points_tmp_map3, map3.size);
+                if(colision){
+                    // DiePlayer();
+                }
+                // CheckMapColision(points_tmp_map3,map3.size);
                 // CheckShootColision(points_tmp_map3,74);
 
                 //Colision con la bomba

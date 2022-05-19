@@ -121,7 +121,7 @@ struct TMap{
 
 
 
-float *points_tmp_map1 = (float*) calloc(0,sizeof(float) * 250); //91
+float *points_tmp_map1 = (float*) malloc(sizeof(float) * 250); //91
 float *points_tmp_map2 = (float*) calloc(0,sizeof(float) * 250); //150?
 float *points_tmp_map2_bomb = (float*) calloc(0,sizeof(float) * 250); //49
 float *points_tmp_map3 = (float*) calloc(0,sizeof(float) * 250); //74

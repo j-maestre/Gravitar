@@ -39,6 +39,115 @@ void DrawFuel(){
 }
 
 void DrawVidas(){
+    float *points = (float*) calloc(0,sizeof(float)*20);
+    float *points1 = (float*) calloc(0,sizeof(float)*20);
+    float *points2 = (float*) calloc(0,sizeof(float)*20);
+    float *points3 = (float*) calloc(0,sizeof(float)*20);
+    float *points4 = (float*) calloc(0,sizeof(float)*20);
+
+    *(points+0)=215.0f;
+    *(points+1)=23.0f;
+    *(points+2)=203.0f;
+    *(points+3)=45.0f;
+    *(points+4)=206.0f;
+    *(points+5)=55.0f;
+    *(points+6)=211.0f;
+    *(points+7)=55.0f;
+    *(points+8)=215.0f;
+    *(points+9)=48.0f;
+    *(points+10)=218.0f;
+    *(points+11)=54.0f;
+    *(points+12)=222.0f;
+    *(points+13)=54.0f;
+    *(points+14)=227.0f;
+    *(points+15)=45.0f;
+    // ----------
+    *(points1+0)=195.0f;
+    *(points1+1)=23.0f;
+    *(points1+2)=183.0f;
+    *(points1+3)=45.0f;
+    *(points1+4)=186.0f;
+    *(points1+5)=55.0f;
+    *(points1+6)=191.0f;
+    *(points1+7)=55.0f;
+    *(points1+8)=195.0f;
+    *(points1+9)=48.0f;
+    *(points1+10)=198.0f;
+    *(points1+11)=54.0f;
+    *(points1+12)=202.0f;
+    *(points1+13)=54.0f;
+    *(points1+14)=207.0f;
+    *(points1+15)=45.0f;
+    // ----------
+    *(points2+0)=175.0f;
+    *(points2+1)=23.0f;
+    *(points2+2)=163.0f;
+    *(points2+3)=45.0f;
+    *(points2+4)=166.0f;
+    *(points2+5)=55.0f;
+    *(points2+6)=171.0f;
+    *(points2+7)=55.0f;
+    *(points2+8)=175.0f;
+    *(points2+9)=48.0f;
+    *(points2+10)=178.0f;
+    *(points2+11)=54.0f;
+    *(points2+12)=182.0f;
+    *(points2+13)=54.0f;
+    *(points2+14)=187.0f;
+    *(points2+15)=45.0f;
+    // ----------
+    *(points3+0)=155.0f;
+    *(points3+1)=23.0f;
+    *(points3+2)=143.0f;
+    *(points3+3)=45.0f;
+    *(points3+4)=146.0f;
+    *(points3+5)=55.0f;
+    *(points3+6)=151.0f;
+    *(points3+7)=55.0f;
+    *(points3+8)=155.0f;
+    *(points3+9)=48.0f;
+    *(points3+10)=158.0f;
+    *(points3+11)=54.0f;
+    *(points3+12)=162.0f;
+    *(points3+13)=54.0f;
+    *(points3+14)=167.0f;
+    *(points3+15)=45.0f;
+    // ----------
+    *(points4+0)=135.0f;
+    *(points4+1)=23.0f;
+    *(points4+2)=123.0f;
+    *(points4+3)=45.0f;
+    *(points4+4)=126.0f;
+    *(points4+5)=55.0f;
+    *(points4+6)=131.0f;
+    *(points4+7)=55.0f;
+    *(points4+8)=135.0f;
+    *(points4+9)=48.0f;
+    *(points4+10)=138.0f;
+    *(points4+11)=54.0f;
+    *(points4+12)=142.0f;
+    *(points4+13)=54.0f;
+    *(points4+14)=147.0f;
+    *(points4+15)=45.0f;
+
+
+
+        esat::DrawSetStrokeColor(0,0,255);
+        // esat::DrawSetFillColor(0,0,0,0);
+        printf("Vidas->%d\n",player.vidas);
+
+        switch (player.vidas){
+        case 1:
+            // esat::DrawSolidPath(points,8);
+        break;
+        
+        default:
+            break;
+        }
+
+        printf("///////////////////\n");
+
+        // free(points);
     
 }
 
@@ -217,7 +326,9 @@ void InterfaceActions(){
         LoginInputs();
     }else{
         DrawFuel();
-        DrawVidas();
+        printf("Antes\n");
+        // DrawVidas();
+        printf("Despues\n");
         if(intro)Intro();
         if(!intro && interfaz)Interface();
     }

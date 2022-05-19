@@ -20,7 +20,7 @@ int esat::main(int argc, char **argv) {
 	WindowSetMouseVisibility(true);
 	srand(time(NULL));
     float X = 0.0f, Y = 0.0f;
-    sprite = esat::SpriteFromFile("assets/map2.png"); 
+    sprite = esat::SpriteFromFile("assets/map1.png"); 
 
 	// InitMap4();
 

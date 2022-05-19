@@ -87,16 +87,17 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
         matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY+50), matIdentity);
         esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i));
         tr_circle[i] = {tmp.x, tmp.y};
-        
+        *(points_tmp_map1 + (2 * i)) = tmp.x;
+        *(points_tmp_map1 + (2 * i) + 1) = tmp.y;
     }
 
     //Puntos para el puntero de las colisiones
-    if(scalate){
-        for (int i = 0; i < 91; i++){
-            *(points_tmp_map1 + 2 * i) = tr_circle[i].x;
-            *(points_tmp_map1 + 2 * i + 1) = tr_circle[i].y;
-        }
-    }
+    // if(scalate){
+    //     for (int i = 0; i < size; i++){
+    //         *(points_tmp_map1 + (2 * i)) = tr_circle[i].x;
+    //         *(points_tmp_map1 + (2 * i) + 1) = tr_circle[i].y;
+    //     }
+    // }
 
     DrawTurretsMap1(scalate,tr_circle);
     DrawFuelMap1(scalate, tr_circle);
@@ -240,9 +241,11 @@ void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde, b
 
     //Puntos para el puntero de las colisiones
     if(scalate){
-        for (int i = 0; i < size; i++){
-            *(points_tmp_map3 + 2 * i) = tr_circle[i].x;
-            *(points_tmp_map3 + 2 * i + 1) = tr_circle[i].y;
+        if(!bomba){
+            for (int i = 0; i < size; i++){
+                *(points_tmp_map3 + 2 * i) = tr_circle[i].x;
+                *(points_tmp_map3 + 2 * i + 1) = tr_circle[i].y;
+            }
         }
         if(bomba){
             for(int i = 0; i < size; i++){
