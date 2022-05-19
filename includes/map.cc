@@ -135,7 +135,7 @@ void DrawFigure2(TMap *m, int size, bool scalate = true, TColor color = Verde){
 
     //Puntos para el puntero de las colisiones
     // if(scalate && m->escalar > 400){
-    printf("-------------------Size-> %d\n",size);
+    // printf("-------------------Size-> %d\n",size);
     // if(m->escalar > 400){
     //     for (int i = 0; i < size; i++){
     //         *(points_tmp_map2 + 2 * i) = tr_circle[i].x;

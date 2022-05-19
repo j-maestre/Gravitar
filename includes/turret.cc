@@ -51,7 +51,26 @@ void ShotTurret(TTurret *turret, float *points, int index = 0){
         Disparo(turret->disparos, x, y, vecDirector, Rojo, false);
 
         turret->shootTurretFramesCont++;
+
+        
     }
+
+    //TODO te has quedado aqui, por algun motivo todos los disparos estan a 0
+    //Comprobar si algun disparo ha colisionado
+    printf("Comprobando disparo torreta\n");
+    for (int i = 0; i < 4; i++){
+        printf("Disparando-> %d\n",((turret->disparos +i)->disparando));
+        if(((turret->disparos +i)->disparando)){
+
+            float xdisp = ((turret->disparos +i)->x);
+            float ydisp = ((turret->disparos +i)->y);
+            xemath::Vector2 disparoVector = {player.x - xdisp,player.y - ydisp};
+            float moduloDisparo = xemath::Vec2Modulo(disparoVector);
+            printf("Modulo->%f\n",moduloDisparo);
+        }
+    }
+    printf("END Comprobando disparo torreta\n");
+    
 }
 
 void DrawTurretsMap1(bool scalating, esat::Vec2 tr_circle[]){
