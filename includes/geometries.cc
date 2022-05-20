@@ -143,6 +143,8 @@ void CheckFuelObtain(float *points, TFuelMat *Fuel){
 void CheckShield(TFuelMat *fuel1,TFuelMat *fuel2,TFuelMat *fuel3,TFuelMat *fuel4){
     if(esat::IsKeyPressed('S')){
         //Activate fuel
+        player.shield = true;
+        Createcircle(player.x,player.y,10,Rojo);
         player.fuel--;
         esat::DrawSetStrokeColor(Verde.r,Verde.g,Verde.b);
         int ySum = 40;
@@ -168,6 +170,8 @@ void CheckShield(TFuelMat *fuel1,TFuelMat *fuel2,TFuelMat *fuel3,TFuelMat *fuel4
         CheckFuelObtain(pointsAux,fuel3);
         pointsAux = fuel4->points;
         CheckFuelObtain(pointsAux, fuel4);
+    }else{
+        player.shield = false;
     }
 }
 
@@ -450,7 +454,7 @@ void GeometriesActions(){
                 if (colision){
                     DiePlayer();
                 }
-                CheckShootColision(points_tmp_map1,map1.size-1);
+                // CheckShootColision(points_tmp_map1,map1.size-1);
                 CheckShield(&fuel1,&fuel2,&fuel3,&fuel4);
 
                 TurretShotController(&turret1, turret1_points,1);
@@ -461,6 +465,8 @@ void GeometriesActions(){
                 TurretShotController(&turret6, turret6_points);
                 TurretShotController(&turret7, turret7_points);
                 TurretShotController(&turret8, turret8_points);
+                AplyGravity(CENTROX,CENTROY);
+
             }
             CheckGoBack();
 
@@ -498,6 +504,8 @@ void GeometriesActions(){
 
                 //Shot turret colision with player
                 TurretShootcolision(turret9.disparos,4);
+
+                AplyGravity(CENTROX,CENTROY);
         
              
                 
@@ -585,7 +593,7 @@ void GeometriesActions(){
                 CheckShootColision(points_tmp_map2_bomb,map3Bomb.size-1,false,true);
                 //Size de bomb 11
                 printf("Despues del coilsion shot bomba\n");
-
+                AplyGravity(CENTROX,CENTROY);
                 CheckGoBack(true);
             }
             CheckInputsGeometries();

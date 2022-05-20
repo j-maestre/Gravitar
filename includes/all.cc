@@ -66,6 +66,7 @@ struct TPlayer{
   int score = 0;
   float gravityForce = 0.01f;
   int timeLeft = 23;
+  bool shield;
 };
 
 struct TEnemy{
@@ -151,7 +152,6 @@ TPlayer player1;
 TEnemy enemi1;
 
 
-//TODO arreglar la colision con el disparo del jugador y el enemigo
 
 void Createcircle(float x, float y, float radio, TColor color = Rosa,float excentricidadX = 1.0f,float excentricidadY = 1.0f, int points = 32, int extravagancia = -1, float peculiaridad = -1.0f){
     
@@ -233,8 +233,8 @@ void DrawShoot(TDisparo *disparo, TColor color){
   
 }
 
-void Disparo(TDisparo *disparo, float x, float y, xemath::Vector2 vecDirector,TColor color = Blanco, bool enemy = false){
-
+bool Disparo(TDisparo *disparo, float x, float y, xemath::Vector2 vecDirector,TColor color = Blanco, bool enemy = false, bool enemyShooting = false){
+  bool die = false; //bool para el disparo de las torretas con el player
   //Entrará cuando pulse la tecla o cuando sea un enemigo
   if (esat::IsSpecialKeyDown(esat::kSpecialKey_Enter) || esat::IsSpecialKeyDown(esat::kSpecialKey_Space) || enemy){
     bool encontrado = false;
@@ -266,7 +266,25 @@ void Disparo(TDisparo *disparo, float x, float y, xemath::Vector2 vecDirector,TC
   for (int i = 0; i < 4; i++){
     DrawShoot((disparo + i), color);
 
+      // printf("Disparando-> %d\n",((disparo +i)->disparando));
     if((disparo+i)->disparando){
+
+      if(enemyShooting){
+        //Comprobar modulo del disparo de la torreta con el player
+   
+
+            float xdisp = ((disparo +i)->x);
+            float ydisp = ((disparo +i)->y);
+            xemath::Vector2 disparoVector = {player.x - xdisp,player.y - ydisp};
+            float moduloDisparo = xemath::Vec2Modulo(disparoVector);
+            if(moduloDisparo<=20){
+              printf("Modulo->%f\n",moduloDisparo);
+              die = true;
+              (disparo+i)->disparando = false;
+
+            }
+        
+      }
 
     if ((disparo+i)->x <= 0 || (disparo+i)->x >= ANCHO || (disparo+i)->y <= 0 || (disparo+i)->y >= ALTO){
         // El disparo ha llegado al borde
@@ -287,7 +305,7 @@ void Disparo(TDisparo *disparo, float x, float y, xemath::Vector2 vecDirector,TC
 
 
   
-
+  return die;
   }
 
 char* IntToAscii(int number, bool addCeros = true){

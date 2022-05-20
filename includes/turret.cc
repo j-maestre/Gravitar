@@ -33,10 +33,9 @@ float *turret8_points = (float *)malloc(sizeof(float) * 8);
 void ShotTurret(TTurret *turret, float *points, int index = 0){
     float x = *(points + 4);
     float y = *(points + 5);
-    // printf("Disparo desde X-> %f Y-> %f\n",x,y);
     xemath::Vector2 vecDirector = {player.x -x, player.y - y};
     float modulo = xemath::Vec2Modulo(vecDirector);
-    // if(index == 1)printf("Modulo1 -> %f\n",modulo);
+
     if(modulo<=155.0f){
 
         vecDirector = xemath::Vec2Normalize(vecDirector);
@@ -47,29 +46,16 @@ void ShotTurret(TTurret *turret, float *points, int index = 0){
             printf("Next shot-> %d\n", turret->nextShootTurretTime);
             Disparo(turret->disparos, x, y, vecDirector, Rojo, true);
         }
-        // printf("Turret Disparo\n");
-        Disparo(turret->disparos, x, y, vecDirector, Rojo, false);
+        bool die = Disparo(turret->disparos, x, y, vecDirector, Rojo, false,true);
+        if(die && !player.shield){
+            printf("MUERTE AL PLAYER\n");
+            DiePlayer();
+        }
 
         turret->shootTurretFramesCont++;
 
         
     }
-
-    //TODO te has quedado aqui, por algun motivo todos los disparos estan a 0
-    //Comprobar si algun disparo ha colisionado
-    printf("Comprobando disparo torreta\n");
-    for (int i = 0; i < 4; i++){
-        printf("Disparando-> %d\n",((turret->disparos +i)->disparando));
-        if(((turret->disparos +i)->disparando)){
-
-            float xdisp = ((turret->disparos +i)->x);
-            float ydisp = ((turret->disparos +i)->y);
-            xemath::Vector2 disparoVector = {player.x - xdisp,player.y - ydisp};
-            float moduloDisparo = xemath::Vec2Modulo(disparoVector);
-            printf("Modulo->%f\n",moduloDisparo);
-        }
-    }
-    printf("END Comprobando disparo torreta\n");
     
 }
 

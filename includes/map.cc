@@ -151,7 +151,7 @@ void DrawFigure2(TMap *m, int size, bool scalate = true, TColor color = Verde){
 
     esat::DrawSetStrokeColor(color.r, color.g, color.b);
     esat::DrawPath(&tr_circle[0].x,size);
-    printf("End Draw map\n");
+    // printf("End Draw map\n");
     
 }
 
