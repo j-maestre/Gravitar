@@ -90,8 +90,8 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
         Createcircle((m->map + i)->x, (m->map + i)->y,5,Verde);
         tr_circle[i] = {tmp.x, tmp.y};
         if(!scalate){
-            // *(points_tmp_map1 + (2 * i)) = tmp.x;
-            // *(points_tmp_map1 + (2 * i) + 1) = tmp.y;
+            *(points_tmp_map1 + (2 * i)) = tmp.x;
+            *(points_tmp_map1 + (2 * i) + 1) = tmp.y;
         }
         checked = true;
     }
@@ -112,7 +112,7 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
     
 }
 void DrawFigure2(TMap *m, int size, bool scalate = true, TColor color = Verde){
-    esat::Vec2 tr_circle[150];
+    esat::Vec2 tr_circle[250];
 
     if(scalate){
         m->escalar+=5;
@@ -126,11 +126,13 @@ void DrawFigure2(TMap *m, int size, bool scalate = true, TColor color = Verde){
         matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY+50), matIdentity);
         esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i));
         tr_circle[i] = {tmp.x, tmp.y};
+
+        //Comprobacion de errores
         if((m->map + i)->x > 10000.0f || (m->map + i)->x < -10000.0f || (m->map + i)->y > 10000.0f || (m->map + i)->y < -10000.0f || (m->map + i)->z > 10000.0f || (m->map + i)->z < -10000.0f){
             printf("Mapvalues X->%f Y->%f Z->%f\n", (m->map + i)->x, (m->map + i)->y, (m->map + i)->z);
         }
-        *(points_tmp_map2 + 2 * i) = tmp.x;
-        *(points_tmp_map2 + 2 * i + 1) = tmp.y;
+        *(points_tmp_map2 + (2 * i)) = tmp.x;
+        *(points_tmp_map2 + (2 * i + 1)) = tmp.y;
     }
 
     //Puntos para el puntero de las colisiones

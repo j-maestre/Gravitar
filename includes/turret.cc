@@ -73,7 +73,7 @@ void ShotTurret(TTurret *turret, float *points, int index = 0){
     
 }
 
-void DrawTurretsMap1(bool scalating, esat::Vec2 tr_circle[]){
+void DrawTurretsMap1(bool scalating, esat::Vec2 tr_circle[250]){
     // Turret1
     esat::Vec2 tr_turret11[4];
     esat::Vec2 tr_turret12[4];
@@ -342,7 +342,7 @@ void DrawTurretsMap1(bool scalating, esat::Vec2 tr_circle[]){
 int temporalINT = 0;
 float temporalFloat = 0.0f;
 
-void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[]){
+void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[250]){
     if(esat::IsKeyDown('P'))temporalINT++;
     if(esat::IsKeyPressed('P'))temporalFloat += 0.5f;
     if(esat::IsKeyDown('O'))temporalINT--;

@@ -113,14 +113,31 @@ void CheckInputsGeometries(){
 
 void CheckFuelObtain(float *points, TFuelMat *Fuel){
     // printf("Obtained: %d\n",Fuel->obtained);
-    if(*points > player.x-15 && *points< player.x+15 &&
-     *(points+1)<player.y+40 && *(points+7)<player.y+40 && *(points+3) > player.y ){
-            if(!Fuel->obtained){
-                player.fuel += 3000;
-                // printf("COLISION FUEL\n");
-                (Fuel->obtained) = true;
-            }
+    int ySum = 40;
+    if(player.nivel == 2 && player.y > CENTROY){
+        ySum = -40;
+        if(*points > player.x-15 && *points< player.x+15 &&
+         *(points+1)>player.y + ySum && *(points+7)>player.y + ySum && *(points+3) < player.y ){
+                if(!Fuel->obtained){
+                    player.fuel += 3000;
+                    // printf("COLISION FUEL\n");
+                    (Fuel->obtained) = true;
+                }
         }
+    }else{
+
+
+        if(*points > player.x-15 && *points< player.x+15 &&
+         *(points+1)<player.y + ySum && *(points+7)<player.y + ySum && *(points+3) > player.y ){
+                if(!Fuel->obtained){
+                    player.fuel += 3000;
+                    // printf("COLISION FUEL\n");
+                    (Fuel->obtained) = true;
+                }
+        }
+
+
+    }
 }
 
 void CheckShield(TFuelMat *fuel1,TFuelMat *fuel2,TFuelMat *fuel3,TFuelMat *fuel4){
@@ -128,8 +145,12 @@ void CheckShield(TFuelMat *fuel1,TFuelMat *fuel2,TFuelMat *fuel3,TFuelMat *fuel4
         //Activate fuel
         player.fuel--;
         esat::DrawSetStrokeColor(Verde.r,Verde.g,Verde.b);
-        esat::DrawLine(player.x,player.y,player.x-15,player.y+40);
-        esat::DrawLine(player.x,player.y,player.x+15,player.y+40);
+        int ySum = 40;
+        if(player.nivel == 2 && player.y > CENTROY){
+            ySum = -40;
+        }
+        esat::DrawLine(player.x,player.y,player.x-15,player.y + ySum);
+        esat::DrawLine(player.x,player.y,player.x+15,player.y+ ySum);
 
         //Check colision with fuel
 
@@ -424,7 +445,7 @@ void GeometriesActions(){
             }else{
                 DrawFigure1(&map1,map1.size,false);
                 //Llamar a colisiones
-                // CheckMapColision(points_tmp_map1,map1.size-1);
+                //CheckMapColision(points_tmp_map1,map1.size-1);
                 bool colision = ColisionMap(points_tmp_map1, map1.size);
                 if (colision){
                     DiePlayer();

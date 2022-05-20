@@ -88,10 +88,6 @@ struct TFuel{
   bool obtained = false;
 };
 
-struct TFuelNew{
-  float *points;
-  bool obtained = false;
-};
 
 struct TFuelMat{
   esat::Vec3 *map;

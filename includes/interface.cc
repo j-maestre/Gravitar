@@ -381,6 +381,8 @@ void FreePointers(){
     free(points_tmp_map1);
     free(points_tmp_map2);
     free(points_tmp_map3);
+    free(points_tmp_map2_bomb);
+    free(points_tmp_map4);
     free(enemi1.disparos);
     free(map1.map);
     free(fuel1.points);
