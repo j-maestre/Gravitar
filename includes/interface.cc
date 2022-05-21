@@ -16,101 +16,104 @@ int sizePasswd = 0;
 
 const int MAX_SIZE = 17;
 const int MAX_USERS_LOADED = 50;
-float *points = (float *)calloc(0, sizeof(float) * 20);
-float *points1 = (float *)calloc(0, sizeof(float) * 20);
-float *points2 = (float *)calloc(0, sizeof(float) * 20);
-float *points3 = (float *)calloc(0, sizeof(float) * 20);
-float *points4 = (float *)calloc(0, sizeof(float) * 20);
+float *pointsLives = (float*) malloc(sizeof(float) * 20);
+float *pointsLives1 = (float*) malloc(sizeof(float) * 20);
+float *pointsLives2 = (float*) malloc(sizeof(float) * 20);
+float *pointsLives3 = (float*) malloc(sizeof(float) * 20);
+float *pointsLives4 = (float*) malloc(sizeof(float) * 20);
 
 Persona *users = (Persona*) malloc(sizeof(Persona)*MAX_USERS_LOADED);
+int sizePersonas = 0;
+int indexLogued = -1;
+FILE *fichero;
 
 void InitVidasPoints(){
     printf("Setting points...\n");
 
-    *(points+0)=215.0f;
-    *(points+1)=23.0f;
-    *(points+2)=203.0f;
-    *(points+3)=45.0f;
-    *(points+4)=206.0f;
-    *(points+5)=55.0f;
-    *(points+6)=211.0f;
-    *(points+7)=55.0f;
-    *(points+8)=215.0f;
-    *(points+9)=48.0f;
-    *(points+10)=218.0f;
-    *(points+11)=54.0f;
-    *(points+12)=222.0f;
-    *(points+13)=54.0f;
-    *(points+14)=227.0f;
-    *(points+15)=45.0f;
+    *(pointsLives+0)=215.0f;
+    *(pointsLives+1)=23.0f;
+    *(pointsLives+2)=203.0f;
+    *(pointsLives+3)=45.0f;
+    *(pointsLives+4)=206.0f;
+    *(pointsLives+5)=55.0f;
+    *(pointsLives+6)=211.0f;
+    *(pointsLives+7)=55.0f;
+    *(pointsLives+8)=215.0f;
+    *(pointsLives+9)=48.0f;
+    *(pointsLives+10)=218.0f;
+    *(pointsLives+11)=54.0f;
+    *(pointsLives+12)=222.0f;
+    *(pointsLives+13)=54.0f;
+    *(pointsLives+14)=227.0f;
+    *(pointsLives+15)=45.0f;
     // ----------
-    *(points1+0)=195.0f;
-    *(points1+1)=23.0f;
-    *(points1+2)=183.0f;
-    *(points1+3)=45.0f;
-    *(points1+4)=186.0f;
-    *(points1+5)=55.0f;
-    *(points1+6)=191.0f;
-    *(points1+7)=55.0f;
-    *(points1+8)=195.0f;
-    *(points1+9)=48.0f;
-    *(points1+10)=198.0f;
-    *(points1+11)=54.0f;
-    *(points1+12)=202.0f;
-    *(points1+13)=54.0f;
-    *(points1+14)=207.0f;
-    *(points1+15)=45.0f;
+    *(pointsLives1+0)=195.0f;
+    *(pointsLives1+1)=23.0f;
+    *(pointsLives1+2)=183.0f;
+    *(pointsLives1+3)=45.0f;
+    *(pointsLives1+4)=186.0f;
+    *(pointsLives1+5)=55.0f;
+    *(pointsLives1+6)=191.0f;
+    *(pointsLives1+7)=55.0f;
+    *(pointsLives1+8)=195.0f;
+    *(pointsLives1+9)=48.0f;
+    *(pointsLives1+10)=198.0f;
+    *(pointsLives1+11)=54.0f;
+    *(pointsLives1+12)=202.0f;
+    *(pointsLives1+13)=54.0f;
+    *(pointsLives1+14)=207.0f;
+    *(pointsLives1+15)=45.0f;
     // ----------
-    *(points2+0)=175.0f;
-    *(points2+1)=23.0f;
-    *(points2+2)=163.0f;
-    *(points2+3)=45.0f;
-    *(points2+4)=166.0f;
-    *(points2+5)=55.0f;
-    *(points2+6)=171.0f;
-    *(points2+7)=55.0f;
-    *(points2+8)=175.0f;
-    *(points2+9)=48.0f;
-    *(points2+10)=178.0f;
-    *(points2+11)=54.0f;
-    *(points2+12)=182.0f;
-    *(points2+13)=54.0f;
-    *(points2+14)=187.0f;
-    *(points2+15)=45.0f;
+    *(pointsLives2+0)=175.0f;
+    *(pointsLives2+1)=23.0f;
+    *(pointsLives2+2)=163.0f;
+    *(pointsLives2+3)=45.0f;
+    *(pointsLives2+4)=166.0f;
+    *(pointsLives2+5)=55.0f;
+    *(pointsLives2+6)=171.0f;
+    *(pointsLives2+7)=55.0f;
+    *(pointsLives2+8)=175.0f;
+    *(pointsLives2+9)=48.0f;
+    *(pointsLives2+10)=178.0f;
+    *(pointsLives2+11)=54.0f;
+    *(pointsLives2+12)=182.0f;
+    *(pointsLives2+13)=54.0f;
+    *(pointsLives2+14)=187.0f;
+    *(pointsLives2+15)=45.0f;
     // ----------
-    *(points3+0)=155.0f;
-    *(points3+1)=23.0f;
-    *(points3+2)=143.0f;
-    *(points3+3)=45.0f;
-    *(points3+4)=146.0f;
-    *(points3+5)=55.0f;
-    *(points3+6)=151.0f;
-    *(points3+7)=55.0f;
-    *(points3+8)=155.0f;
-    *(points3+9)=48.0f;
-    *(points3+10)=158.0f;
-    *(points3+11)=54.0f;
-    *(points3+12)=162.0f;
-    *(points3+13)=54.0f;
-    *(points3+14)=167.0f;
-    *(points3+15)=45.0f;
+    *(pointsLives3+0)=155.0f;
+    *(pointsLives3+1)=23.0f;
+    *(pointsLives3+2)=143.0f;
+    *(pointsLives3+3)=45.0f;
+    *(pointsLives3+4)=146.0f;
+    *(pointsLives3+5)=55.0f;
+    *(pointsLives3+6)=151.0f;
+    *(pointsLives3+7)=55.0f;
+    *(pointsLives3+8)=155.0f;
+    *(pointsLives3+9)=48.0f;
+    *(pointsLives3+10)=158.0f;
+    *(pointsLives3+11)=54.0f;
+    *(pointsLives3+12)=162.0f;
+    *(pointsLives3+13)=54.0f;
+    *(pointsLives3+14)=167.0f;
+    *(pointsLives3+15)=45.0f;
     // ----------
-    *(points4+0)=135.0f;
-    *(points4+1)=23.0f;
-    *(points4+2)=123.0f;
-    *(points4+3)=45.0f;
-    *(points4+4)=126.0f;
-    *(points4+5)=55.0f;
-    *(points4+6)=131.0f;
-    *(points4+7)=55.0f;
-    *(points4+8)=135.0f;
-    *(points4+9)=48.0f;
-    *(points4+10)=138.0f;
-    *(points4+11)=54.0f;
-    *(points4+12)=142.0f;
-    *(points4+13)=54.0f;
-    *(points4+14)=147.0f;
-    *(points4+15)=45.0f;
+    *(pointsLives4+0)=135.0f;
+    *(pointsLives4+1)=23.0f;
+    *(pointsLives4+2)=123.0f;
+    *(pointsLives4+3)=45.0f;
+    *(pointsLives4+4)=126.0f;
+    *(pointsLives4+5)=55.0f;
+    *(pointsLives4+6)=131.0f;
+    *(pointsLives4+7)=55.0f;
+    *(pointsLives4+8)=135.0f;
+    *(pointsLives4+9)=48.0f;
+    *(pointsLives4+10)=138.0f;
+    *(pointsLives4+11)=54.0f;
+    *(pointsLives4+12)=142.0f;
+    *(pointsLives4+13)=54.0f;
+    *(pointsLives4+14)=147.0f;
+    *(pointsLives4+15)=45.0f;
 }
 
 void DrawFuel(){
@@ -134,40 +137,36 @@ void DrawFuel(){
 
 void DrawVidas(){
     
-
-
-
         esat::DrawSetStrokeColor(0,0,255);
         esat::DrawSetFillColor(0,0,0,0);
-        // printf("Vidas->%d\n",player.vidas);
-
-        InitVidasPoints();
 
          switch (player.vidas){
          case 1:
-             esat::DrawSolidPath(points,8);
+             esat::DrawSolidPath(pointsLives,8);
          break;
          case 2:
-             esat::DrawSolidPath(points,8);
-             esat::DrawSolidPath(points1,8);
+             esat::DrawSolidPath(pointsLives,8);
+             esat::DrawSolidPath(pointsLives1,8);
          break;
          case 3:
-             esat::DrawSolidPath(points,8);
-             esat::DrawSolidPath(points1,8);
-             esat::DrawSolidPath(points2,8);
+             esat::DrawSolidPath(pointsLives,8);
+             esat::DrawSolidPath(pointsLives1,8);
+             esat::DrawSolidPath(pointsLives2,8);
          break;
          case 4:
-             esat::DrawSolidPath(points,8);
-             esat::DrawSolidPath(points1,8);
-             esat::DrawSolidPath(points2,8);
-             esat::DrawSolidPath(points3,8);
+             esat::DrawSolidPath(pointsLives,8);
+             esat::DrawSolidPath(pointsLives1,8);
+             esat::DrawSolidPath(pointsLives2,8);
+             esat::DrawSolidPath(pointsLives3,8);
          break;
          case 5:
-             esat::DrawSolidPath(points,8);
-             esat::DrawSolidPath(points1,8);
-             esat::DrawSolidPath(points2,8);
-             esat::DrawSolidPath(points3,8);
-             esat::DrawSolidPath(points4,8);
+            printf("Antes del draw\n");
+            esat::DrawSolidPath(pointsLives,8);
+            esat::DrawSolidPath(pointsLives1,8);
+            esat::DrawSolidPath(pointsLives2,8);
+            esat::DrawSolidPath(pointsLives3,8);
+            esat::DrawSolidPath(pointsLives4,8);
+            printf("despues del draw\n");
          break;
 
          default:
@@ -185,11 +184,11 @@ void DrawVidas(){
 
 void Login(){
     printf("Cargando usuarios\n");
-    int size = LoadToMemory(users);
-    printf("Usuarios totales->%d \n",size);
-    if(size>0)printf("Usuarios cargados\n");
+    sizePersonas = LoadToMemory(users);
+    printf("Usuarios totales->%d \n",sizePersonas);
+    if(sizePersonas>0)printf("Usuarios cargados\n");
 
-    for (int i = 0; i < size; i++){
+    for (int i = 0; i < sizePersonas; i++){
         //Buscamos la persona con ese nombre
         printf("Comparando %s con %s\n",(users + i)->nombre,userName);
         // const char[20] = *(users + i)->nombre;
@@ -200,12 +199,34 @@ void Login(){
             if(strcmp(userPasswd,(users + i)->password) == 0){
                 //Usuario y contraseña correctos
                 logued = true;
+                credits = (users+i)->creditos;
+                indexLogued = i;
+                printf("Creditos del user logueado-> %d\n",(users+i)->creditos);
             }else{
                 printf("Contraseña incorrecta\n");
             }
         }
     }
     
+
+}
+
+void AddCredits(){
+    //En el bloque de personas, modifico los creditos de la persona logueada
+    (users+indexLogued)->creditos = credits;
+
+    //Una vez modificados, solo tengo que volvar todos los usuarios en el fichero binario auxiliar (por si acaso hay algun fallo a mitad, no borrar todos los usuarios)
+    fichero = fopen("./includes/usuariosAux.dat", "wb");
+
+    for (int i = 0; i < sizePersonas; i++){
+        fwrite((users+i),sizeof(Persona),1,fichero);
+    }
+
+    //Una vez ya tengo todos los usuarios en el nuevo fichero, me cargo el anterior y renombro el auxiliar
+    remove("./includes/usuarios.dat");
+    fclose(fichero);
+    rename("./includes/usuariosAux.dat","./includes/usuarios.dat");
+
 
 }
 
@@ -345,11 +366,12 @@ void Interface(){
 
 
 
-    if(esat::IsSpecialKeyPressed(esat::kSpecialKey_Space)){
+    if(esat::IsSpecialKeyDown(esat::kSpecialKey_Space)){
         credits++;
         printf("sumando");
     }
     if(esat::IsSpecialKeyDown(esat::kSpecialKey_Enter)){
+        AddCredits();
         interfaz = false;
     }
 
@@ -362,12 +384,14 @@ void InterfaceActions(){
     }else{
         logued = true;
         // DrawFuel();
-        // DrawVidas();
+        DrawVidas();
 
         if(intro)Intro();
         if(!intro && interfaz)Interface();
 
         if(player.vidas <= 0){
+            credits--;
+            AddCredits();
             intro = true;
             interfaz = true;
             player.vidas = 5;
@@ -416,10 +440,10 @@ void FreePointers(){
     free(turret7.points);
     free(turret8.points);
 
-    free(points);
-    free(points1);
-    free(points2);
-    free(points3);
-    free(points4);
+    free(pointsLives);
+    free(pointsLives1);
+    free(pointsLives2);
+    free(pointsLives3);
+    free(pointsLives4);
     // free(Fuel1New);
 }

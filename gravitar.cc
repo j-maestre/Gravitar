@@ -11,7 +11,7 @@ int esat::main(int argc, char **argv) {
 	
 	InitPlayer();
 	CreateMaps();
-	// InitVidasPoints();
+	InitVidasPoints();
 
 
 	while (esat::WindowIsOpened() && !esat::IsSpecialKeyDown(esat::kSpecialKey_Escape)){
