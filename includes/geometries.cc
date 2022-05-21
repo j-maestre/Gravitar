@@ -259,8 +259,6 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
     }
 }
 
-
-
 void CheckScrollX(float *points, int size, float *points2, int size2,float *points3, int size3,float *points4, int size4){
     //Check si ha llegado al borde desplazable
     if((player.x>=ANCHO-100 && player.aceleration.x > 0) || (player.x<=100 && player.aceleration.x <0)){
@@ -454,7 +452,7 @@ void GeometriesActions(){
                 if (colision){
                     DiePlayer();
                 }
-                // CheckShootColision(points_tmp_map1,map1.size-1);
+                CheckShootColision(points_tmp_map1,map1.size-1);
                 CheckShield(&fuel1,&fuel2,&fuel3,&fuel4);
 
                 TurretShotController(&turret1, turret1_points,1);
@@ -496,7 +494,7 @@ void GeometriesActions(){
                 if(colision){
                     DiePlayer();
                 }
-                // CheckShootColision(points_tmp_map2, map2.size);
+                CheckShootColision(points_tmp_map2, map2.size);
 
                 CheckShield(&fuel5, &fuel6, &fuel7, &fuel8);
 
@@ -586,7 +584,7 @@ void GeometriesActions(){
                     DiePlayer();
                 }
                 // CheckMapColision(points_tmp_map3,map3.size);
-                // CheckShootColision(points_tmp_map3,74);
+                CheckShootColision(points_tmp_map3,map3.size);
                 
                 printf("Antes del coilsion shot bomba\n");
                 //Colision con la bomba

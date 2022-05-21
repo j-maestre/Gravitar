@@ -399,7 +399,7 @@ void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[250]){
         matIdentity7 = esat::Mat3Multiply(esat::Mat3Rotate(5.999f), matIdentity7);
         matIdentity8 = esat::Mat3Multiply(esat::Mat3Rotate(41.5f), matIdentity8);
 
-        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[41].x + 190.0f, tr_circle[41].y - 166.0f), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[41].x + 178.0f, tr_circle[41].y - 166.0f), matIdentity);
         matIdentity2 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[47].x + 134.0f, tr_circle[47].y + 23.0f), matIdentity2);
         matIdentity3 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[11].x - 81.0f, tr_circle[11].y - 97.5f), matIdentity3);
         matIdentity4 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[14].x + 76.0f, tr_circle[14].y - 102.5f), matIdentity4);
@@ -460,7 +460,7 @@ void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[250]){
         matIdentity7 = esat::Mat3Multiply(esat::Mat3Rotate(5.999f), matIdentity7);
         matIdentity8 = esat::Mat3Multiply(esat::Mat3Rotate(41.5f), matIdentity8);
 
-        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[41].x + 190.0f, tr_circle[41].y - 166.0f), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[41].x + 178.0f, tr_circle[41].y - 166.0f), matIdentity);
         matIdentity2 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[47].x + 134.0f, tr_circle[47].y + 23.0f), matIdentity2);
         matIdentity3 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[11].x - 81.0f, tr_circle[11].y - 97.5f), matIdentity3);
         matIdentity4 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[14].x + 76.0f, tr_circle[14].y - 102.5f), matIdentity4);
