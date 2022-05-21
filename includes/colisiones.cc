@@ -60,7 +60,7 @@ void CheckMapColision(float *points, int size){
 bool CheckShootColision(float *points, int size, bool turret = false,bool bomb = false){
     bool turretDead = false;
     for (int i = 0; i < size; i++){
-        // Createcircle(*(points + i * 2), *(points + i * 2 + 1),5,Rosa);
+        if(bomb)Createcircle(*(points + i * 2), *(points + i * 2 + 1),5,Azul);
         for (int j = 0; j < 4; j++){
             // Createcircle(*((player.disparos + j * 2)->x), *((player.disparos + j * 2 + 1)->y),5,Verde);
             if ((player.disparos + j)->disparando){
@@ -137,16 +137,19 @@ bool ColisionLine(float s1x, float s1y, float s2x, float s2y, float r1x, float r
     xemath::Vector2 S1R2{r2x - s1x, r2y - s1y};
     xemath::Vector2 S2R1{r1x - s2x, r1y - s2y};
     xemath::Vector2 S2R2{r2x - s2x, r2y - s2y};
-    if (!((xemath::crossProductVec2(R1S1, R1S2) < 0 && xemath::crossProductVec2(R2S1, R2S2) > 0) ||
-          (xemath::crossProductVec2(R1S1, R1S2) > 0 && xemath::crossProductVec2(R2S1, R2S2) < 0)))
-        colide = false;
-    if (!((xemath::crossProductVec2(S1R1, S1R2) < 0 && xemath::crossProductVec2(S2R1, S2R2) > 0) ||
-          (xemath::crossProductVec2(S1R1, S1R2) > 0 && xemath::crossProductVec2(S2R1, S2R2) < 0)))
-        colide = false;
-    if (colide)
+    if(!((xemath::crossProductVec2(R1S1, R1S2) < 0 && xemath::crossProductVec2(R2S1, R2S2) > 0) ||
+          (xemath::crossProductVec2(R1S1, R1S2) > 0 && xemath::crossProductVec2(R2S1, R2S2) < 0))){
+            colide = false;
+          }
+    if(!((xemath::crossProductVec2(S1R1, S1R2) < 0 && xemath::crossProductVec2(S2R1, S2R2) > 0) ||
+          (xemath::crossProductVec2(S1R1, S1R2) > 0 && xemath::crossProductVec2(S2R1, S2R2) < 0))){
+            colide = false;
+          }
+    if(colide){
         return true;
-    else
+    }else{
         return false;
+    }
 }
 
 // int i = 0;
@@ -154,9 +157,9 @@ bool ColisionLine(float s1x, float s1y, float s2x, float s2y, float r1x, float r
 bool ColisionMap(float *puntos,int size){
     bool colide = false;
     // if(esat::IsKeyDown('L'))i++;
-    // printf("colisiones\n");
-    for (int i = 0; i < size-2; i++){
-        if(debug)Createcircle(*(puntos + i * 2), *(puntos + i * 2 + 1),5);
+    // printf("ColisionMap size->%d\n",size);
+    for (int i = 0; i < size-4; i++){
+        if(debug)Createcircle(*(puntos + i * 2), *(puntos + i * 2 + 1),5,Morado);
         float x1 = *(puntos + i * 2);
         float y1 = *(puntos + i * 2 + 1);
 
@@ -201,5 +204,25 @@ bool ColisionMap(float *puntos,int size){
     }
 
     return colide;
+    
+}
+
+
+bool CheckShootBomb(float x, float y){
+    bool colision = false;
+    for (int i = 0; i < 4; i++){
+        if ((player.disparos + i)->disparando && !colision){
+            xemath::Vector2 direccion = {x-(player.disparos + i)->x,y-(player.disparos + i)->y};
+            float modulo = xemath::Vec2Modulo(direccion);
+
+            // printf("Modulo-> %f\n",modulo);
+
+            if(modulo<=20){
+                colision = true;
+            }
+        }
+    }
+
+    return colision;
     
 }

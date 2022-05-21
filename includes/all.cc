@@ -309,8 +309,9 @@ bool Disparo(TDisparo *disparo, float x, float y, xemath::Vector2 vecDirector,TC
   }
 
 char* IntToAscii(int number, bool addCeros = true){
-    char *numberToChar = (char*) calloc(7,sizeof(char));
-    char *aux = (char*) calloc(7,sizeof(char));
+    // printf("INIT Int to asci\n");
+    char *numberToChar = (char*) calloc('\0',sizeof(char)*7);
+    char *aux = (char*) malloc(sizeof(char)*7);
     itoa(number,aux,10);
     //Añadimos los 0 correspondientes segun la puntuacion
     if(addCeros){
@@ -339,9 +340,11 @@ char* IntToAscii(int number, bool addCeros = true){
     }
 
     strcat(numberToChar,aux);
+    *(numberToChar+strlen(numberToChar)) = '\0';
     free(aux);
+    // printf("Int to asci OKKK\n");
     return numberToChar;
-    free(numberToChar);
+    // free(numberToChar);
 }
 
 float valorScalate = 1.05f;

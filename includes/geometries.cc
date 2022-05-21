@@ -299,6 +299,7 @@ void CheckGoBack(bool bomb = false){
     }
 }
 
+
 void GeometriesActions(){
     // CheckInputsGeometries();
     DrawHacks();
@@ -534,18 +535,18 @@ void GeometriesActions(){
 
             if(scalateMatFramesCount <= 130){
                 DrawFigure3(&map3,map3.size);
-                DrawFigure3(&map3Bomb, map3Bomb.size, true, Morado,true);
+                DrawFigure3Bomba(&map3Bomb, map3Bomb.size,Morado);
                 scalateMatFramesCount++;
-                // bool colision = ColisionMap(points_tmp_map3, map3.size);
                 if(scalateMatFramesCount>=90)scalating = false;
             }else{
 
                 //Animacion de la bomba
                 TColor color = Morado;
                 if(bombShooted){
-                    // printf("run");
+                    printf("-------RUN--------\n");
                     bombExplosionFramesCount++;
-                    if(bombExplosionFramesCount%(fps/2) == 0){
+                    if(bombExplosionFramesCount%(30) == 0){
+                        printf("\n\n\nCAMBIO DE COLOR\n\n\n");
                         bombColorChanger = !bombColorChanger;
                     }
                     bombColorChanger?color = Rojo:color = Azul;
@@ -556,37 +557,56 @@ void GeometriesActions(){
                     //La bomba ha explotado
                     player.timeLeft = 0;
                 }
+                if(bombExplosionFramesCount>=1000)bombExplosionFramesCount=1;
                 DrawFigure3(&map3, map3.size, false);
-                DrawFigure3(&map3Bomb, map3Bomb.size, false, color,true);
-
-                DrawTimeLeft();
+                DrawFigure3Bomba(&map3Bomb, map3Bomb.size,color,false);
+            
 
                 if(player.timeLeft<0){
                     //Explota la bomba
                     player.vidas--;
                     ReturnMenu();
                 }
-
-
+                if(debug)Createcircle(615.0f, 389.0f,25);
+                
                 //Llamar a colisiones
                 bool colision = ColisionMap(points_tmp_map3, map3.size);
                 if(colision){
                     DiePlayer();
                 }
-                
-                CheckShootColision(points_tmp_map3,map3.size);
-                
+                CheckShootColision(points_tmp_map3, map3.size);
 
                 //Colision con la bomba
-                CheckShootColision(points_tmp_map2_bomb,map3Bomb.size,false,true);
+                if(CheckShootBomb(615.0f,389.0f)){
+                    printf("----------\n----------\n----------\nUEEEECOLISION BOMBA\n----------\n----------\n----------\n");
+                    bombShooted = true;
+                }
+                
+
 
                 //Size de bomb 11
                 AplyGravity(CENTROX,CENTROY);
                 CheckGoBack(true);
+                DrawTimeLeft();
+                printf("------Geometries OK------\n");
             }
             CheckInputsGeometries();
 
             break;
+        case 6:
+            //Estrella
+
+            if(map1Complete && map2Complete && map5Complete){
+                //Juego terminado
+                player.score += 1000;
+                player.vidas = 0;
+
+            }else{
+                DiePlayer();
+                ReturnMenu();
+            }
+
+        break;
         case 99:
             //Enemy arena
             //Pintar enemigos

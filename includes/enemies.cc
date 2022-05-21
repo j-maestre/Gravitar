@@ -155,10 +155,9 @@ void EnemyShotPlayer(TEnemy *enemi){
     TDisparo *disparos = enemi->disparos;
     TDisparo *disparosPlayer = player.disparos;
 
-    //Enemy shot
     for (int i = 0; i < 4; i++){
+        //Enemy shot
         if((disparos+i)->disparando){
-            // printf("Disparo%d en X->%f Y->%f\n",i,(disparos+i)->x,(disparos+i)->y);
             //Sacar modulo
             xemath::Vector2 direccion = {player.x - (disparos+i)->x, player.y - (disparos+i)->y};
             float distance = xemath::Vec2Modulo(direccion);
@@ -169,25 +168,24 @@ void EnemyShotPlayer(TEnemy *enemi){
                 InitEnemies();
             }
         }
-    }
 
-    // Player shot
-
-    for (int i = 0; i < 4; i++){
+        // Player shot
         if((disparosPlayer+i)->disparando){
-            // printf("Disparo%d en X->%f Y->%f\n",i,(disparos+i)->x,(disparos+i)->y);
             //Sacar modulo
             xemath::Vector2 direccion = {enemi->x - (disparosPlayer+i)->x, enemi->y - (disparosPlayer+i)->y};
             float distance = xemath::Vec2Modulo(direccion);
             if(distance<=20){
                 player.nivel = 0;
                 enemi->velocidad /=2; 
-                // DiePlayer();
                 player.score +=150;
                 InitEnemies();
             }
         }
     }
+
+    // for (int i = 0; i < 4; i++){
+        
+    // }
     
 
 }
@@ -207,14 +205,22 @@ void MoveEnemy(TEnemy *enemi){
         enemi->y += direccion.y;
         
         if(distance <=20){
-            player.nivel = 99;
-            enemi->x = 100.0f;
-            enemi->y = 350.0f;
-            player.x = (float) CENTROX;
-            player.y = (float) CENTROY;
-            enemi->velocidad *=2; 
-            for (int i = 0; i < 4; i++){
-                ((enemi->disparos)+i)->disparando = false;
+            if(player.nivel != 99){
+
+                player.nivel = 99;
+                enemi->x = 100.0f;
+                enemi->y = 350.0f;
+                player.x = (float) CENTROX;
+                player.y = (float) CENTROY;
+                enemi->velocidad *=2; 
+                for (int i = 0; i < 4; i++){
+                    ((enemi->disparos)+i)->disparando = false;
+                }
+            }else{
+                player.nivel = 0;
+                enemi->velocidad /=2; 
+                DiePlayer();
+                InitEnemies();
             }
             
         }

@@ -19,20 +19,23 @@ int esat::main(int argc, char **argv) {
     	last_time = esat::Time();
     	esat::DrawBegin();
     	esat::DrawClear(0,0,0);
+		printf("GRAVITAR init\n");
 		
-			InterfaceActions();
-			if(!intro && !interfaz){
-				PlayerActions();
-				GeometriesActions();
+		InterfaceActions();
+		if(!intro && !interfaz){
+			PlayerActions();
+			GeometriesActions();
+		}
 
-			}
+		printf("GRAVITAR end\n");
+    	esat::DrawEnd();//A veces se rompe aqui
 
-
-    	esat::DrawEnd();
-
+		printf("Despues del draw end\n");
     	//Control fps
     	do{
-    		current_time = esat::Time();
+			// printf("antes del time\n");
+    		current_time = esat::Time();//Otras veces se rompe aqui
+			// printf("despues del time\n");
     	}while((current_time-last_time)<=1000.0/fps);
     	esat::WindowFrame();
   }

@@ -393,6 +393,13 @@ void InterfaceActions(){
         if(!intro && interfaz)Interface();
 
         if(player.vidas <= 0){
+            InitPlayer();
+	        CreateMaps();
+	        InitVidasPoints();
+            ReturnMenu();
+            bool map1Complete = false;
+            bool map2Complete = false;
+            bool map5Complete = false;
             credits--;
             player.nivel = 0;
             AddCredits();

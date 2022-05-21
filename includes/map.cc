@@ -176,80 +176,84 @@ void DrawFigure2(TMap *m, int size, bool scalate = true, TColor color = Verde){
 
 bool figure3pointsCheck = false;
 bool figure3BombapointsCheck = false;
-//Draw Bomba
-void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde, bool bomba = false){
-    // const int sizeConst = size;
-    //  if(scalate)m->escalar += 5.0f;
-    //escalar tiene que llegar a 731
-    // printf("debug 1\n");
-    
-    if (IsSpecialKeyPressed(esat::kSpecialKey_Up)){
-        YPrueba--;
-        temporal += 0.5f;
-    }
-    if (IsSpecialKeyPressed(esat::kSpecialKey_Down)){
-        YPrueba++;
-        temporal -= 0.5f;
-    }
-    if (IsSpecialKeyPressed(esat::kSpecialKey_Right)){
-        xPrueba++;
-    }
-    if (IsSpecialKeyPressed(esat::kSpecialKey_Left)){
-        xPrueba--;
-    }
-
-    // printf("temp %f\n",temporal);
-
-    // printf(" X-> %f Y-> %f\n", xPrueba,YPrueba);
-    if(esat::IsKeyPressed('T'))m->escalar++;
+//Draw Map Bomba
+void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde){
 
     // printf("Escalar-> %f\n",m->escalar);
     if(scalate){
         m->escalar+=5;
     }
 
-    // printf("debug 2\n");
-    //Utilizo la misma variable para el mapa y la bomba, pero como el for se hace hasta el maximo, pues no problem
     esat::Vec2 tr_circle[200];
-    esat::Vec2 tr_circle_bomba[200];
+
     for (int i = 0; i < size; i++){
          // Scalar cada mat3
         esat::Mat3 matIdentity = esat::Mat3Identity();
         matIdentity = esat::Mat3Multiply(esat::Mat3Scale(m->escalar, m->escalar), matIdentity);
         matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY), matIdentity);
-        if(bomba)matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX-402.0f, CENTROY - 214.0f), matIdentity);
         esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i) );
 
-        if(!bomba)tr_circle[i] = {tmp.x, tmp.y};
-        if(bomba)tr_circle_bomba[i] = {tmp.x, tmp.y};
+        tr_circle[i] = {tmp.x, tmp.y};
+
+        // Createcircle(tmp.x,tmp.y,7);
 
         //Mapa
-        if(!scalate && !figure3pointsCheck && !bomba){
-            *(points_tmp_map3 + 2 * i) = tr_circle[i].x;
-            *(points_tmp_map3 + 2 * i + 1) = tr_circle[i].y;
-        }
-        //Bomba
-        if(!scalate && !figure3BombapointsCheck && bomba){
-            *(points_tmp_map2_bomb + 2 * i) = tr_circle_bomba[i].x;
-            *(points_tmp_map2_bomb + 2 * i + 1) = tr_circle_bomba[i].y;
+        if(!scalate && !figure3pointsCheck){
+            *(points_tmp_map3 + (2 * i)) = tmp.x;
+            *(points_tmp_map3 + (2 * i + 1)) = tmp.y;
         }
         
     }
 
-    if(!scalate && !figure3pointsCheck && !bomba){
+    if(!scalate && !figure3pointsCheck){
         figure3pointsCheck=true;
         printf("\n-------Solo 1 VEZ MAPA--------\n");
     }
-    if(!scalate && !figure3BombapointsCheck && bomba){
+
+    esat::DrawSetStrokeColor(color.r, color.g, color.b);
+    // esat::DrawSetFillColor(0,0,0);
+    esat::DrawPath(&tr_circle[0].x,size-1);
+ 
+}
+
+void DrawFigure3Bomba(TMap *m, int size, TColor color = Verde, bool scalate = true){
+    //escalar tiene que llegar a 731
+    // printf("Size de la bomba-> %d\n",size);
+
+    if(scalate){
+        m->escalar+=5;
+    }
+
+
+    esat::Vec2 tr_circle_bomba[200];
+    for (int i = 0; i < size; i++){
+        // Scalar cada mat3
+        esat::Mat3 matIdentity = esat::Mat3Identity();
+        matIdentity = esat::Mat3Multiply(esat::Mat3Scale(m->escalar, m->escalar), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX-402.0f, CENTROY - 214.0f), matIdentity);
+        esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i) );
+
+        tr_circle_bomba[i] = {tmp.x, tmp.y};
+    }
+
+    //Bomba
+    // if(!scalate && !figure3BombapointsCheck){
+    //     for (int i = 0; i < size; i++){
+    //             *(points_tmp_map2_bomb + 2 * i) = tr_circle_bomba[i].x;
+    //             *(points_tmp_map2_bomb + 2 * i + 1) = tr_circle_bomba[i].y;
+    //     }
+    // }
+    
+
+    if(!scalate && !figure3BombapointsCheck){
         figure3BombapointsCheck=true;
         printf("\n-------Solo 1 VEZ Bomba--------\n");
     }
     // printf("debug 3\n");
 
     esat::DrawSetStrokeColor(color.r, color.g, color.b);
-    // esat::DrawSetFillColor(0,0,0);
-    if(!bomba)esat::DrawPath(&tr_circle[0].x,size);
-    if(bomba)esat::DrawPath(&tr_circle_bomba[0].x,size);
+    esat::DrawPath(&tr_circle_bomba[0].x,size);
     // printf("debug 5\n");
 }
 
@@ -375,7 +379,7 @@ void CreateMaps(){
     map1.size = 91;
     //Fuel
     fuel1.map = nullptr;
-    fuel1.map = (esat::Vec3 *)malloc(sizeof(esat::Vec3) * 4);
+    fuel1.map = (esat::Vec3*) malloc(sizeof(esat::Vec3) * 4);
     fuel1.size = 4;
 
     //Map1 fuels
@@ -567,7 +571,7 @@ void CreateMaps(){
 
     //Map 3
     map3.map = nullptr;
-    map3.map = (esat::Vec3 *)malloc(sizeof(esat::Vec3) * 74);
+    map3.map = (esat::Vec3*) malloc(sizeof(esat::Vec3) * 74);
     map3.size = 74;
     (map3.map+0)->x = 246.0f;(map3.map+0)->y = 47.0f;(map3.map+0)->z = 1.0f;
     (map3.map+1)->x = 288.0f;(map3.map+1)->y = 94.0f;(map3.map+1)->z = 1.0f;
@@ -647,7 +651,7 @@ void CreateMaps(){
 
     //Map3 Bomb
     map3Bomb.map = nullptr;
-    map3Bomb.map = (esat::Vec3 *)malloc(sizeof(esat::Vec3) * 11);
+    map3Bomb.map = (esat::Vec3*) malloc(sizeof(esat::Vec3) * 11);
     map3Bomb.size = 11;
     (map3Bomb.map+0)->x = 468.0f;(map3Bomb.map+0)->y = 274.0f;(map3Bomb.map+0)->z = 1.0f;
     (map3Bomb.map+1)->x = 498.0f;(map3Bomb.map+1)->y = 286.0f;(map3Bomb.map+1)->z = 1.0f;
@@ -664,7 +668,7 @@ void CreateMaps(){
     //Map4
 
     map4.map = nullptr;
-    map4.map = (esat::Vec3 *)malloc(sizeof(esat::Vec3) * 83);
+    map4.map = (esat::Vec3*) malloc(sizeof(esat::Vec3) * 83);
     map4.size = 83;
     (map4.map+0)->x = 36.0f;(map4.map+0)->y = 736.0f;(map4.map+0)->z = 1.0f;
     (map4.map+1)->x = 51.0f;(map4.map+1)->y = 726.0f;(map4.map+1)->z = 1.0f;
