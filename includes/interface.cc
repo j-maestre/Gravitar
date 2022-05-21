@@ -30,89 +30,89 @@ FILE *fichero;
 void InitVidasPoints(){
     printf("Setting points...\n");
 
-    *(pointsLives+0)=215.0f;
+    *(pointsLives+0)=175.0f;
     *(pointsLives+1)=23.0f;
-    *(pointsLives+2)=203.0f;
+    *(pointsLives+2)=163.0f;
     *(pointsLives+3)=45.0f;
-    *(pointsLives+4)=206.0f;
+    *(pointsLives+4)=166.0f;
     *(pointsLives+5)=55.0f;
-    *(pointsLives+6)=211.0f;
+    *(pointsLives+6)=171.0f;
     *(pointsLives+7)=55.0f;
-    *(pointsLives+8)=215.0f;
+    *(pointsLives+8)=175.0f;
     *(pointsLives+9)=48.0f;
-    *(pointsLives+10)=218.0f;
+    *(pointsLives+10)=178.0f;
     *(pointsLives+11)=54.0f;
-    *(pointsLives+12)=222.0f;
+    *(pointsLives+12)=182.0f;
     *(pointsLives+13)=54.0f;
-    *(pointsLives+14)=227.0f;
+    *(pointsLives+14)=187.0f;
     *(pointsLives+15)=45.0f;
     // ----------
-    *(pointsLives1+0)=195.0f;
+    *(pointsLives1+0)=155.0f;
     *(pointsLives1+1)=23.0f;
-    *(pointsLives1+2)=183.0f;
+    *(pointsLives1+2)=143.0f;
     *(pointsLives1+3)=45.0f;
-    *(pointsLives1+4)=186.0f;
+    *(pointsLives1+4)=146.0f;
     *(pointsLives1+5)=55.0f;
-    *(pointsLives1+6)=191.0f;
+    *(pointsLives1+6)=151.0f;
     *(pointsLives1+7)=55.0f;
-    *(pointsLives1+8)=195.0f;
+    *(pointsLives1+8)=155.0f;
     *(pointsLives1+9)=48.0f;
-    *(pointsLives1+10)=198.0f;
+    *(pointsLives1+10)=158.0f;
     *(pointsLives1+11)=54.0f;
-    *(pointsLives1+12)=202.0f;
+    *(pointsLives1+12)=162.0f;
     *(pointsLives1+13)=54.0f;
-    *(pointsLives1+14)=207.0f;
+    *(pointsLives1+14)=167.0f;
     *(pointsLives1+15)=45.0f;
     // ----------
-    *(pointsLives2+0)=175.0f;
+    *(pointsLives2+0)=135.0f;
     *(pointsLives2+1)=23.0f;
-    *(pointsLives2+2)=163.0f;
+    *(pointsLives2+2)=123.0f;
     *(pointsLives2+3)=45.0f;
-    *(pointsLives2+4)=166.0f;
+    *(pointsLives2+4)=126.0f;
     *(pointsLives2+5)=55.0f;
-    *(pointsLives2+6)=171.0f;
+    *(pointsLives2+6)=131.0f;
     *(pointsLives2+7)=55.0f;
-    *(pointsLives2+8)=175.0f;
+    *(pointsLives2+8)=135.0f;
     *(pointsLives2+9)=48.0f;
-    *(pointsLives2+10)=178.0f;
+    *(pointsLives2+10)=138.0f;
     *(pointsLives2+11)=54.0f;
-    *(pointsLives2+12)=182.0f;
+    *(pointsLives2+12)=142.0f;
     *(pointsLives2+13)=54.0f;
-    *(pointsLives2+14)=187.0f;
+    *(pointsLives2+14)=147.0f;
     *(pointsLives2+15)=45.0f;
     // ----------
-    *(pointsLives3+0)=155.0f;
+    *(pointsLives3+0)=115.0f;
     *(pointsLives3+1)=23.0f;
-    *(pointsLives3+2)=143.0f;
+    *(pointsLives3+2)=103.0f;
     *(pointsLives3+3)=45.0f;
-    *(pointsLives3+4)=146.0f;
+    *(pointsLives3+4)=106.0f;
     *(pointsLives3+5)=55.0f;
-    *(pointsLives3+6)=151.0f;
+    *(pointsLives3+6)=111.0f;
     *(pointsLives3+7)=55.0f;
-    *(pointsLives3+8)=155.0f;
+    *(pointsLives3+8)=115.0f;
     *(pointsLives3+9)=48.0f;
-    *(pointsLives3+10)=158.0f;
+    *(pointsLives3+10)=118.0f;
     *(pointsLives3+11)=54.0f;
-    *(pointsLives3+12)=162.0f;
+    *(pointsLives3+12)=122.0f;
     *(pointsLives3+13)=54.0f;
-    *(pointsLives3+14)=167.0f;
+    *(pointsLives3+14)=127.0f;
     *(pointsLives3+15)=45.0f;
     // ----------
-    *(pointsLives4+0)=135.0f;
+    *(pointsLives4+0)=95.0f;
     *(pointsLives4+1)=23.0f;
-    *(pointsLives4+2)=123.0f;
+    *(pointsLives4+2)=83.0f;
     *(pointsLives4+3)=45.0f;
-    *(pointsLives4+4)=126.0f;
+    *(pointsLives4+4)=86.0f;
     *(pointsLives4+5)=55.0f;
-    *(pointsLives4+6)=131.0f;
+    *(pointsLives4+6)=91.0f;
     *(pointsLives4+7)=55.0f;
-    *(pointsLives4+8)=135.0f;
+    *(pointsLives4+8)=95.0f;
     *(pointsLives4+9)=48.0f;
-    *(pointsLives4+10)=138.0f;
+    *(pointsLives4+10)=98.0f;
     *(pointsLives4+11)=54.0f;
-    *(pointsLives4+12)=142.0f;
+    *(pointsLives4+12)=102.0f;
     *(pointsLives4+13)=54.0f;
-    *(pointsLives4+14)=147.0f;
+    *(pointsLives4+14)=107.0f;
     *(pointsLives4+15)=45.0f;
 }
 
@@ -160,25 +160,16 @@ void DrawVidas(){
              esat::DrawSolidPath(pointsLives3,8);
          break;
          case 5:
-            printf("Antes del draw\n");
             esat::DrawSolidPath(pointsLives,8);
             esat::DrawSolidPath(pointsLives1,8);
             esat::DrawSolidPath(pointsLives2,8);
             esat::DrawSolidPath(pointsLives3,8);
             esat::DrawSolidPath(pointsLives4,8);
-            printf("despues del draw\n");
          break;
 
          default:
              break;
          }
-
-
-        // free(points);
-        // free(points1);
-        // free(points2);
-        // free(points3);
-        // free(points4);
     
 }
 
@@ -373,6 +364,8 @@ void Interface(){
     if(esat::IsSpecialKeyDown(esat::kSpecialKey_Enter)){
         AddCredits();
         interfaz = false;
+        player.score = 0;
+
     }
 
 }
@@ -383,7 +376,7 @@ void InterfaceActions(){
         LoginInputs();
     }else{
         logued = true;
-        // DrawFuel();
+        DrawFuel();
         DrawVidas();
 
         if(intro)Intro();
@@ -391,6 +384,7 @@ void InterfaceActions(){
 
         if(player.vidas <= 0){
             credits--;
+            player.nivel = 0;
             AddCredits();
             intro = true;
             interfaz = true;
