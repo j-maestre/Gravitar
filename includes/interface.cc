@@ -330,29 +330,31 @@ void Intro(){
 }
 
 void Interface(){
+    esat::DrawSetFillColor(AzulText.r, AzulText.g, AzulText.b);
     esat::DrawText(420,200,"GAME OVER");
     esat::DrawText(410,240,"PRESS ENTER");
-    char *numberToChar = (char*) calloc('\0',sizeof(char)*30);
-    char *aux = (char*) calloc('\0',sizeof(char)*30);
-    // *numberToChar = 'C';
-    // *(numberToChar+1) = 'R';
-    // *(numberToChar+2) = 'E';
-    // *(numberToChar+3) = 'D';
-    // *(numberToChar+4) = 'I';
-    // *(numberToChar+5) = 'T';
-    // *(numberToChar+6) = 'S';
-    // *(numberToChar+7) = ' ';
+    char *numberToCharCredits = (char*) malloc(sizeof(char)*30);
+    char *aux = (char*) calloc('\0',sizeof(char)*5);
+    *numberToCharCredits = 'C';
+    *(numberToCharCredits+1) = 'R';
+    *(numberToCharCredits+2) = 'E';
+    *(numberToCharCredits+3) = 'D';
+    *(numberToCharCredits+4) = 'I';
+    *(numberToCharCredits+5) = 'T';
+    *(numberToCharCredits+6) = 'S';
+    *(numberToCharCredits+7) = ' ';
+    *(numberToCharCredits+8) = '\0';
     // if(credits<100 && credits>=10){
-    //     *(numberToChar+8) = '0';
+    //     *(numberToCharCredits+8) = '0';
     // }else if(credits<10){
-    //     *(numberToChar+8) = '0';
-    //     *(numberToChar+9) = '0';
+    //     *(numberToCharCredits+8) = '0';
+    //     *(numberToCharCredits+9) = '0';
     // }
-    // itoa(credits,aux,10);
-    // strcat(numberToChar,aux);
-    esat::DrawText(400,280,numberToChar);
+    itoa(credits,aux,10);
+    strcat(numberToCharCredits,aux);
+    esat::DrawText(400,280,numberToCharCredits);
     free(aux);
-    free(numberToChar);
+    free(numberToCharCredits);
 
 
 
