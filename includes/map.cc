@@ -255,6 +255,7 @@ void DrawFigure3Bomba(TMap *m, int size, TColor color = Verde, bool scalate = tr
     esat::DrawSetStrokeColor(color.r, color.g, color.b);
     esat::DrawPath(&tr_circle_bomba[0].x,size);
     // printf("debug 5\n");
+    printf("-----DRAW TODO OK-----\n");
 }
 
 int bombFpsCounter = 0;
@@ -263,32 +264,27 @@ void DrawTimeLeft(){
     esat::DrawSetStrokeColor(0,0,255);
     esat::DrawSetFillColor(0,0,255);
     esat::DrawText(246.0f,397.0f,"ESCAPE TIME");
+    // esat::DrawText(318.0f,560.0f,"SHOOT REACTOR");
+    printf("Despues de pintar shoot reactor\n");
     
-    // float tiempo = esat::Time();
-    // tiempo /= 1000;
-    // player.timeLeft = 29 - tiempo ;
-
-    // printf("Draw time debug 1\n");
     bombFpsCounter++;
     if(bombFpsCounter%fps == 0){
         player.timeLeft--;
     }
 
-    // printf("Draw time debug 2\n");
     char *aux = (char*) malloc(sizeof(char)*4);
-    // printf("Draw time debug 3\n");
-    // aux = IntToAscii(player.timeLeft, false);
     itoa(player.timeLeft,aux,10);
-    // printf("Draw time debug 4\n");
-    // printf("Aux %s\n",aux);
     *(aux+strlen(aux)) = '\0';
+    printf("Antes de pintar\n");
     esat::DrawText(246.0f, 457.0f, aux);//PETA AQUIII
-    // printf("Draw time debug 5\n");
-    free(aux);
-    // printf("Draw time debug 6\n");
+    printf("Despues de pintar\n");
 
-    esat::DrawText(318.0f,560.0f,"SHOOT REACTOR");
+ 
+
+
     // printf("Draw time debug 7\n");
+    free(aux);
+    printf("DrawTime OK\n");
 
 }
 

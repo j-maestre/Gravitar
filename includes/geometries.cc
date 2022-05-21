@@ -456,16 +456,12 @@ void GeometriesActions(){
 
             if(scalateMatFramesCount <= 110){
                 // esat::Mat3 aux = UpdateBaseFigure(map2);
-                printf("-----GEOMETRIES --Escalando-- Antes de DrawFigure2-----\n");
                 DrawFigure2(&map2, map2.size);
-                printf("-----GEOMETRIES --Escalando-- Despues de DrawFigure2-----\n");
                 scalateMatFramesCount++;
                 if(scalateMatFramesCount>=109)scalating = false;
             }else{
                 // esat::Mat3 aux = UpdateBaseFigure(map2,false);
-                printf("-----GEOMETRIES Antes de DrawFigure2-----\n");
                 DrawFigure2(&map2, map2.size, false);
-                printf("-----GEOMETRIES Despues de DrawFigure2-----\n");
                 //Llamar a colisiones
 
                 printf("Antes del Turret shot controller\n");
@@ -477,33 +473,20 @@ void GeometriesActions(){
                 TurretShotController(&turret14, turret6_points, 1);
                 TurretShotController(&turret15, turret7_points, 1);
                 TurretShotController(&turret16, turret8_points, 1);
-                printf("Despues del Turret shot controller\n");
                 // CheckMapColision(points_tmp_map2, map2.size);
-                printf("Antes del ColisionMap\n");
                 bool colision = ColisionMap(points_tmp_map2, map2.size);
                 if(colision){
                     DiePlayer();
                 }
-                printf("Despues del ColisionMap\n");
-                printf("Antes del Shotcolision\n");
                 CheckShootColision(points_tmp_map2, map2.size);
-                printf("Despues del Shotcolision\n");
-
-                printf("Antes del CheckShield\n");
                 CheckShield(&fuel5, &fuel6, &fuel7, &fuel8);
-                printf("Despues del CheckShield\n");
 
                 CheckGoBack();
 
-                printf("Antes del TurretShotColision\n");
                 //Shot turret colision with player
                 TurretShootcolision(turret9.disparos,4);
-                printf("Despues del TurretShotColision\n");
 
                 AplyGravity(CENTROX,CENTROY);
-        
-             
-                
             }
             CheckInputsGeometries();
             printf("---GEOMETRIES TODO OK---\n");
@@ -513,21 +496,16 @@ void GeometriesActions(){
             printf("-------Geometries 1------\n");
             printf("scalateFramosCount-> %d\n", scalateMatFramesCount);
             if(scalateMatFramesCount <= 100){
-                printf("Geometries 2\n");
                 DrawFigure3(&map4,map4.size);
                 scalateMatFramesCount++;
                 if(scalateMatFramesCount>=90)scalating = false;
-                printf("Geometries 3\n");
             }else{
 
-                printf("Geometries 4\n");
                 DrawFigure3(&map4, map4.size,false);
-                printf("Geometries 5\n");
             }
 
 
-            // CheckInputsGeometries();
-            printf("Geometries FIN\n");
+            CheckInputsGeometries();
 
         break;
         case 5: //*MATRICES
@@ -543,10 +521,8 @@ void GeometriesActions(){
                 //Animacion de la bomba
                 TColor color = Morado;
                 if(bombShooted){
-                    printf("-------RUN--------\n");
                     bombExplosionFramesCount++;
                     if(bombExplosionFramesCount%(30) == 0){
-                        printf("\n\n\nCAMBIO DE COLOR\n\n\n");
                         bombColorChanger = !bombColorChanger;
                     }
                     bombColorChanger?color = Rojo:color = Azul;
@@ -578,7 +554,6 @@ void GeometriesActions(){
 
                 //Colision con la bomba
                 if(CheckShootBomb(615.0f,389.0f)){
-                    printf("----------\n----------\n----------\nUEEEECOLISION BOMBA\n----------\n----------\n----------\n");
                     bombShooted = true;
                 }
                 
@@ -587,7 +562,11 @@ void GeometriesActions(){
                 //Size de bomb 11
                 AplyGravity(CENTROX,CENTROY);
                 CheckGoBack(true);
+                
+                printf("Antes de draw time...\n");
+
                 DrawTimeLeft();
+
                 printf("------Geometries OK------\n");
             }
             CheckInputsGeometries();
