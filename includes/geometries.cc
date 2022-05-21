@@ -312,7 +312,6 @@ void GeometriesActions(){
     switch(player.nivel){
         //MAPA MENU
         case 0:
-            printf("Galaxias 1\n");
             // Pintar las galaxias
             //  X Y Radio Color ExcentricidadX ExcentricidadY Puntos Extravagancia(cuando hay que invertir la Y) Peculiaridad(cuanto hay que restarle a la Y)
             if(turret9.vivo || turret10.vivo || turret11.vivo || turret12.vivo || turret13.vivo || turret14.vivo || turret15.vivo || turret16.vivo){
@@ -321,13 +320,11 @@ void GeometriesActions(){
             }else{
                 map2Complete = true;
             }
-            printf("Galaxias 2\n");
 
             //Medio
             if(frameCont % 15 == 0){
                 animatorSelectorMedio==7?animatorSelectorMedio=0:animatorSelectorMedio++;
             }
-            printf("Galaxias 3\n");
 
             switch(animatorSelectorMedio){
                 case 0:color = Rojo;break;
@@ -339,24 +336,20 @@ void GeometriesActions(){
                 case 6:color = Verde;break;
                 case 7:color = Amarillo;break;
             }
-            printf("Galaxias 4\n");
 
             //RESPAWN
             Createcircle(500.0f,400.0f,40.0f,Blanco,1.0f,0.8f,8);
             Createcircle(500.0f,400.0f,40.0f,color,0.8f,0.6f,8);
-            printf("Galaxias 5\n");
 
 
             Createcircle(800.0f,600.0f,40.0f,Amarillo,1.0f,0.8f,8);
             Createcircle(800.0f,600.0f,40.0f,Azul,1.5f,0.2f,6);
             // CheckGalaxyColision(800.0f,600.0f,3);
-            printf("Galaxias 6\n");
 
 
             //Inferior izquierda
             Createcircle(150.0f,700.0f,20.0f,Rojo,1.0f,0.8f,8);
             // CheckGalaxyColision(150.0f,700.0f,4);
-            printf("Galaxias 7\n");
 
 
             esat::DrawSetStrokeColor(Verde.r,Verde.g,Verde.b);
@@ -402,13 +395,11 @@ void GeometriesActions(){
             }
             esat::DrawLine(xIzInf,yIzInf,xIzInf2,yIzInf2);
             // Createcircle(150.0f,700.0f,20.0f,Verde,1.5f,0.2f,8);
-            printf("Galaxias 8\n");
 
             if(!map5Complete){
                 Createcircle(100.0f,350.0f,40.0f,Rojo,1.0f,1.0f,32,8,0.8f);
                 CheckGalaxyColision(100.0f,350.0f,5);
             }
-            printf("Galaxias 9\n");
 
             Createcircle(600.0f,200.0f,30.0f,Amarillo,1.0f,1.0f,8,2,0.2f);
             CheckGalaxyColision(600.0f,200.0f,6);
@@ -420,16 +411,11 @@ void GeometriesActions(){
                 map1Complete = true;
             }
 
-            printf("Galaxias 10\n");
-
 
             //Pintar enemigos
             if(enemi1.canMove)DrawEnemy1(&enemi1);
             MoveEnemy(&enemi1);
-            printf("Galaxias 11\n");
             CheckInputsGeometries();
-            printf("Galaxias 12\n");
-
             break;
         //*MATRICES
         case 1: 
@@ -545,15 +531,12 @@ void GeometriesActions(){
         break;
         case 5: //*MATRICES
             // Mapa bomba
-            // scalateMatFramesCount = 131;
-            // scalating = false;
-            // map3.escalar = 700.0f;
 
             if(scalateMatFramesCount <= 130){
                 DrawFigure3(&map3,map3.size);
                 DrawFigure3(&map3Bomb, map3Bomb.size, true, Morado,true);
                 scalateMatFramesCount++;
-                bool colision = ColisionMap(points_tmp_map3, map3.size);
+                // bool colision = ColisionMap(points_tmp_map3, map3.size);
                 if(scalateMatFramesCount>=90)scalating = false;
             }else{
 
@@ -576,40 +559,46 @@ void GeometriesActions(){
                 DrawFigure3(&map3, map3.size, false);
                 DrawFigure3(&map3Bomb, map3Bomb.size, false, color,true);
 
-                // CheckShootBomb();
-
-                // printf("Antes de draw time\n");
                 DrawTimeLeft();
-                // printf("Despues de draw time\n");
+
                 if(player.timeLeft<0){
                     //Explota la bomba
                     player.vidas--;
                     ReturnMenu();
                 }
 
-                // printf("Antes de colisiones\n");
+
                 //Llamar a colisiones
                 bool colision = ColisionMap(points_tmp_map3, map3.size);
-                // printf("Despues de colisiones\n");
                 if(colision){
                     DiePlayer();
                 }
-                // CheckMapColision(points_tmp_map3,map3.size);
+                
                 CheckShootColision(points_tmp_map3,map3.size);
                 
-                // printf("Antes del coilsion shot bomba\n");
+
                 //Colision con la bomba
-                CheckShootColision(points_tmp_map2_bomb,map3Bomb.size-1,false,true);
+                CheckShootColision(points_tmp_map2_bomb,map3Bomb.size,false,true);
+
                 //Size de bomb 11
-                // printf("Despues del coilsion shot bomba\n");
                 AplyGravity(CENTROX,CENTROY);
                 CheckGoBack(true);
             }
             CheckInputsGeometries();
 
             break;
+        case 99:
+            //Enemy arena
+            //Pintar enemigos
+            if(enemi1.canMove){
+                DrawEnemy1(&enemi1);
+            }
+            MoveEnemy(&enemi1);
+            EnemyShotPlayer(&enemi1);
 
+        break;
         default:
+
         break;
     }
 }

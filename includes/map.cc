@@ -246,31 +246,6 @@ void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde, b
     }
     // printf("debug 3\n");
 
-    //Puntos para el puntero de las colisiones
-    // if(!scalate){
-    //     printf("ueeepp\n");
-    //     if(!bomba){
-    //         printf("NO Bomba size-> %d\n", size);
-    //         printf("No Bomba ueeepp\n");
-
-    //         for (int i = 0; i < size; i++){
-    //             *(points_tmp_map3 + 2 * i) = tr_circle[i].x;
-    //             *(points_tmp_map3 + 2 * i + 1) = tr_circle[i].y;
-    //         }
-    //         printf("No bomba ueeepp\n");
-    //     }
-    //     if(bomba){
-    //         printf("Bomba ueeepp\n");
-    //         printf("Bomba size-> %d\n", size);
-    //         for(int i = 0; i < size; i++){
-    //             *(points_tmp_map2_bomb + 2 * i) = tr_circle_bomba[i].x;
-    //             *(points_tmp_map2_bomb + 2 * i + 1) = tr_circle_bomba[i].y;
-    //         }
-    //         printf("Bomba ueeepp\n");
-    //     }
-    // }
-    // printf("debug 4\n");
-
     esat::DrawSetStrokeColor(color.r, color.g, color.b);
     // esat::DrawSetFillColor(0,0,0);
     if(!bomba)esat::DrawPath(&tr_circle[0].x,size);
