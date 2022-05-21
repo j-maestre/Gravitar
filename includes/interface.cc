@@ -27,6 +27,23 @@ int sizePersonas = 0;
 int indexLogued = -1;
 FILE *fichero;
 
+char *puesto = (char*) calloc('\0',sizeof(char)*4);
+char *nombre = (char*) calloc('\0',sizeof(char)*4);
+char *puntuacion = (char*) calloc('\0',sizeof(char)*10);
+
+void OrdenarUsers(){
+    //Bubble short
+    for (int j = 0; j < sizePersonas; j++){
+        for (int i = 0; i < sizePersonas; i++){
+            if((users+i+1)->puntuacion > (users+i)->puntuacion){
+                Persona aux = *(users+i); 
+                *(users+i) = *(users+i+1);
+                *(users+i+1) = aux;
+            }
+        }
+    }
+}
+
 void InitVidasPoints(){
     printf("Setting points...\n");
 
@@ -192,6 +209,7 @@ void Login(){
                 logued = true;
                 credits = (users+i)->creditos;
                 indexLogued = i;
+                OrdenarUsers();
                 printf("Creditos del user logueado-> %d\n",(users+i)->creditos);
             }else{
                 printf("Contraseña incorrecta\n");
@@ -331,6 +349,30 @@ void Intro(){
     esat::DrawText(410,240,"INSERT COIN");
     esat::DrawText(400,280,"1 COIN 1 PLAY");
     //Mostrar 10 mejores
+
+    for (int i = 0; i < 10; i++){
+        // printf("%dº Nombre->%s Puntuacion->%d\n",i,(users+i)->nombre,(users+i)->puntuacion);
+        
+        
+        puesto = itoa(i+1,puesto,10);
+        *nombre = *(users+i)->nombre;
+        *(nombre+1) = *((users+i)->nombre+1);
+        *(nombre+2) = *((users+i)->nombre+2);
+        puntuacion = itoa((users+i)->puntuacion,puntuacion,10);
+
+        esat::DrawSetFillColor(Rojo.r, Rojo.g, Rojo.b);
+        esat::DrawText(400,320+(i*40),puesto);
+        esat::DrawText(450,320+(i*40),nombre);
+        
+        esat::DrawSetFillColor(Azul.r, Azul.g, Azul.b);
+        esat::DrawText(520,320+(i*40),puntuacion);
+
+    }
+
+    
+    
+    
+    
     if(esat::IsSpecialKeyDown(esat::kSpecialKey_Space)){
         intro = false;
         InitEnemies();
@@ -402,10 +444,16 @@ void InterfaceActions(){
             bool map5Complete = false;
             credits--;
             player.nivel = 0;
-            AddCredits();
             intro = true;
             interfaz = true;
             player.vidas = 5;
+            if(indexLogued>=0){
+                if( player.score > (users+indexLogued)->puntuacion){
+                    (users+indexLogued)->puntuacion = player.score;
+                }
+            }
+
+            AddCredits();
         }
     }
 }
@@ -456,5 +504,9 @@ void FreePointers(){
     free(pointsLives2);
     free(pointsLives3);
     free(pointsLives4);
+
+    free(puesto);
+    free(nombre);
+    free(puntuacion);
     // free(Fuel1New);
 }

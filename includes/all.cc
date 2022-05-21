@@ -5,12 +5,11 @@
 #include <esat/time.h>
 #include <string.h>
 #include <stdlib.h>
-#include <time.h>
 #include "xemath.cc"
 #include <conio.h>
 #include "users.cc"
 
-bool debug = true;
+bool debug = false;
 
 //Ancho -> 256*4
 //Alto -> 192*4
