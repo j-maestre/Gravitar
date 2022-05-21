@@ -156,7 +156,7 @@ bool ColisionMap(float *puntos,int size){
     // if(esat::IsKeyDown('L'))i++;
     // printf("colisiones\n");
     for (int i = 0; i < size-2; i++){
-        Createcircle(*(puntos + i * 2), *(puntos + i * 2 + 1),5);
+        if(debug)Createcircle(*(puntos + i * 2), *(puntos + i * 2 + 1),5);
         float x1 = *(puntos + i * 2);
         float y1 = *(puntos + i * 2 + 1);
 

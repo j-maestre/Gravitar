@@ -10,7 +10,7 @@
 #include <conio.h>
 #include "users.cc"
 
-bool debug = false;
+bool debug = true;
 
 //Ancho -> 256*4
 //Alto -> 192*4

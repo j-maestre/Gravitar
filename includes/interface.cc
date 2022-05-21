@@ -280,9 +280,13 @@ void LoginInputs(){
 
         //Name
         char letra = esat::GetNextPressedKey();
+        if(esat::IsSpecialKeyDown(esat::kSpecialKey_Backspace)){
+            *(userName+strlen(userName)-1) = '\0';
+            sizeName--;
+        }
         if(letra!=0){
+            printf("%c",letra);
             //He escrito algo
-            // printf("%c",letra);
             if(sizeName<MAX_SIZE){
                 *(userName+sizeName) = letra;
                 sizeName++;
@@ -297,6 +301,10 @@ void LoginInputs(){
         if(showPasswd)esat::DrawLine(430+sizePasswd*10,370,430+sizePasswd*10,390);
         //Name
         char letra = esat::GetNextPressedKey();
+        if(esat::IsSpecialKeyDown(esat::kSpecialKey_Backspace)){
+            *(userPasswd+strlen(userPasswd)-1) = '\0';
+            sizePasswd--;
+        }
         if(letra!=0){
             //He escrito algo
             // printf("%c",letra);

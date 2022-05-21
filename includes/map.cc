@@ -26,6 +26,7 @@ void NormalizeTurret(TTurret mapa,float lenght,float sizeX = 1.0f, float sizeY =
     
 }
 
+bool figure1pointsCheck = false;
 void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
     esat::Vec2 tr_circle[250]; // Size de map1-> 91
     //?---------DEBUG---------
@@ -89,13 +90,17 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
         esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i));
         Createcircle((m->map + i)->x, (m->map + i)->y,5,Verde);
         tr_circle[i] = {tmp.x, tmp.y};
-        if(!scalate){
+        
+        if(!scalate && !figure1pointsCheck){
             *(points_tmp_map1 + (2 * i)) = tmp.x;
             *(points_tmp_map1 + (2 * i) + 1) = tmp.y;
         }
         checked = true;
     }
-
+    if(!scalate && !figure1pointsCheck){
+        figure1pointsCheck=true;
+        printf("\n-------Solo 1 VEZ--------\n");
+    }
     //Puntos para el puntero de las colisiones
     // if(scalate){
     //     for (int i = 0; i < size; i++){
@@ -111,11 +116,13 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
     esat::DrawPath(&tr_circle[0].x,size);
     
 }
+bool figure2pointsCheck = false;
 void DrawFigure2(TMap *m, int size, bool scalate = true, TColor color = Verde){
     esat::Vec2 tr_circle[250];
 
     if(scalate){
         m->escalar+=5;
+        figure2pointsCheck = false;
     }
 
     
@@ -131,8 +138,14 @@ void DrawFigure2(TMap *m, int size, bool scalate = true, TColor color = Verde){
         if((m->map + i)->x > 10000.0f || (m->map + i)->x < -10000.0f || (m->map + i)->y > 10000.0f || (m->map + i)->y < -10000.0f || (m->map + i)->z > 10000.0f || (m->map + i)->z < -10000.0f){
             printf("Mapvalues X->%f Y->%f Z->%f\n", (m->map + i)->x, (m->map + i)->y, (m->map + i)->z);
         }
-        *(points_tmp_map2 + (2 * i)) = tmp.x;
-        *(points_tmp_map2 + (2 * i + 1)) = tmp.y;
+        if(!scalate && !figure2pointsCheck){
+            *(points_tmp_map2 + (2 * i)) = tmp.x;
+            *(points_tmp_map2 + (2 * i + 1)) = tmp.y;
+        }
+    }
+    if(!scalate && !figure2pointsCheck){
+        figure2pointsCheck=true;
+        printf("\n-------Solo 1 VEZ map2--------\n");
     }
 
     //Puntos para el puntero de las colisiones
@@ -145,23 +158,30 @@ void DrawFigure2(TMap *m, int size, bool scalate = true, TColor color = Verde){
     //     }
     // }
 
-
+    printf("Antes de Draw Turrets\n");
     DrawTurretsMap2(scalate,tr_circle);
+    printf("Despues de Draw Turrets\n");
+    printf("Antes de Draw Fuel\n");
     DrawFuelMap2(scalate, tr_circle);
+    printf("Despues de Draw Fuel\n");
 
+    printf("Antes de Draw Map\n");
     esat::DrawSetStrokeColor(color.r, color.g, color.b);
     esat::DrawPath(&tr_circle[0].x,size);
-    // printf("End Draw map\n");
+    printf("Despues de Draw Map\n");
+    printf("---TODO OK EN MAP---\n");
+    //Esto está bien, llega hasta el final
     
 }
 
-
+bool figure3pointsCheck = false;
+bool figure3BombapointsCheck = false;
 //Draw Bomba
 void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde, bool bomba = false){
     // const int sizeConst = size;
     //  if(scalate)m->escalar += 5.0f;
     //escalar tiene que llegar a 731
-    printf("debug 1\n");
+    // printf("debug 1\n");
     
     if (IsSpecialKeyPressed(esat::kSpecialKey_Up)){
         YPrueba--;
@@ -188,7 +208,7 @@ void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde, b
         m->escalar+=5;
     }
 
-    printf("debug 2\n");
+    // printf("debug 2\n");
     //Utilizo la misma variable para el mapa y la bomba, pero como el for se hace hasta el maximo, pues no problem
     esat::Vec2 tr_circle[200];
     esat::Vec2 tr_circle_bomba[200];
@@ -202,40 +222,60 @@ void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde, b
 
         if(!bomba)tr_circle[i] = {tmp.x, tmp.y};
         if(bomba)tr_circle_bomba[i] = {tmp.x, tmp.y};
+
+        //Mapa
+        if(!scalate && !figure3pointsCheck && !bomba){
+            *(points_tmp_map3 + 2 * i) = tr_circle[i].x;
+            *(points_tmp_map3 + 2 * i + 1) = tr_circle[i].y;
+        }
+        //Bomba
+        if(!scalate && !figure3BombapointsCheck && bomba){
+            *(points_tmp_map2_bomb + 2 * i) = tr_circle_bomba[i].x;
+            *(points_tmp_map2_bomb + 2 * i + 1) = tr_circle_bomba[i].y;
+        }
         
     }
-    printf("debug 3\n");
+
+    if(!scalate && !figure3pointsCheck && !bomba){
+        figure3pointsCheck=true;
+        printf("\n-------Solo 1 VEZ MAPA--------\n");
+    }
+    if(!scalate && !figure3BombapointsCheck && bomba){
+        figure3BombapointsCheck=true;
+        printf("\n-------Solo 1 VEZ Bomba--------\n");
+    }
+    // printf("debug 3\n");
 
     //Puntos para el puntero de las colisiones
-    if(!scalate){
-        printf("ueeepp\n");
-        if(!bomba){
-            printf("NO Bomba size-> %d\n", size);
-            printf("No Bomba ueeepp\n");
+    // if(!scalate){
+    //     printf("ueeepp\n");
+    //     if(!bomba){
+    //         printf("NO Bomba size-> %d\n", size);
+    //         printf("No Bomba ueeepp\n");
 
-            for (int i = 0; i < size; i++){
-                *(points_tmp_map3 + 2 * i) = tr_circle[i].x;
-                *(points_tmp_map3 + 2 * i + 1) = tr_circle[i].y;
-            }
-            printf("No bomba ueeepp\n");
-        }
-        if(bomba){
-            printf("Bomba ueeepp\n");
-            printf("Bomba size-> %d\n", size);
-            for(int i = 0; i < size; i++){
-                *(points_tmp_map2_bomb + 2 * i) = tr_circle_bomba[i].x;
-                *(points_tmp_map2_bomb + 2 * i + 1) = tr_circle_bomba[i].y;
-            }
-            printf("Bomba ueeepp\n");
-        }
-    }
-    printf("debug 4\n");
+    //         for (int i = 0; i < size; i++){
+    //             *(points_tmp_map3 + 2 * i) = tr_circle[i].x;
+    //             *(points_tmp_map3 + 2 * i + 1) = tr_circle[i].y;
+    //         }
+    //         printf("No bomba ueeepp\n");
+    //     }
+    //     if(bomba){
+    //         printf("Bomba ueeepp\n");
+    //         printf("Bomba size-> %d\n", size);
+    //         for(int i = 0; i < size; i++){
+    //             *(points_tmp_map2_bomb + 2 * i) = tr_circle_bomba[i].x;
+    //             *(points_tmp_map2_bomb + 2 * i + 1) = tr_circle_bomba[i].y;
+    //         }
+    //         printf("Bomba ueeepp\n");
+    //     }
+    // }
+    // printf("debug 4\n");
 
     esat::DrawSetStrokeColor(color.r, color.g, color.b);
     // esat::DrawSetFillColor(0,0,0);
     if(!bomba)esat::DrawPath(&tr_circle[0].x,size);
     if(bomba)esat::DrawPath(&tr_circle_bomba[0].x,size);
-    printf("debug 5\n");
+    // printf("debug 5\n");
 }
 
 int bombFpsCounter = 0;
@@ -249,26 +289,27 @@ void DrawTimeLeft(){
     // tiempo /= 1000;
     // player.timeLeft = 29 - tiempo ;
 
-    printf("Draw time debug 1\n");
+    // printf("Draw time debug 1\n");
     bombFpsCounter++;
     if(bombFpsCounter%fps == 0){
         player.timeLeft--;
     }
 
-    printf("Draw time debug 2\n");
-    char *aux = (char*) calloc('\0',sizeof(char)*4);
-    printf("Draw time debug 3\n");
+    // printf("Draw time debug 2\n");
+    char *aux = (char*) malloc(sizeof(char)*4);
+    // printf("Draw time debug 3\n");
     // aux = IntToAscii(player.timeLeft, false);
     itoa(player.timeLeft,aux,10);
-    printf("Draw time debug 4\n");
-    printf("Aux %s\n",aux);
-    //esat::DrawText(246.0f, 457.0f, aux);//PETA AQUIII
-    printf("Draw time debug 5\n");
+    // printf("Draw time debug 4\n");
+    // printf("Aux %s\n",aux);
+    *(aux+strlen(aux)) = '\0';
+    esat::DrawText(246.0f, 457.0f, aux);//PETA AQUIII
+    // printf("Draw time debug 5\n");
     free(aux);
-    printf("Draw time debug 6\n");
+    // printf("Draw time debug 6\n");
 
     esat::DrawText(318.0f,560.0f,"SHOOT REACTOR");
-    printf("Draw time debug 7\n");
+    // printf("Draw time debug 7\n");
 
 }
 

@@ -44,7 +44,10 @@ void ShotTurret(TTurret *turret, float *points, int index = 0){
             //Sorteamos cuando saldrá el proximo disparo
             turret->nextShootTurretTime = 1 + rand() % SHOOT_FRECUENCY;
             printf("Next shot-> %d\n", turret->nextShootTurretTime);
+            printf("Antes del dispareicou\n");
             Disparo(turret->disparos, x, y, vecDirector, Rojo, true);
+            printf("Despues del dispareicou\n");
+
         }
         bool die = Disparo(turret->disparos, x, y, vecDirector, Rojo, false,true);
         if(die && !player.shield){

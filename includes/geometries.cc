@@ -106,7 +106,6 @@ void CheckInputsGeometries(){
         default:
             break;
         }
-        debug = !debug;
     }
 }
 
@@ -177,6 +176,7 @@ void CheckShield(TFuelMat *fuel1,TFuelMat *fuel2,TFuelMat *fuel3,TFuelMat *fuel4
 
 void CheckGalaxyColision(float x, float y, int level, int margin = 50){
     // if(level==1)Createcircle(x,y,10,Verde);
+    printf("--Check Galaxy colision--\n");
     float modulo;
     xemath::Vector2 nivel;
     nivel = {x - player.x, y-player.y};
@@ -198,15 +198,10 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
         scalateFramesCount = 0;
         scalateHorizontalFramesCount = 0;
 
-        //Set original points
-        // float *original = nullptr;
-        // float *nuevo = nullptr;
-        // int lenght = 0;
-
         switch (level){
         case 1:
             if(!map1.normalized){
-                NormalizeMap(map1, 91, 928.0f, 739.0f);
+                NormalizeMap(map1, map1.size, 928.0f, 739.0f);
                 map1.normalized = true;
             }
             player.y = 112.8f;
@@ -216,7 +211,7 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
         case 2:
             if(!map2.normalized){
                 // NormalizeMap(map2,49, 892.0f, 714.0f);
-                NormalizeMap(map2, 112, 990.0f, 714.0f);
+                NormalizeMap(map2, map2.size, 990.0f, 714.0f);
                 map2.normalized = true;
             }
             player.y = 112.8f;
@@ -237,7 +232,7 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
         case 5:
             if(!map3.normalized){
                 printf("Normalizando map3\n");
-                NormalizeMap(map3,74, 931.0f, 724.0f);
+                NormalizeMap(map3,map3.size, 931.0f, 724.0f);
                 NormalizeMap(map3Bomb,map3Bomb.size, 699.0f, 489.0f);
                 map3.normalized = true;
                 printf("Normalizado\n");
@@ -257,6 +252,7 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
         // }
         
     }
+    printf("--End Galaxy colision--\n");
 }
 
 void CheckScrollX(float *points, int size, float *points2, int size2,float *points3, int size3,float *points4, int size4){
@@ -473,14 +469,19 @@ void GeometriesActions(){
 
             if(scalateMatFramesCount <= 110){
                 // esat::Mat3 aux = UpdateBaseFigure(map2);
+                printf("-----GEOMETRIES --Escalando-- Antes de DrawFigure2-----\n");
                 DrawFigure2(&map2, map2.size);
+                printf("-----GEOMETRIES --Escalando-- Despues de DrawFigure2-----\n");
                 scalateMatFramesCount++;
                 if(scalateMatFramesCount>=109)scalating = false;
             }else{
                 // esat::Mat3 aux = UpdateBaseFigure(map2,false);
+                printf("-----GEOMETRIES Antes de DrawFigure2-----\n");
                 DrawFigure2(&map2, map2.size, false);
+                printf("-----GEOMETRIES Despues de DrawFigure2-----\n");
                 //Llamar a colisiones
 
+                printf("Antes del Turret shot controller\n");
                 TurretShotController(&turret9, turret1_points, 1);
                 TurretShotController(&turret10, turret2_points, 1);
                 TurretShotController(&turret11, turret3_points, 1);
@@ -489,19 +490,28 @@ void GeometriesActions(){
                 TurretShotController(&turret14, turret6_points, 1);
                 TurretShotController(&turret15, turret7_points, 1);
                 TurretShotController(&turret16, turret8_points, 1);
+                printf("Despues del Turret shot controller\n");
                 // CheckMapColision(points_tmp_map2, map2.size);
+                printf("Antes del ColisionMap\n");
                 bool colision = ColisionMap(points_tmp_map2, map2.size);
                 if(colision){
                     DiePlayer();
                 }
+                printf("Despues del ColisionMap\n");
+                printf("Antes del Shotcolision\n");
                 CheckShootColision(points_tmp_map2, map2.size);
+                printf("Despues del Shotcolision\n");
 
+                printf("Antes del CheckShield\n");
                 CheckShield(&fuel5, &fuel6, &fuel7, &fuel8);
+                printf("Despues del CheckShield\n");
 
                 CheckGoBack();
 
+                printf("Antes del TurretShotColision\n");
                 //Shot turret colision with player
                 TurretShootcolision(turret9.disparos,4);
+                printf("Despues del TurretShotColision\n");
 
                 AplyGravity(CENTROX,CENTROY);
         
@@ -509,6 +519,7 @@ void GeometriesActions(){
                 
             }
             CheckInputsGeometries();
+            printf("---GEOMETRIES TODO OK---\n");
 
             break;
         case 4:
@@ -567,30 +578,30 @@ void GeometriesActions(){
 
                 // CheckShootBomb();
 
-                printf("Antes de draw time\n");
+                // printf("Antes de draw time\n");
                 DrawTimeLeft();
-                printf("Despues de draw time\n");
+                // printf("Despues de draw time\n");
                 if(player.timeLeft<0){
                     //Explota la bomba
                     player.vidas--;
                     ReturnMenu();
                 }
 
-                printf("Antes de colisiones\n");
+                // printf("Antes de colisiones\n");
                 //Llamar a colisiones
                 bool colision = ColisionMap(points_tmp_map3, map3.size);
-                printf("Despues de colisiones\n");
+                // printf("Despues de colisiones\n");
                 if(colision){
                     DiePlayer();
                 }
                 // CheckMapColision(points_tmp_map3,map3.size);
                 CheckShootColision(points_tmp_map3,map3.size);
                 
-                printf("Antes del coilsion shot bomba\n");
+                // printf("Antes del coilsion shot bomba\n");
                 //Colision con la bomba
                 CheckShootColision(points_tmp_map2_bomb,map3Bomb.size-1,false,true);
                 //Size de bomb 11
-                printf("Despues del coilsion shot bomba\n");
+                // printf("Despues del coilsion shot bomba\n");
                 AplyGravity(CENTROX,CENTROY);
                 CheckGoBack(true);
             }
