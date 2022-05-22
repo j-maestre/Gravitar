@@ -178,7 +178,7 @@ void CheckShield(TFuelMat *fuel1,TFuelMat *fuel2,TFuelMat *fuel3,TFuelMat *fuel4
     }
 }
 
-void CheckGalaxyColision(float x, float y, int level, int margin = 50){
+void CheckGalaxyColision(float x, float y, int level, int margin = 50,float range = 250){
     // if(level==1)Createcircle(x,y,10,Verde);
     printf("--Check Galaxy colision--\n");
     float modulo;
@@ -255,7 +255,10 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50){
         //     *(nuevo+(i*2 +1)) = *(original+(i*2 +1));
         // }
         
+    }else if(modulo<=range){
+        AplyGravity(x,y);
     }
+    
     printf("--End Galaxy colision--\n");
 }
 
