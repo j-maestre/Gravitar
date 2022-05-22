@@ -368,11 +368,11 @@ void Intro(){
         puntuacion = itoa((users+i)->puntuacion,puntuacion,10);
 
         esat::DrawSetFillColor(Rojo.r, Rojo.g, Rojo.b);
-        esat::DrawText(400,320+(i*40),puesto);
-        esat::DrawText(450,320+(i*40),nombre);
+        esat::DrawText(400,380+(i*40),puesto);
+        esat::DrawText(450,380+(i*40),nombre);
 
         esat::DrawSetFillColor(Azul.r, Azul.g, Azul.b);
-        esat::DrawText(520,320+(i*40),puntuacion);
+        esat::DrawText(520,380+(i*40),puntuacion);
 
     }
 
@@ -454,13 +454,17 @@ void InterfaceActions(){
             intro = true;
             interfaz = true;
             player.vidas = 5;
+            Login();
             if(indexLogued>=0){
                 if( player.score > (users+indexLogued)->puntuacion){
+                    printf("Nueva puntuacion maxima de %s, antes->%d ahora->%d\n",(users+indexLogued)->nombre,(users+indexLogued)->puntuacion,player.score);
                     (users+indexLogued)->puntuacion = player.score;
                 }
             }
 
             AddCredits();
+            Login();
+            OrdenarUsers();
         }
     }
 }

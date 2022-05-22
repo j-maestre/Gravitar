@@ -78,6 +78,10 @@ void CheckInputsGeometries(){
         debug = !debug;
 
     }
+    if (esat::IsSpecialKeyDown(esat::kSpecialKey_F3)){
+        printf("---------\n---------\n---------\nAdd 100 points\n---------\n---------\n---------\n");
+        player.score +=100;
+    }
     if (esat::IsSpecialKeyDown(esat::kSpecialKey_F2)){
         printf("---------\n---------\n---------\nKill All Turrets\n---------\n---------\n---------\n");
         switch (player.nivel){
