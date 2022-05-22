@@ -248,13 +248,6 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50,float rang
             break;
         }
 
-        // printf("RESET MAP!\n");
-
-        // for (int i = 0; i < lenght; i++){
-        //     *(nuevo+(i*2)) = *(original+(i*2));
-        //     *(nuevo+(i*2 +1)) = *(original+(i*2 +1));
-        // }
-        
     }else if(modulo<=range){
         AplyGravity(x,y);
     }
@@ -301,6 +294,7 @@ void CheckGoBack(bool bomb = false){
     if(player.y <= 23.050344f){
         if(bomb && bombShooted){
             map5Complete = true;
+            player.score +=750;
         }
         ReturnMenu();
     }
