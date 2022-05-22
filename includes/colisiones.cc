@@ -88,7 +88,7 @@ bool CheckShootColision(float *points, int size, bool turret = false,bool bomb =
 
                     if(turret){
                         printf("Colision con torreta\n");
-                        player.score+=100;
+                        player.score+=250;
                         turretDead = true;
                     }
                     if(bomb){

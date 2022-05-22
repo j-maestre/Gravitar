@@ -177,7 +177,7 @@ void EnemyShotPlayer(TEnemy *enemi){
             if(distance<=20){
                 player.nivel = 0;
                 enemi->velocidad /=2; 
-                player.score +=150;
+                player.score +=500;
                 InitEnemies();
             }
         }
