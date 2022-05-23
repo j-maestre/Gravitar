@@ -258,6 +258,30 @@ void DrawFigure3Bomba(TMap *m, int size, TColor color = Verde, bool scalate = tr
     printf("-----DRAW TODO OK-----\n");
 }
 
+void DrawLogo(TMap *m, int size, bool scalate,int iteration1 = 0,int iteration2 = 0){
+    if(scalate){
+        m->escalar+=2;
+    }
+
+    esat::Vec2 tr_circle[200];
+
+    for (int i = 0; i < size; i++){
+        esat::Mat3 matIdentity = esat::Mat3Identity();
+        matIdentity = esat::Mat3Multiply(esat::Mat3Scale(m->escalar+150.0f, m->escalar-50.0f), matIdentity);
+        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX+90, CENTROY), matIdentity);
+        esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i) );
+        tr_circle[i] = {tmp.x, tmp.y};
+        esat::DrawSetStrokeColor(Rojo.r, Rojo.g, Rojo.b);
+        if(i<=1 || iteration1 == i || iteration2 == i)esat::DrawLine(CENTROX-50,CENTROY,tmp.x,tmp.y);
+        
+        // esat::DrawLine(CENTROX,CENTROY,(logoG.map+1)->x,(logoG.map+1)->y);
+    }
+    esat::DrawSetStrokeColor(Azul.r, Azul.g, Azul.b);
+    esat::DrawSetFillColor(0, 0, 0,0);
+    esat::DrawSolidPath(&tr_circle[0].x,size);
+
+}
+
 int bombFpsCounter = 0;
 
 void DrawTimeLeft(){
@@ -307,6 +331,14 @@ TMap map2;
 TMap map3;
 TMap map4;
 TMap map3Bomb;
+TMap logoG;
+TMap logoR;
+TMap logoA;
+TMap logoV;
+TMap logoI;
+TMap logoT;
+TMap logoA2;
+TMap logoR2;
 
 void InitTurret(TTurret *turret){
     turret->map = (esat::Vec3 *)malloc(sizeof(esat::Vec3) * 8);
@@ -368,6 +400,142 @@ void CreateMaps(){
     InitTurret(&turret14);
     InitTurret(&turret15);
     InitTurret(&turret16);
+
+    logoG.map = nullptr;
+    logoG.map = (esat::Vec3*) malloc(sizeof(esat::Vec3)*12);
+    logoG.size = 12;
+    logoG.escalar = 0.0f;
+
+    logoR.map = nullptr;
+    logoR.map = (esat::Vec3*) malloc(sizeof(esat::Vec3)*15);
+    logoR.size = 15;
+    logoR.escalar = 0.0f;
+    
+    logoA.map = nullptr;
+    logoA.map = (esat::Vec3*) malloc(sizeof(esat::Vec3)*12);
+    logoA.size = 12;
+    logoA.escalar = 0.0f;
+    
+    logoV.map = nullptr;
+    logoV.map = (esat::Vec3*) malloc(sizeof(esat::Vec3)*11);
+    logoV.size = 11;
+    logoV.escalar = 0.0f;
+    
+    logoI.map = nullptr;
+    logoI.map = (esat::Vec3*) malloc(sizeof(esat::Vec3)*4);
+    logoI.size = 4;
+    logoI.escalar = 0.0f;
+    
+    logoT.map = nullptr;
+    logoT.map = (esat::Vec3*) malloc(sizeof(esat::Vec3)*8);
+    logoT.size = 8;
+    logoT.escalar = 0.0f;
+    
+    logoA2.map = nullptr;
+    logoA2.map = (esat::Vec3*) malloc(sizeof(esat::Vec3)*12);
+    logoA2.size = 12;
+    logoA2.escalar = 0.0f;
+    
+    logoR2.map = nullptr;
+    logoR2.map = (esat::Vec3*) malloc(sizeof(esat::Vec3)*14);
+    logoR2.size = 14;
+    logoR2.escalar = 0.0f;
+
+    (logoG.map+0)->x = 284.0f;(logoG.map+0)->y = 192.0f;(logoG.map+0)->z = 1.0f;
+    (logoG.map+1)->x = 193.0f;(logoG.map+1)->y = 210.0f;(logoG.map+1)->z = 1.0f;
+    (logoG.map+2)->x = 263.0f;(logoG.map+2)->y = 86.0f;(logoG.map+2)->z = 1.0f;
+    (logoG.map+3)->x = 331.0f;(logoG.map+3)->y = 75.0f;(logoG.map+3)->z = 1.0f;
+    (logoG.map+4)->x = 317.0f;(logoG.map+4)->y = 98.0f;(logoG.map+4)->z = 1.0f;
+    (logoG.map+5)->x = 278.0f;(logoG.map+5)->y = 105.0f;(logoG.map+5)->z = 1.0f;
+    (logoG.map+6)->x = 241.0f;(logoG.map+6)->y = 163.0f;(logoG.map+6)->z = 1.0f;
+    (logoG.map+7)->x = 277.0f;(logoG.map+7)->y = 156.0f;(logoG.map+7)->z = 1.0f;
+    (logoG.map+8)->x = 284.0f;(logoG.map+8)->y = 140.0f;(logoG.map+8)->z = 1.0f;
+    (logoG.map+9)->x = 265.0f;(logoG.map+9)->y = 146.0f;(logoG.map+9)->z = 1.0f;
+    (logoG.map+10)->x = 285.0f;(logoG.map+10)->y = 118.0f;(logoG.map+10)->z = 1.0f;
+    (logoG.map+11)->x = 315.0f;(logoG.map+11)->y = 112.0f;(logoG.map+11)->z = 1.0f;
+
+    (logoR.map+0)->x = 354.0f;(logoR.map+0)->y = 180.0f;(logoR.map+0)->z = 1.0f;
+    (logoR.map+1)->x = 328.0f;(logoR.map+1)->y = 186.0f;(logoR.map+1)->z = 1.0f;
+    (logoR.map+2)->x = 338.0f;(logoR.map+2)->y = 143.0f;(logoR.map+2)->z = 1.0f;
+    (logoR.map+3)->x = 329.0f;(logoR.map+3)->y = 140.0f;(logoR.map+3)->z = 1.0f;
+    (logoR.map+4)->x = 330.0f;(logoR.map+4)->y = 121.0f;(logoR.map+4)->z = 1.0f;
+    (logoR.map+5)->x = 346.0f;(logoR.map+5)->y = 120.0f;(logoR.map+5)->z = 1.0f;
+    (logoR.map+6)->x = 328.0f;(logoR.map+6)->y = 108.0f;(logoR.map+6)->z = 1.0f;
+    (logoR.map+7)->x = 299.0f;(logoR.map+7)->y = 192.0f;(logoR.map+7)->z = 1.0f;
+    (logoR.map+8)->x = 272.0f;(logoR.map+8)->y = 199.0f;(logoR.map+8)->z = 1.0f;
+    (logoR.map+9)->x = 311.0f;(logoR.map+9)->y = 85.0f;(logoR.map+9)->z = 1.0f;
+    (logoR.map+10)->x = 338.0f;(logoR.map+10)->y = 80.0f;(logoR.map+10)->z = 1.0f;
+    (logoR.map+11)->x = 373.0f;(logoR.map+11)->y = 107.0f;(logoR.map+11)->z = 1.0f;
+    (logoR.map+12)->x = 367.0f;(logoR.map+12)->y = 129.0f;(logoR.map+12)->z = 1.0f;
+    (logoR.map+13)->x = 360.0f;(logoR.map+13)->y = 135.0f;(logoR.map+13)->z = 1.0f;
+    (logoR.map+14)->x = 368.0f;(logoR.map+14)->y = 141.0f;(logoR.map+14)->z = 1.0f;
+
+    (logoA.map+0)->x = 418.0f;(logoA.map+0)->y = 189.0f;(logoA.map+0)->z = 1.0f;
+    (logoA.map+1)->x = 394.0f;(logoA.map+1)->y = 189.0f;(logoA.map+1)->z = 1.0f;
+    (logoA.map+2)->x = 405.0f;(logoA.map+2)->y = 116.0f;(logoA.map+2)->z = 1.0f;
+    (logoA.map+3)->x = 392.0f;(logoA.map+3)->y = 124.0f;(logoA.map+3)->z = 1.0f;
+    (logoA.map+4)->x = 398.0f;(logoA.map+4)->y = 124.0f;(logoA.map+4)->z = 1.0f;
+    (logoA.map+5)->x = 394.0f;(logoA.map+5)->y = 144.0f;(logoA.map+5)->z = 1.0f;
+    (logoA.map+6)->x = 378.0f;(logoA.map+6)->y = 144.0f;(logoA.map+6)->z = 1.0f;
+    (logoA.map+7)->x = 371.0f;(logoA.map+7)->y = 188.0f;(logoA.map+7)->z = 1.0f;
+    (logoA.map+8)->x = 349.0f;(logoA.map+8)->y = 188.0f;(logoA.map+8)->z = 1.0f;
+    (logoA.map+9)->x = 368.0f;(logoA.map+9)->y = 121.0f;(logoA.map+9)->z = 1.0f;
+    (logoA.map+10)->x = 398.0f;(logoA.map+10)->y = 95.0f;(logoA.map+10)->z = 1.0f;
+    (logoA.map+11)->x = 431.0f;(logoA.map+11)->y = 88.0f;(logoA.map+11)->z = 1.0f;
+
+    (logoV.map+0)->x = 490.0f;(logoV.map+0)->y = 202.0f;(logoV.map+0)->z = 1.0f;
+    (logoV.map+1)->x = 465.0f;(logoV.map+1)->y = 201.0f;(logoV.map+1)->z = 1.0f;
+    (logoV.map+2)->x = 441.0f;(logoV.map+2)->y = 163.0f;(logoV.map+2)->z = 1.0f;
+    (logoV.map+3)->x = 446.0f;(logoV.map+3)->y = 95.0f;(logoV.map+3)->z = 1.0f;
+    (logoV.map+4)->x = 470.0f;(logoV.map+4)->y = 96.0f;(logoV.map+4)->z = 1.0f;
+    (logoV.map+5)->x = 462.0f;(logoV.map+5)->y = 140.0f;(logoV.map+5)->z = 1.0f;
+    (logoV.map+6)->x = 476.0f;(logoV.map+6)->y = 161.0f;(logoV.map+6)->z = 1.0f;
+    (logoV.map+7)->x = 491.0f;(logoV.map+7)->y = 141.0f;(logoV.map+7)->z = 1.0f;
+    (logoV.map+8)->x = 485.0f;(logoV.map+8)->y = 97.0f;(logoV.map+8)->z = 1.0f;
+    (logoV.map+9)->x = 503.0f;(logoV.map+9)->y = 96.0f;(logoV.map+9)->z = 1.0f;
+    (logoV.map+10)->x = 510.0f;(logoV.map+10)->y = 161.0f;(logoV.map+10)->z = 1.0f;
+
+    (logoI.map+0)->x = 561.0f;(logoI.map+0)->y = 189.0f;(logoI.map+0)->z = 1.0f;
+    (logoI.map+1)->x = 536.0f;(logoI.map+1)->y = 188.0f;(logoI.map+1)->z = 1.0f;
+    (logoI.map+2)->x = 527.0f;(logoI.map+2)->y = 91.0f;(logoI.map+2)->z = 1.0f;
+    (logoI.map+3)->x = 554.0f;(logoI.map+3)->y = 91.0f;(logoI.map+3)->z = 1.0f;
+
+    (logoT.map+0)->x = 643.0f;(logoT.map+0)->y = 198.0f;(logoT.map+0)->z = 1.0f;
+    (logoT.map+1)->x = 615.0f;(logoT.map+1)->y = 196.0f;(logoT.map+1)->z = 1.0f;
+    (logoT.map+2)->x = 599.0f;(logoT.map+2)->y = 107.0f;(logoT.map+2)->z = 1.0f;
+    (logoT.map+3)->x = 588.0f;(logoT.map+3)->y = 107.0f;(logoT.map+3)->z = 1.0f;
+    (logoT.map+4)->x = 580.0f;(logoT.map+4)->y = 85.0f;(logoT.map+4)->z = 1.0f;
+    (logoT.map+5)->x = 644.0f;(logoT.map+5)->y = 91.0f;(logoT.map+5)->z = 1.0f;
+    (logoT.map+6)->x = 647.0f;(logoT.map+6)->y = 112.0f;(logoT.map+6)->z = 1.0f;
+    (logoT.map+7)->x = 639.0f;(logoT.map+7)->y = 108.0f;(logoT.map+7)->z = 1.0f;
+
+    (logoA2.map+0)->x = 765.0f;(logoA2.map+0)->y = 202.0f;(logoA2.map+0)->z = 1.0f;
+    (logoA2.map+1)->x = 739.0f;(logoA2.map+1)->y = 194.0f;(logoA2.map+1)->z = 1.0f;
+    (logoA2.map+2)->x = 714.0f;(logoA2.map+2)->y = 111.0f;(logoA2.map+2)->z = 1.0f;
+    (logoA2.map+3)->x = 700.0f;(logoA2.map+3)->y = 122.0f;(logoA2.map+3)->z = 1.0f;
+    (logoA2.map+4)->x = 703.0f;(logoA2.map+4)->y = 122.0f;(logoA2.map+4)->z = 1.0f;
+    (logoA2.map+5)->x = 715.0f;(logoA2.map+5)->y = 144.0f;(logoA2.map+5)->z = 1.0f;
+    (logoA2.map+6)->x = 699.0f;(logoA2.map+6)->y = 144.0f;(logoA2.map+6)->z = 1.0f;
+    (logoA2.map+7)->x = 712.0f;(logoA2.map+7)->y = 190.0f;(logoA2.map+7)->z = 1.0f;
+    (logoA2.map+8)->x = 684.0f;(logoA2.map+8)->y = 183.0f;(logoA2.map+8)->z = 1.0f;
+    (logoA2.map+9)->x = 670.0f;(logoA2.map+9)->y = 117.0f;(logoA2.map+9)->z = 1.0f;
+    (logoA2.map+10)->x = 707.0f;(logoA2.map+10)->y = 83.0f;(logoA2.map+10)->z = 1.0f;
+    (logoA2.map+11)->x = 725.0f;(logoA2.map+11)->y = 88.0f;(logoA2.map+11)->z = 1.0f;
+
+    (logoR2.map+0)->x = 913.0f;(logoR2.map+0)->y = 215.0f;(logoR2.map+0)->z = 1.0f;
+    (logoR2.map+1)->x = 884.0f;(logoR2.map+1)->y = 209.0f;(logoR2.map+1)->z = 1.0f;
+    (logoR2.map+2)->x = 852.0f;(logoR2.map+2)->y = 149.0f;(logoR2.map+2)->z = 1.0f;
+    (logoR2.map+3)->x = 829.0f;(logoR2.map+3)->y = 144.0f;(logoR2.map+3)->z = 1.0f;
+    (logoR2.map+4)->x = 820.0f;(logoR2.map+4)->y = 127.0f;(logoR2.map+4)->z = 1.0f;
+    (logoR2.map+5)->x = 828.0f;(logoR2.map+5)->y = 124.0f;(logoR2.map+5)->z = 1.0f;
+    (logoR2.map+6)->x = 811.0f;(logoR2.map+6)->y = 109.0f;(logoR2.map+6)->z = 1.0f;
+    (logoR2.map+7)->x = 849.0f;(logoR2.map+7)->y = 202.0f;(logoR2.map+7)->z = 1.0f;
+    (logoR2.map+8)->x = 822.0f;(logoR2.map+8)->y = 196.0f;(logoR2.map+8)->z = 1.0f;
+    (logoR2.map+9)->x = 774.0f;(logoR2.map+9)->y = 78.0f;(logoR2.map+9)->z = 1.0f;
+    (logoR2.map+10)->x = 819.0f;(logoR2.map+10)->y = 83.0f;(logoR2.map+10)->z = 1.0f;
+    (logoR2.map+11)->x = 860.0f;(logoR2.map+11)->y = 116.0f;(logoR2.map+11)->z = 1.0f;
+    (logoR2.map+12)->x = 874.0f;(logoR2.map+12)->y = 135.0f;(logoR2.map+12)->z = 1.0f;
+    (logoR2.map+13)->x = 867.0f;(logoR2.map+13)->y = 137.0f;(logoR2.map+13)->z = 1.0f;
 
     //Map1
     map1.map = nullptr;
@@ -753,6 +921,15 @@ void CreateMaps(){
 }
 
 void NormalizeMap(TMap mapa,float lenght,float sizeX, float sizeY){
+    for (int i = 0; i < lenght; i++){
+        (mapa.map + i)->x -= CENTROX;
+        (mapa.map + i)->y -= CENTROY;
+        (mapa.map + i)->x /= sizeX;
+        (mapa.map + i)->y /= sizeY;
+    }
+    
+}
+void NormalizeLogoMat(TMap mapa,float lenght,float sizeX, float sizeY){
     for (int i = 0; i < lenght; i++){
         (mapa.map + i)->x -= CENTROX;
         (mapa.map + i)->y -= CENTROY;

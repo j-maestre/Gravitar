@@ -12,6 +12,7 @@ int esat::main(int argc, char **argv) {
 	InitPlayer();
 	CreateMaps();
 	InitVidasPoints();
+	NormalizeLogo();
 
 
 	while (esat::WindowIsOpened() && !esat::IsSpecialKeyDown(esat::kSpecialKey_Escape)){

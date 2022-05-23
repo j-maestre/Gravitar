@@ -1,3 +1,5 @@
+bool introLogo = false;
+
 bool logued = false;
 
 bool inputName = true;
@@ -30,6 +32,8 @@ FILE *fichero;
 char *puesto = (char*) calloc('\0',sizeof(char)*4);
 char *nombre = (char*) calloc('\0',sizeof(char)*4);
 char *puntuacion = (char*) calloc('\0',sizeof(char)*10);
+
+int scalateLogoFramesCount = 1;
 
 void OrdenarUsers(){
     //Bubble short
@@ -350,6 +354,53 @@ void LoginInputs(){
     // esat::DrawSetFillColor(0,0,0);
 }
 
+void NormalizeLogo(){
+    NormalizeLogoMat(logoG,logoG.size,301,210);
+    NormalizeLogoMat(logoR,logoR.size,368,199);
+    NormalizeLogoMat(logoA,logoA.size,451,189);
+    NormalizeLogoMat(logoV,logoV.size,510,182);
+    NormalizeLogoMat(logoI,logoI.size,541,189);
+    NormalizeLogoMat(logoT,logoT.size,607,198);
+    NormalizeLogoMat(logoA2,logoA2.size,706,201);
+    NormalizeLogoMat(logoR2,logoR2.size,813,215);
+}
+
+void IntroLogo(){
+
+    if(scalateLogoFramesCount <= 100){
+        // printf("mmmm %d\n",scalateLogoFramesCount);
+        DrawLogo(&logoG,logoG.size,true);
+        DrawLogo(&logoR,logoR.size,true,7,8);
+        DrawLogo(&logoA,logoA.size,true);
+        DrawLogo(&logoV,logoV.size,true);
+        DrawLogo(&logoI,logoI.size,true);
+        DrawLogo(&logoT,logoT.size,true);
+        DrawLogo(&logoA2,logoA2.size,true);
+        DrawLogo(&logoR2,logoR2.size,true);
+        scalateLogoFramesCount++;
+        // if(scalateMatFramesCount>=90)scalating = false;
+    }else{
+        DrawLogo(&logoG,logoG.size,false);
+        DrawLogo(&logoR,logoR.size,false,7,8);
+        DrawLogo(&logoA,logoA.size,false,7,8);
+        DrawLogo(&logoV,logoV.size,false);
+        DrawLogo(&logoI,logoI.size,false);
+        DrawLogo(&logoT,logoT.size,false);
+        DrawLogo(&logoA2,logoA2.size,false,7,8);
+        DrawLogo(&logoR2,logoR2.size,false,7,8);
+
+        esat::DrawSetStrokeColor(Rojo.r, Rojo.g, Rojo.b);
+        esat::DrawSetFillColor(Rojo.r, Rojo.g, Rojo.b);
+        esat::DrawText(CENTROX-220,CENTROY+100,"PRESS ENTER TO PLAY");
+    }
+
+
+    if(esat::IsSpecialKeyDown(esat::kSpecialKey_Enter)){
+        introLogo = true;
+    }
+
+}
+
 void Intro(){
     esat::DrawSetFillColor(AzulText.r, AzulText.g, AzulText.b);
     esat::DrawText(420,200,"GAME OVER");
@@ -431,7 +482,9 @@ void Interface(){
 
 void InterfaceActions(){
 	esat::DrawSetTextSize(38);
-    if(!logued && !debug){
+    if(!introLogo){
+        IntroLogo();
+    }else if(!logued && !debug){
         LoginInputs();
     }else{
         logued = true;

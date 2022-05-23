@@ -19,14 +19,17 @@ int esat::main(int argc, char **argv) {
 	esat::WindowInit(ANCHO,ALTO);
 	WindowSetMouseVisibility(true);
 	srand(time(NULL));
-    float X = 0.0f, Y = 0.0f;
-    sprite = esat::SpriteFromFile("assets/map1.png"); 
+    float X = 104.0f, Y = 2.0f;
+    sprite = esat::SpriteFromFile("assets/intro.png"); 
 
 	// InitMap4();
 
     esat::DrawSetTextFont("./includes/assets/fonts/texto.ttf");
-	float zoom = 1.0f;
+	float zoom = 1.04f;
 	int counter = 0;
+
+	float Xmax = 0.0f;
+	float Ymax = 0.0f;
 	
   while(esat::WindowIsOpened() && !esat::IsSpecialKeyDown(esat::kSpecialKey_Escape)) {
 
@@ -60,7 +63,9 @@ int esat::main(int argc, char **argv) {
 		esat::DrawSprite(sprite,{X,Y, 0, zoom, zoom, zoom});
 
         if(esat::MouseButtonDown(0)){
-			printf("(map3.map+%d)->x = %.0f.0f;(map3.map+%d)->y = %.0f.0f;(map3.map+%d)->z = 1.0f;\n", counter, esat::MousePositionX(), counter, esat::MousePositionY(), counter);
+			if(esat::MousePositionX() > Xmax)Xmax = esat::MousePositionX();
+			if(esat::MousePositionY() > Ymax)Ymax = esat::MousePositionY();
+			printf("(logoR2.map+%d)->x = %.0f.0f;(logoR2.map+%d)->y = %.0f.0f;(logoR2.map+%d)->z = 1.0f;\n", counter, esat::MousePositionX(), counter, esat::MousePositionY(), counter);
 			counter++;
 		}
         
@@ -76,6 +81,7 @@ int esat::main(int argc, char **argv) {
   }
 
   printf("zoom->%f X[%f] Y[%f]\n",zoom,X,Y);
+  printf("Maximos-> X[%f] Y[%f]\n",Xmax,Ymax);
 
   esat::WindowDestroy();
   return 0;
