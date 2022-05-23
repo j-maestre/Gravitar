@@ -160,7 +160,7 @@ void MovePlayer(){
 
   }
 
-  if(esat::IsKeyPressed('W')){
+  if(esat::IsKeyPressed('W') && player.fuel > 0){
     player.fuel -= FUEL_CONSUME;
 
     player.velocity.x = xemath::Vec2Normalize(player.vecDirector).x * player.velocidad;

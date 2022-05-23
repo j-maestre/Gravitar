@@ -6,7 +6,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
+// #include <time.h>
 
 esat::SpriteHandle sprite;
 const int ANCHO = 1024, ALTO = 768, CENTROX = 512, CENTROY = 384 ;

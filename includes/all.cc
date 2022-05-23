@@ -61,7 +61,8 @@ struct TPlayer{
   float angle;
   int nivel = 0;
   int vidas = 5;
-  int fuel = 10000;
+  // int fuel = 10000;
+  int fuel = 100;
   int score = 0;
   float gravityForce = 0.01f;
   int timeLeft = 23;
