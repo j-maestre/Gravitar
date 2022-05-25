@@ -499,14 +499,19 @@ void InterfaceActions(){
 	        CreateMaps();
 	        InitVidasPoints();
             ReturnMenu();
-            bool map1Complete = false;
-            bool map2Complete = false;
-            bool map5Complete = false;
+            map1Complete = false;
+            map2Complete = false;
+            map5Complete = false;
             credits--;
             player.nivel = 0;
+            player.fuel = 10000;
             intro = true;
             interfaz = true;
             player.vidas = 5;
+            figure1pointsCheck = false;
+            figure2pointsCheck = false;
+            figure3BombapointsCheck = false;
+            figure3pointsCheck = false;
             Login();
             if(indexLogued>=0){
                 if( player.score > (users+indexLogued)->puntuacion){

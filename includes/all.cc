@@ -51,12 +51,12 @@ struct TDisparo{
 struct TPlayer{
   TDisparo *disparos;
   int disparosTotal = 0;
-  xemath::Vector2 vecDirector = {0.0f,-15.0f};   //Esto es a donde apunta
+  xemath::Vector2 vecDirector = {0.0f,-15.0f};
   xemath::Vector2 vecPunta = {100.0f, 100.0f};
   float x = 500.0f;
   float y = 400.0f;
   xemath::Vector2 aceleration = {0.0f,0.0f};
-  xemath::Vector2 velocity = {0.0f,0.0f}; //NO SE USAeste depende de la direccion de la nave, cuando pulso w la aceleracion = aceleracion anterior + la nueva
+  xemath::Vector2 velocity = {0.0f,0.0f}; 
   float velocidad = 0.1f;
   float angle;
   int nivel = 0;
