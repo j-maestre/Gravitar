@@ -4,12 +4,10 @@ int aux = 0;
 //TODO check colision disparo con el borde del mapa cuando he hecho scroll
 //*Colision del jugador con el mapa
 void CheckMapColision(float *points, int size){
-    // printf("uep\n");
     if(esat::IsKeyDown('Z'))aux++;
     Createcircle(*(points + (aux*2)), *(points + (aux*2 + 1)), 5);
     printf("Aux-> %d\n",aux);
     for (int i = 0; i < (size-1); i++){
-        // printf("uep %d\n",i);
         Createcircle(*(points + (i * 2)), *(points + (i * 2 + 1)), 5,Rojo);
 
         // int i = aux;
@@ -76,10 +74,9 @@ bool CheckShootColision(float *points, int size, bool turret = false,bool bomb =
                 if (moduloSum < modulo3 + 1){
 
 
-                    printf("Colision mapa %d disparo en X->%f Y->%f\n",player.nivel, (player.disparos + j)->x, (player.disparos + j)->y);
+                    //printf("Colision mapa %d disparo en X->%f Y->%f\n",player.nivel, (player.disparos + j)->x, (player.disparos + j)->y);
                     if(player.nivel == 1 && (player.disparos + j)->x > 408.0f && (player.disparos + j)->x < 481.0f){
                         //Colision con un bug
-                        printf("------BUG-------\n");
                     }else{
                         (player.disparos + j)->disparando = false;
                     }
@@ -87,12 +84,10 @@ bool CheckShootColision(float *points, int size, bool turret = false,bool bomb =
                     (player.disparos + j)->disparando = false;
 
                     if(turret){
-                        printf("Colision con torreta\n");
                         player.score+=250;
                         turretDead = true;
                     }
                     if(bomb){
-                        printf("COLISION BOMBA\n");
                         bombShooted = true;
                     }
                 }
@@ -117,7 +112,7 @@ void TurretShootcolision(TDisparo *disparo, int size){
             float modulo = xemath::Vec2Modulo(distancia);
 
             if(modulo <= 15){
-                printf("-----MUERTO-----\n");
+                // printf("-----MUERTO-----\n");
             }
         }
     }
@@ -157,7 +152,6 @@ bool ColisionLine(float s1x, float s1y, float s2x, float s2y, float r1x, float r
 bool ColisionMap(float *puntos,int size){
     bool colide = false;
     // if(esat::IsKeyDown('L'))i++;
-    // printf("ColisionMap size->%d\n",size);
     for (int i = 0; i < size-4; i++){
         if(debug)Createcircle(*(puntos + i * 2), *(puntos + i * 2 + 1),5,Morado);
         float x1 = *(puntos + i * 2);
@@ -214,8 +208,6 @@ bool CheckShootBomb(float x, float y){
         if ((player.disparos + i)->disparando && !colision){
             xemath::Vector2 direccion = {x-(player.disparos + i)->x,y-(player.disparos + i)->y};
             float modulo = xemath::Vec2Modulo(direccion);
-
-            // printf("Modulo-> %f\n",modulo);
 
             if(modulo<=20){
                 colision = true;

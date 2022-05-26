@@ -3,6 +3,7 @@
 #include <esat/input.h>
 #include <esat/sprite.h>
 #include <esat/time.h>
+#include <time.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -20,7 +21,7 @@ int esat::main(int argc, char **argv) {
 	WindowSetMouseVisibility(true);
 	srand(time(NULL));
     float X = 104.0f, Y = 2.0f;
-    sprite = esat::SpriteFromFile("assets/intro.png"); 
+    sprite = esat::SpriteFromFile("assets/map1.png"); 
 
 	// InitMap4();
 
@@ -65,7 +66,7 @@ int esat::main(int argc, char **argv) {
         if(esat::MouseButtonDown(0)){
 			if(esat::MousePositionX() > Xmax)Xmax = esat::MousePositionX();
 			if(esat::MousePositionY() > Ymax)Ymax = esat::MousePositionY();
-			printf("(logoR2.map+%d)->x = %.0f.0f;(logoR2.map+%d)->y = %.0f.0f;(logoR2.map+%d)->z = 1.0f;\n", counter, esat::MousePositionX(), counter, esat::MousePositionY(), counter);
+			printf("(map1.map+%d)->x = %.0f.0f;(map1.map+%d)->y = %.0f.0f;(map1.map+%d)->z = 1.0f;\n", counter, esat::MousePositionX(), counter, esat::MousePositionY(), counter);
 			counter++;
 		}
         

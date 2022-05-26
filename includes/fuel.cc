@@ -28,7 +28,6 @@ void DrawFuelMap1(bool scalating, esat::Vec2 tr_circle[]){
 
     //Drawing Fuel
     for (int i = 0; i < 4; i++){
-        // printf("Antes-> x[%f] y[%f]\n", (fuel1.map + i)->x, (fuel1.map + i)->y);
         esat::Mat3 matIdentity = esat::Mat3Identity();
         esat::Mat3 matIdentity2 = esat::Mat3Identity();
         esat::Mat3 matIdentity3 = esat::Mat3Identity();
@@ -52,7 +51,6 @@ void DrawFuelMap1(bool scalating, esat::Vec2 tr_circle[]){
         tr_fuel2[i] = {tmp2.x, tmp2.y};
         tr_fuel3[i] = {tmp3.x, tmp3.y};
         tr_fuel4[i] = {tmp4.x, tmp4.y};
-        // printf("Fuel X-> %f Y->%f\n",tmp.x,tmp.y);
     }
 
 
@@ -84,8 +82,6 @@ void DrawFuelMap2(bool scalating, esat::Vec2 tr_circle[]){
     if(esat::IsKeyDown('O'))temporalINTfuel--;
     if(esat::IsKeyPressed('P'))temporalFloatturret += 0.5f;
     if(esat::IsKeyPressed('O'))temporalFloatturret -= 0.5f;
-    // printf("Turret INT ->%d\n", temporalINTfuel);
-    // printf("Turret Float ->%f\n",temporalFloatturret);
 
     //El escalar de fuel tiene que llegar a 30
     if(fuel5.escalar<30)fuel5.escalar+=0.3f;

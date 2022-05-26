@@ -156,25 +156,25 @@ void ReadAllPersonas(int size, Persona *personas){
 
 
 int LoadToMemory(Persona *personas){
-    printf("Abriendo fichero...\n");
+    // printf("Abriendo fichero...\n");
     int index = 0;
     if(f = fopen("./includes/usuarios.dat", "rb")){
         
-        printf("----Fichero abierto Ole los caracoles----\n");  
+        // printf("----Fichero abierto Ole los caracoles----\n");  
         Persona per;
 
         while (fread(&per, sizeof(Persona), 1, f)){
-            printf("Leyendo fichero\n");
+            // printf("Leyendo fichero\n");
 
             *(personas + index) = per;
-            printf("\n--------------------------------------------------\n"); //
+            // printf("\n--------------------------------------------------\n"); //
             // printf("Id: %d | Nombre: %s | apellido1 %s | apellido2 %s | Nacimiento: %s/%s/%s | Provincia: %s | tlf: %s | Email: %s | Puntuacion Maxima: %s\n", per.id, per.nombre, per.apellido1, per.apellido2, per.nacimiento.dia, per.nacimiento.mes, per.nacimiento.anyo,per.nacimiento.provincia, per.telefono, per.email, per.puntuacion);
-            printf("Id: %d | Nombre: %s | Contraseña %s | Apellido1 %s | Apellido2 %s | Nacimiento: %s/%s/%s | Provincia: %s | tlf: %s | Email:%s | Puntuacion Maxima: %d\n", per.id, per.nombre,per.password, per.apellido1, per.apellido2, per.nacimiento.dia, per.nacimiento.mes, per.nacimiento.anyo, per.nacimiento.provincia, per.telefono, per.email, per.puntuacion);
+            // printf("Id: %d | Nombre: %s | Contraseña %s | Apellido1 %s | Apellido2 %s | Nacimiento: %s/%s/%s | Provincia: %s | tlf: %s | Email:%s | Puntuacion Maxima: %d\n", per.id, per.nombre,per.password, per.apellido1, per.apellido2, per.nacimiento.dia, per.nacimiento.mes, per.nacimiento.anyo, per.nacimiento.provincia, per.telefono, per.email, per.puntuacion);
             index++;
         }
         fclose(f);
     }else{
-        printf("F\n");
+        printf("Error abriendo fichero usuarios.dat\n");
     }
 
     return index;
@@ -183,7 +183,7 @@ int LoadToMemory(Persona *personas){
 void Read(){
 
   int size = LoadToMemory(personas);
-  ReadAllPersonas(size,personas);
+  // ReadAllPersonas(size,personas);
 }
 
 void Update(){

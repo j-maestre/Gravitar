@@ -43,34 +43,34 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
         xPrueba--;
     }
     
-    if(esat::IsKeyPressed('T'))m->escalar++;
-    if(esat::IsKeyPressed('Y'))m->escalar--;
+    // if(esat::IsKeyPressed('T'))m->escalar++;
+    // if(esat::IsKeyPressed('Y'))m->escalar--;
 
-    if(esat::IsKeyPressed('L')){
-        for (int i = 0; i < size; i++){
-        esat::Mat3 matIdentity = esat::Mat3Identity();
-        matIdentity = esat::Mat3Multiply(esat::Mat3Scale(1.1f, 1.0f), matIdentity);
-        matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY+50), matIdentity);
-        esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i));
-        tr_circle[i] = {tmp.x, tmp.y};
+    // if(esat::IsKeyPressed('L')){
+    //     for (int i = 0; i < size; i++){
+    //     esat::Mat3 matIdentity = esat::Mat3Identity();
+    //     matIdentity = esat::Mat3Multiply(esat::Mat3Scale(1.1f, 1.0f), matIdentity);
+    //     matIdentity = esat::Mat3Multiply(esat::Mat3Translate(CENTROX, CENTROY+50), matIdentity);
+    //     esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(m->map+i));
+    //     tr_circle[i] = {tmp.x, tmp.y};
         
-        }
-    }
+    //     }
+    // }
 
-    if(esat::IsKeyPressed('P')){
-        temporal+=0.01f;
-        printf("%f\n", temporal);
-    }
-    if(esat::IsKeyPressed('O')){
-        temporal-=0.01f;
-        printf("%f\n",temporal);
-    }
-    if(esat::IsKeyDown('P')){
-        temporaliNT+=1;
-    }
-    if(esat::IsKeyDown('O')){
-        temporaliNT-=1;
-    }
+    // if(esat::IsKeyPressed('P')){
+    //     temporal+=0.01f;
+    //     printf("%f\n", temporal);
+    // }
+    // if(esat::IsKeyPressed('O')){
+    //     temporal-=0.01f;
+    //     printf("%f\n",temporal);
+    // }
+    // if(esat::IsKeyDown('P')){
+    //     temporaliNT+=1;
+    // }
+    // if(esat::IsKeyDown('O')){
+    //     temporaliNT-=1;
+    // }
 
     //?---------END DEBUG---------
 
@@ -99,15 +99,8 @@ void DrawFigure1(TMap *m, int size, bool scalate = true, TColor color = Verde){
     }
     if(!scalate && !figure1pointsCheck){
         figure1pointsCheck=true;
-        printf("\n-------Solo 1 VEZ--------\n");
     }
-    //Puntos para el puntero de las colisiones
-    // if(scalate){
-    //     for (int i = 0; i < size; i++){
-    //         *(points_tmp_map1 + (2 * i)) = tr_circle[i].x;
-    //         *(points_tmp_map1 + (2 * i) + 1) = tr_circle[i].y;
-    //     }
-    // }
+ 
 
     DrawTurretsMap1(scalate,tr_circle);
     DrawFuelMap1(scalate, tr_circle);
@@ -136,7 +129,7 @@ void DrawFigure2(TMap *m, int size, bool scalate = true, TColor color = Verde){
 
         //Comprobacion de errores
         if((m->map + i)->x > 10000.0f || (m->map + i)->x < -10000.0f || (m->map + i)->y > 10000.0f || (m->map + i)->y < -10000.0f || (m->map + i)->z > 10000.0f || (m->map + i)->z < -10000.0f){
-            printf("Mapvalues X->%f Y->%f Z->%f\n", (m->map + i)->x, (m->map + i)->y, (m->map + i)->z);
+            // printf("Mapvalues X->%f Y->%f Z->%f\n", (m->map + i)->x, (m->map + i)->y, (m->map + i)->z);
         }
         if(!scalate && !figure2pointsCheck){
             *(points_tmp_map2 + (2 * i)) = tmp.x;
@@ -145,31 +138,13 @@ void DrawFigure2(TMap *m, int size, bool scalate = true, TColor color = Verde){
     }
     if(!scalate && !figure2pointsCheck){
         figure2pointsCheck=true;
-        printf("\n-------Solo 1 VEZ map2--------\n");
     }
 
-    //Puntos para el puntero de las colisiones
-    // if(scalate && m->escalar > 400){
-    // printf("-------------------Size-> %d\n",size);
-    // if(m->escalar > 400){
-    //     for (int i = 0; i < size; i++){
-    //         *(points_tmp_map2 + 2 * i) = tr_circle[i].x;
-    //         *(points_tmp_map2 + 2 * i + 1) = tr_circle[i].y;
-    //     }
-    // }
-
-    printf("Antes de Draw Turrets\n");
     DrawTurretsMap2(scalate,tr_circle);
-    printf("Despues de Draw Turrets\n");
-    printf("Antes de Draw Fuel\n");
     DrawFuelMap2(scalate, tr_circle);
-    printf("Despues de Draw Fuel\n");
 
-    printf("Antes de Draw Map\n");
     esat::DrawSetStrokeColor(color.r, color.g, color.b);
     esat::DrawPath(&tr_circle[0].x,size);
-    printf("Despues de Draw Map\n");
-    printf("---TODO OK EN MAP---\n");
     //Esto está bien, llega hasta el final
     
 }
@@ -179,7 +154,6 @@ bool figure3BombapointsCheck = false;
 //Draw Map Bomba
 void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde){
 
-    // printf("Escalar-> %f\n",m->escalar);
     if(scalate){
         m->escalar+=5;
     }
@@ -207,7 +181,6 @@ void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde){
 
     if(!scalate && !figure3pointsCheck){
         figure3pointsCheck=true;
-        printf("\n-------Solo 1 VEZ MAPA--------\n");
     }
 
     esat::DrawSetStrokeColor(color.r, color.g, color.b);
@@ -218,7 +191,6 @@ void DrawFigure3(TMap *m, int size, bool scalate = true, TColor color = Verde){
 
 void DrawFigure3Bomba(TMap *m, int size, TColor color = Verde, bool scalate = true){
     //escalar tiene que llegar a 731
-    // printf("Size de la bomba-> %d\n",size);
 
     if(scalate){
         m->escalar+=5;
@@ -248,14 +220,10 @@ void DrawFigure3Bomba(TMap *m, int size, TColor color = Verde, bool scalate = tr
 
     if(!scalate && !figure3BombapointsCheck){
         figure3BombapointsCheck=true;
-        printf("\n-------Solo 1 VEZ Bomba--------\n");
     }
-    // printf("debug 3\n");
 
     esat::DrawSetStrokeColor(color.r, color.g, color.b);
     esat::DrawPath(&tr_circle_bomba[0].x,size);
-    // printf("debug 5\n");
-    printf("-----DRAW TODO OK-----\n");
 }
 
 void DrawLogo(TMap *m, int size, bool scalate,int iteration1 = 0,int iteration2 = 0){
@@ -289,7 +257,6 @@ void DrawTimeLeft(){
     esat::DrawSetFillColor(0,0,255);
     esat::DrawText(246.0f,397.0f,"ESCAPE TIME");
     // esat::DrawText(318.0f,560.0f,"SHOOT REACTOR");
-    printf("Despues de pintar shoot reactor\n");
     
     bombFpsCounter++;
     if(bombFpsCounter%fps == 0){
@@ -299,31 +266,24 @@ void DrawTimeLeft(){
     char *aux = (char*) malloc(sizeof(char)*4);
     itoa(player.timeLeft,aux,10);
     *(aux+strlen(aux)) = '\0';
-    printf("Antes de pintar\n");
     esat::DrawText(246.0f, 457.0f, aux);//PETA AQUIII
-    printf("Despues de pintar\n");
 
- 
-
-
-    // printf("Draw time debug 7\n");
     free(aux);
-    printf("DrawTime OK\n");
 
 }
 
 
 
-esat::Mat3 UpdateBaseFigure(TMap mapa, bool scalate = true){
-    //Con esto escalo y traslado al centro
-    if(scalate)mapa.escalar +=0.02f;
-    esat::Mat3 m = esat::Mat3Identity();
-    m = esat::Mat3Multiply(esat::Mat3Scale(mapa.escalar,mapa.escalar),m);
-    // m = esat::Mat3Multiply(esat::Mat3Rotate(g_angle),m);
-    m = esat::Mat3Multiply(esat::Mat3Translate(CENTROX,CENTROY),m);
-    // m = esat::Mat3Multiply(esat::Mat3Translate((float) esat::MousePositionX(),(float) esat::MousePositionY()),m);
-    return m;
-}
+// esat::Mat3 UpdateBaseFigure(TMap mapa, bool scalate = true){
+//     //Con esto escalo y traslado al centro
+//     if(scalate)mapa.escalar +=0.02f;
+//     esat::Mat3 m = esat::Mat3Identity();
+//     m = esat::Mat3Multiply(esat::Mat3Scale(mapa.escalar,mapa.escalar),m);
+//     // m = esat::Mat3Multiply(esat::Mat3Rotate(g_angle),m);
+//     m = esat::Mat3Multiply(esat::Mat3Translate(CENTROX,CENTROY),m);
+//     // m = esat::Mat3Multiply(esat::Mat3Translate((float) esat::MousePositionX(),(float) esat::MousePositionY()),m);
+//     return m;
+// }
 
 //**************** Map2 points **************** 
 TMap map1;

@@ -43,15 +43,11 @@ void ShotTurret(TTurret *turret, float *points, int index = 0){
         if(turret->shootTurretFramesCont%(turret->nextShootTurretTime * fps) == 0){
             //Sorteamos cuando saldrá el proximo disparo
             turret->nextShootTurretTime = 1 + rand() % SHOOT_FRECUENCY;
-            printf("Next shot-> %d\n", turret->nextShootTurretTime);
-            printf("Antes del dispareicou\n");
             Disparo(turret->disparos, x, y, vecDirector, Rojo, true);
-            printf("Despues del dispareicou\n");
 
         }
         bool die = Disparo(turret->disparos, x, y, vecDirector, Rojo, false,true);
         if(die && !player.shield){
-            printf("MUERTE AL PLAYER\n");
             DiePlayer();
         }
 
@@ -133,7 +129,6 @@ void DrawTurretsMap1(bool scalating, esat::Vec2 tr_circle[250]){
         matIdentity6 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[44].x + 70.5f, tr_circle[44].y + 96.0f), matIdentity6);
         matIdentity7 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[52].x - 120.5f, tr_circle[52].y - 68.5f), matIdentity7);
         matIdentity8 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[59].x + 90.0f, tr_circle[59].y + 70.0f), matIdentity8);
-        // printf("TemporalINT-> %d\n",temporaliNT);
 
         esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(turret1.map + i));
         esat::Vec3 tmp2 = esat::Mat3TransformVec3(matIdentity2, *(turret2.map + i));
@@ -337,7 +332,6 @@ void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[250]){
     if(esat::IsKeyDown('O'))temporalINT--;
     if(esat::IsKeyPressed('O'))temporalFloat -= 0.5f;
 
-    // printf("Temporal-> %f\n", temporalFloat);
     // Turret1
     esat::Vec2 tr_turret11[4];
     esat::Vec2 tr_turret12[4];
@@ -410,7 +404,6 @@ void DrawTurretsMap2(bool scalating, esat::Vec2 tr_circle[250]){
         matIdentity6 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[6].x + 122.5f, tr_circle[6].y + - 42.5f), matIdentity6);
         matIdentity7 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[27].x - 97.5f, tr_circle[27].y - 75.0f), matIdentity7);
         matIdentity8 = esat::Mat3Multiply(esat::Mat3Translate(tr_circle[32].x - 13.0f, tr_circle[32].y + 124.0f), matIdentity8);
-        // printf("TemporalINT-> %d\n",temporalINT);
 
 
         esat::Vec3 tmp = esat::Mat3TransformVec3(matIdentity, *(turret9.map + i));

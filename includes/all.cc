@@ -155,7 +155,6 @@ TEnemy enemi1;
 
 void Createcircle(float x, float y, float radio, TColor color = Rosa,float excentricidadX = 1.0f,float excentricidadY = 1.0f, int points = 32, int extravagancia = -1, float peculiaridad = -1.0f){
     
-    if(points==0)printf("--------------------------\n--------------------------\n--------------------------\n--------------------------\n--------------------------\n--------------------------\nDebug %d--------------------------\n--------------------------\n--------------------------\n--------------------------\n--------------------------\n--------------------------\n\n", points);
     
     //Iniciar circulo
     float *circulo = (float*) malloc(sizeof(float)*(points * 3));
@@ -204,7 +203,6 @@ void CheckColisionPlayerEnemy(TDisparo *disparo, bool enemy){
 
       if (modulo <= ENEMY_HITBOX_SIZE){
         // enemi1.vivo = false;
-        printf("AL CARRER en %f\n",modulo);
         player.score += 100;
       }else{
         // printf("Distancia-> %f EnemyX->%f EnemyY->%f\n",modulo,enemi1.x,enemi1.y);
@@ -220,14 +218,8 @@ void DrawShoot(TDisparo *disparo, TColor color){
 
       (disparo)->x += (disparo)->vecDirector.x;
       (disparo)->y += (disparo)->vecDirector.y;
-      // printf("Dibujar disparo en X->%f Y->%f\n", (disparo)->x, (disparo)->y);
       Createcircle((disparo)->x, (disparo)->y, 2, color, 1, 1, 8);
 
-      // if ((disparo)->x <= 0 || (disparo)->x >= ANCHO || (disparo)->y <= 0 || (disparo)->y >= ALTO){
-      //   // El disparo ha llegado al borde
-      //   printf("\n-----\nLimite\n-----\n-----\n");
-      //   (disparo)->disparando = false;
-      // }
 
     }
   
@@ -243,7 +235,6 @@ bool Disparo(TDisparo *disparo, float x, float y, xemath::Vector2 vecDirector,TC
       // Disparo libre encontrado
       if (!(disparo + i)->disparando && !encontrado){
         encontrado = true;
-        // if(enemy)printf("Disparo enemigo encontrado\n");
         (disparo + i)->disparando = true;
         (disparo + i)->x = x;
         (disparo + i)->y = y;
@@ -266,7 +257,6 @@ bool Disparo(TDisparo *disparo, float x, float y, xemath::Vector2 vecDirector,TC
   for (int i = 0; i < 4; i++){
     DrawShoot((disparo + i), color);
 
-      // printf("Disparando-> %d\n",((disparo +i)->disparando));
     if((disparo+i)->disparando){
 
       if(enemyShooting){
@@ -278,7 +268,6 @@ bool Disparo(TDisparo *disparo, float x, float y, xemath::Vector2 vecDirector,TC
             xemath::Vector2 disparoVector = {player.x - xdisp,player.y - ydisp};
             float moduloDisparo = xemath::Vec2Modulo(disparoVector);
             if(moduloDisparo<=20){
-              printf("Modulo->%f\n",moduloDisparo);
               die = true;
               (disparo+i)->disparando = false;
 
@@ -288,16 +277,13 @@ bool Disparo(TDisparo *disparo, float x, float y, xemath::Vector2 vecDirector,TC
 
     if ((disparo+i)->x <= 0 || (disparo+i)->x >= ANCHO || (disparo+i)->y <= 0 || (disparo+i)->y >= ALTO){
         // El disparo ha llegado al borde
-        // printf("\n-----\nLimite i->%d X[%f] Y[%f]\n-----\n-----\n",i, (disparo + i)->x, (disparo + i)->y);
         (disparo+i)->disparando = false;
         (disparo+i)->x = 1.0f;
         (disparo+i)->y = 1.0f;
       }
 
     }
-    // printf("Disparando-> %d [%d]\n", (disparo+i)->disparando,i);
     if((disparo+i)->disparando && (disparo+i)->x > 0 && (disparo+i)->x < ANCHO && (disparo+i)->y > 0 && (disparo+i)->y < ALTO){
-      // printf("Enviar disparo->%d [%d]\n",(disparo+i)->disparando,i);
       // CheckColisionPlayerEnemy((disparo + i),enemy);
     }
     
@@ -309,7 +295,6 @@ bool Disparo(TDisparo *disparo, float x, float y, xemath::Vector2 vecDirector,TC
   }
 
 char* IntToAscii(int number, bool addCeros = true){
-    // printf("INIT Int to asci\n");
     char *numberToChar = (char*) calloc('\0',sizeof(char)*7);
     char *aux = (char*) malloc(sizeof(char)*7);
     itoa(number,aux,10);
@@ -342,9 +327,7 @@ char* IntToAscii(int number, bool addCeros = true){
     strcat(numberToChar,aux);
     *(numberToChar+strlen(numberToChar)) = '\0';
     free(aux);
-    // printf("Int to asci OKKK\n");
     return numberToChar;
-    // free(numberToChar);
 }
 
 float valorScalate = 1.05f;

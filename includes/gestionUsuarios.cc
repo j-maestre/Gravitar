@@ -136,7 +136,7 @@ void Create(){
 
   //Comprobamos si hay alguna persona ya añadida, en ese caso las recorremos todas buscando la ultima
   if(fread(&last_per,sizeof(Persona),1,f)){
-      printf("Ya hay alguien\n");
+      // printf("Ya hay alguien\n");
       //Movemos el offset al principio
       // fseek(f,sizeof(Persona),SEEK_CUR);
       rewind(f);
@@ -145,7 +145,7 @@ void Create(){
         fseek(f,-1*sizeof(Persona),SEEK_END);
         fread(&last_per,sizeof(Persona),1,f); //Cogemos la ultima persona
         last_id = last_per.id;
-        printf("Id leido->%d\n",last_per.id);
+        // printf("Id leido->%d\n",last_per.id);
         fseek(f,sizeof(Persona),SEEK_CUR);
       }
     }else{
@@ -175,15 +175,15 @@ void ReadAllPersonas(int size){
 }
 
 int LoadToMemory(Persona *personas){
-    printf("Ole los caracoles\n");
+    // printf("Ole los caracoles\n");
     int index = 0;
     if(f = fopen("usuarios.dat", "rb")){
-      printf("-----Abierto-----\n");
+      // printf("-----Abierto-----\n");
       Persona per;
       // printf("Fichero abierto\n");  
 
       while (fread(&per, sizeof(Persona), 1, f)){
-          printf("--Leyendo fichero--");
+          // printf("--Leyendo fichero--");
 
           *(personas + index) = per;
           // printf("\n--------------------------------------------------\n"); //

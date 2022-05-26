@@ -49,7 +49,6 @@ void OrdenarUsers(){
 }
 
 void InitVidasPoints(){
-    printf("Setting points...\n");
 
     *(pointsLives+0)=175.0f;
     *(pointsLives+1)=23.0f;
@@ -195,18 +194,16 @@ void DrawVidas(){
 }
 
 void Login(){
-    printf("Cargando usuarios\n");
     sizePersonas = LoadToMemory(users);
-    printf("Usuarios totales->%d \n",sizePersonas);
     if(sizePersonas>0)printf("Usuarios cargados\n");
 
     for (int i = 0; i < sizePersonas; i++){
         //Buscamos la persona con ese nombre
-        printf("Comparando %s con %s\n",(users + i)->nombre,userName);
+        // printf("Comparando %s con %s\n",(users + i)->nombre,userName);
         // const char[20] = *(users + i)->nombre;
         if (strcmp(userName,(users + i)->nombre) == 0){
             //Usuario encontrado
-            printf("Comparando %s con %s\n", (users + i)->password, userPasswd);
+            // printf("Comparando %s con %s\n", (users + i)->password, userPasswd);
 
             if(strcmp(userPasswd,(users + i)->password) == 0){
                 //Usuario y contraseña correctos
@@ -214,9 +211,9 @@ void Login(){
                 credits = (users+i)->creditos;
                 indexLogued = i;
                 OrdenarUsers();
-                printf("Creditos del user logueado-> %d\n",(users+i)->creditos);
+                // printf("Creditos del user logueado-> %d\n",(users+i)->creditos);
             }else{
-                printf("Contraseña incorrecta\n");
+                // printf("Contraseña incorrecta\n");
             }
         }
     }
@@ -309,7 +306,6 @@ void LoginInputs(){
             }
         }
         if(letra!=0){
-            printf("%c",letra);
             //He escrito algo
             if(sizeName<MAX_SIZE){
                 *(userName+sizeName) = letra;
@@ -469,7 +465,6 @@ void Interface(){
 
     if(esat::IsSpecialKeyDown(esat::kSpecialKey_Space)){
         credits++;
-        printf("sumando");
     }
     if(esat::IsSpecialKeyDown(esat::kSpecialKey_Enter)){
         AddCredits();
@@ -515,7 +510,7 @@ void InterfaceActions(){
             Login();
             if(indexLogued>=0){
                 if( player.score > (users+indexLogued)->puntuacion){
-                    printf("Nueva puntuacion maxima de %s, antes->%d ahora->%d\n",(users+indexLogued)->nombre,(users+indexLogued)->puntuacion,player.score);
+                    // printf("Nueva puntuacion maxima de %s, antes->%d ahora->%d\n",(users+indexLogued)->nombre,(users+indexLogued)->puntuacion,player.score);
                     (users+indexLogued)->puntuacion = player.score;
                 }
             }

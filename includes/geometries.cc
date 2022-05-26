@@ -22,7 +22,6 @@ void DrawHacks(){
 }
 
 void ScalateHorizontalMap(float *map,float *pointsNormalized, int size, bool smaller = false){
-    // printf("Scalating X[%f] Y[%f]\n",*pointsNormalized,*(pointsNormalized+1));
     for (int i = 0; i <size; i++){
         //Si hay zoom , multiplicamos el valor normalizado por el valor scalate para ir haciendolo más grande
         //Si no hay zoom, dividimos
@@ -66,7 +65,6 @@ void ReturnMenu(){
 }
 
 void CheckInputsGeometries(){
-    // printf("Inputs...\n");
 
 
     if(esat::IsSpecialKeyDown(esat::kSpecialKey_Backspace)){
@@ -115,7 +113,6 @@ void CheckInputsGeometries(){
 
 
 void CheckFuelObtain(float *points, TFuelMat *Fuel){
-    // printf("Obtained: %d\n",Fuel->obtained);
     int ySum = 40;
     if(player.nivel == 2 && player.y > CENTROY){
         ySum = -40;
@@ -123,7 +120,6 @@ void CheckFuelObtain(float *points, TFuelMat *Fuel){
          *(points+1)>player.y + ySum && *(points+7)>player.y + ySum && *(points+3) < player.y ){
                 if(!Fuel->obtained){
                     player.fuel += 3000;
-                    // printf("COLISION FUEL\n");
                     (Fuel->obtained) = true;
                 }
         }
@@ -134,7 +130,6 @@ void CheckFuelObtain(float *points, TFuelMat *Fuel){
          *(points+1)<player.y + ySum && *(points+7)<player.y + ySum && *(points+3) > player.y ){
                 if(!Fuel->obtained){
                     player.fuel += 3000;
-                    // printf("COLISION FUEL\n");
                     (Fuel->obtained) = true;
                 }
         }
@@ -180,13 +175,12 @@ void CheckShield(TFuelMat *fuel1,TFuelMat *fuel2,TFuelMat *fuel3,TFuelMat *fuel4
 
 void CheckGalaxyColision(float x, float y, int level, int margin = 50,float range = 250){
     // if(level==1)Createcircle(x,y,10,Verde);
-    printf("--Check Galaxy colision--\n");
     float modulo;
     xemath::Vector2 nivel;
     nivel = {x - player.x, y-player.y};
     modulo = xemath::Vec2Modulo(nivel);
     if(modulo<margin){
-        printf("Level-> %d", level);
+        // printf("Level-> %d", level);
 
         //Tp to level 
         scalating = true;
@@ -223,10 +217,8 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50,float rang
             break;
         case 4:
             if(!map4.normalized){
-                printf("Normalizando map 4\n");
                 NormalizeMap(map4,map4.size,994.0f,737.0f);
                 map4.normalized = true;
-                printf("Normalizado");
             }
             // lenght = 102;
             // original = pointsMap1Original;
@@ -235,11 +227,9 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50,float rang
             break;
         case 5:
             if(!map3.normalized){
-                printf("Normalizando map3\n");
                 NormalizeMap(map3,map3.size, 931.0f, 724.0f);
                 NormalizeMap(map3Bomb,map3Bomb.size, 699.0f, 489.0f);
                 map3.normalized = true;
-                printf("Normalizado\n");
             }
             player.y = 112.8f;
             player.x = 480.8f;
@@ -252,7 +242,6 @@ void CheckGalaxyColision(float x, float y, int level, int margin = 50,float rang
         AplyGravity(x,y);
     }
     
-    printf("--End Galaxy colision--\n");
 }
 
 void CheckScrollX(float *points, int size, float *points2, int size2,float *points3, int size3,float *points4, int size4){
@@ -465,7 +454,6 @@ void GeometriesActions(){
                 DrawFigure2(&map2, map2.size, false);
                 //Llamar a colisiones
 
-                printf("Antes del Turret shot controller\n");
                 TurretShotController(&turret9, turret1_points, 1);
                 TurretShotController(&turret10, turret2_points, 1);
                 TurretShotController(&turret11, turret3_points, 1);
@@ -490,12 +478,9 @@ void GeometriesActions(){
                 AplyGravity(CENTROX,CENTROY);
             }
             CheckInputsGeometries();
-            printf("---GEOMETRIES TODO OK---\n");
 
             break;
         case 4:
-            printf("-------Geometries 1------\n");
-            printf("scalateFramosCount-> %d\n", scalateMatFramesCount);
             if(scalateMatFramesCount <= 100){
                 DrawFigure3(&map4,map4.size);
                 scalateMatFramesCount++;
@@ -564,11 +549,9 @@ void GeometriesActions(){
                 AplyGravity(CENTROX,CENTROY);
                 CheckGoBack(true);
                 
-                printf("Antes de draw time...\n");
 
                 DrawTimeLeft();
 
-                printf("------Geometries OK------\n");
             }
             CheckInputsGeometries();
 

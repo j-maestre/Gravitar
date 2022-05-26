@@ -43,7 +43,7 @@ void InitPlayer(){
   player.shield = false;
 
   for (int i = 0; i < 4; i++){
-    printf("Disparo inicial i->%d bool->[%d]\n",i,(player.disparos+i)->disparando);
+    // printf("Disparo inicial i->%d bool->[%d]\n",i,(player.disparos+i)->disparando);
   }
   
 }
